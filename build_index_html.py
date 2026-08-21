@@ -1,0 +1,2122 @@
+import json
+import os
+
+target_file = "/Users/howardliao/Desktop/Howard/Howard_CISO/index.html"
+
+html_template = """<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Howard Liao, Ph.D. | Group CISO - Global Cybersecurity, Digital Trust & Resilience</title>
+  <meta name="description" content="Executive Portfolio of Howard Liao, Ph.D. - Group Chief Information Security Officer (CISO) | Global Cybersecurity, Digital Trust & Resilience">
+  <meta name="theme-color" content="#020617">
+  
+  <!-- PWA Manifest & Icons -->
+  <link rel="manifest" href="manifest.json">
+  <link rel="apple-touch-icon" href="assets/icon-192.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="assets/icon-192.png">
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              50: '#f0fdf4',
+              500: '#10b981',
+              600: '#059669',
+              900: '#064e3b',
+            },
+            obsidian: {
+              950: '#020617',
+              900: '#0f172a',
+              850: '#131f37',
+              800: '#1e293b',
+              700: '#334155',
+            },
+            accent: {
+              cyan: '#38bdf8',
+              blue: '#3b82f6',
+              gold: '#f59e0b',
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Noto+Sans+TC:wght@300;400;500;700;900&family=Noto+Sans+JP:wght@300;400;500;700;900&display=swap');
+
+    body {
+      font-family: 'Plus Jakarta Sans', 'Noto Sans TC', 'Noto Sans JP', sans-serif;
+    }
+
+    .glass-card {
+      background: rgba(15, 23, 42, 0.75);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .light .glass-card {
+      background: rgba(255, 255, 255, 0.9);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(0, 0, 0, 0.08);
+    }
+
+    .glass-nav {
+      background: rgba(2, 6, 23, 0.85);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .light .glass-nav {
+      background: rgba(248, 250, 252, 0.88);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+    }
+
+    .text-gradient {
+      background: linear-gradient(135deg, #38bdf8 0%, #818cf8 50%, #c084fc 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .badge-glow {
+      box-shadow: 0 0 15px rgba(56, 189, 248, 0.25);
+    }
+
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar {
+      width: 8px;
+      height: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #020617;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #334155;
+      border-radius: 4px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #475569;
+    }
+  </style>
+</head>
+<body class="bg-obsidian-950 text-slate-100 min-h-screen transition-colors duration-300 antialiased selection:bg-cyan-500 selection:text-white">
+
+  <!-- TOP APP BAR -->
+  <header class="sticky top-0 z-40 glass-nav transition-colors duration-300">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+      
+      <!-- Brand / Logo -->
+      <div class="flex items-center gap-3">
+        <img src="assets/howard_portrait.jpg" alt="Howard Liao" class="w-10 h-10 rounded-full object-cover ring-2 ring-cyan-500/50 shadow-md">
+        <div>
+          <a href="#hero" class="font-bold text-base sm:text-lg tracking-tight hover:text-cyan-400 transition-colors flex items-center gap-2">
+            <span>Howard Liao, Ph.D.</span>
+            <span class="text-xs px-2 py-0.5 rounded-full bg-cyan-500/10 text-cyan-400 border border-cyan-500/20 font-mono hidden sm:inline-block">CISO</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- Navigation Links (Desktop) -->
+      <nav class="hidden lg:flex items-center gap-6 text-sm font-medium text-slate-300">
+        <a href="#profile" class="hover:text-cyan-400 transition-colors" data-i18n="nav.profile">Profile</a>
+        <a href="#competencies" class="hover:text-cyan-400 transition-colors" data-i18n="nav.competencies">Competencies</a>
+        <a href="#experience" class="hover:text-cyan-400 transition-colors" data-i18n="nav.experience">Experience</a>
+        <a href="#credentials" class="hover:text-cyan-400 transition-colors" data-i18n="nav.credentials">Certifications</a>
+        <a href="#speaking" class="hover:text-cyan-400 transition-colors" data-i18n="nav.speaking">Speaking & Papers</a>
+      </nav>
+
+      <!-- Action Controls -->
+      <div class="flex items-center gap-2 sm:gap-3">
+        
+        <!-- Language Switcher -->
+        <div class="flex items-center bg-obsidian-900 border border-slate-700/60 rounded-lg p-1 text-xs font-semibold">
+          <button onclick="setLang('en')" id="btn-lang-en" class="px-2 py-1 rounded transition-all bg-cyan-600 text-white shadow-sm">EN</button>
+          <button onclick="setLang('zh')" id="btn-lang-zh" class="px-2 py-1 rounded transition-all text-slate-400 hover:text-white">繁中</button>
+          <button onclick="setLang('ja')" id="btn-lang-ja" class="px-2 py-1 rounded transition-all text-slate-400 hover:text-white">日本語</button>
+        </div>
+
+        <!-- Cover Letter Modal Button -->
+        <button onclick="openCoverLetter()" class="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold bg-indigo-600/20 hover:bg-indigo-600/30 text-indigo-300 border border-indigo-500/30 transition-all shadow-sm">
+          <span>✉️</span>
+          <span data-i18n="btn.coverLetter">Cover Letter</span>
+        </button>
+
+        <!-- Download Word Resume Button -->
+        <a href="Howard_Liao_CISO_Resume.docx" download="Howard_Liao_CISO_Resume.docx" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white shadow-md transition-all hover:scale-105 active:scale-95">
+          <span>📄</span>
+          <span class="hidden md:inline" data-i18n="btn.downloadResume">Download Word (.docx)</span>
+          <span class="md:hidden">.DOCX</span>
+        </a>
+
+        <!-- Theme Toggle -->
+        <button onclick="toggleTheme()" class="p-2 rounded-lg bg-obsidian-900 border border-slate-700/60 text-slate-300 hover:text-white transition-colors" title="Toggle Theme">
+          <span id="theme-icon">🌙</span>
+        </button>
+      </div>
+
+    </div>
+  </header>
+
+  <!-- MAIN CONTENT CONTAINER -->
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 space-y-16">
+
+    <!-- HERO SECTION -->
+    <section id="hero" class="relative">
+      <div class="glass-card rounded-3xl p-6 sm:p-10 relative overflow-hidden border border-slate-800 shadow-2xl">
+        
+        <!-- Background Ambient Glow -->
+        <div class="absolute -top-24 -right-24 w-96 h-96 bg-cyan-500/10 rounded-full blur-3xl pointer-events-none"></div>
+        <div class="absolute -bottom-24 -left-24 w-96 h-96 bg-indigo-500/10 rounded-full blur-3xl pointer-events-none"></div>
+
+        <div class="flex flex-col lg:flex-row items-center lg:items-start gap-8 sm:gap-12 relative z-10">
+          
+          <!-- Photo & Status -->
+          <div class="flex flex-col items-center flex-shrink-0">
+            <div class="relative group">
+              <img src="assets/howard_portrait.jpg" alt="Howard Liao, Ph.D." class="w-48 h-64 sm:w-56 sm:h-72 object-cover rounded-2xl ring-4 ring-slate-800 group-hover:ring-cyan-500/50 shadow-2xl transition-all duration-300">
+              <div class="absolute -bottom-3 inset-x-0 flex justify-center">
+                <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-emerald-950/90 text-emerald-400 border border-emerald-500/30 shadow-lg backdrop-blur-md">
+                  <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                  <span data-i18n="hero.status">Executive Ready</span>
+                </span>
+              </div>
+            </div>
+
+            <!-- Verified Badges List -->
+            <div class="mt-6 flex flex-col gap-2 w-full max-w-xs text-xs">
+              <div class="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-slate-900/60 border border-slate-800 text-slate-300">
+                <span class="text-cyan-400 font-bold">✓</span>
+                <span data-i18n="hero.badge1">ISO 27001 & 42001 Lead Auditor</span>
+              </div>
+              <div class="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-slate-900/60 border border-slate-800 text-slate-300">
+                <span class="text-cyan-400 font-bold">✓</span>
+                <span data-i18n="hero.badge2">Ph.D. in IT Management</span>
+              </div>
+              <div class="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-slate-900/60 border border-slate-800 text-slate-300">
+                <span class="text-cyan-400 font-bold">✓</span>
+                <span data-i18n="hero.badge3">PMP & CSM Certified</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Executive Bio & Title -->
+          <div class="flex-1 text-center lg:text-left space-y-4">
+            
+            <div class="space-y-1.5">
+              <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-blue-500/10 text-blue-400 border border-blue-500/20 mb-2" data-i18n="hero.roleTag">
+                Board-Level Technology & Security Leadership
+              </div>
+              <h1 class="text-3xl sm:text-5xl font-extrabold tracking-tight text-white">
+                <span id="hero-name">Howard Liao, Ph.D.</span>
+                <span class="block sm:inline sm:ml-2 text-2xl sm:text-3xl font-semibold text-slate-400" id="hero-name-zh">(廖倫豪 博士)</span>
+              </h1>
+              <h2 class="text-xl sm:text-2xl font-bold text-gradient" data-i18n="hero.title">
+                Group Chief Information Security Officer (CISO)
+              </h2>
+              <p class="text-base sm:text-lg font-medium text-slate-300" data-i18n="hero.subtitle">
+                Global Cybersecurity, Digital Trust & Resilience
+              </p>
+            </div>
+
+            <!-- Contact & Social Pills -->
+            <div class="flex flex-wrap items-center justify-center lg:justify-start gap-2 sm:gap-3 text-xs sm:text-sm pt-2">
+              <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-800/80 border border-slate-700 text-slate-300">
+                <span>📍</span> Taiwan (Open to Global Sites)
+              </span>
+              <a href="tel:+886975323161" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-800/80 border border-slate-700 text-slate-300 hover:text-cyan-400 transition-colors">
+                <span>📱</span> +886-975-323161
+              </a>
+              <a href="mailto:Liao.Howard@gmail.com" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-800/80 border border-slate-700 text-slate-300 hover:text-cyan-400 transition-colors">
+                <span>✉️</span> Liao.Howard@gmail.com
+              </a>
+              <a href="https://linkedin.com/in/howardliao78" target="_blank" rel="noopener" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-blue-900/40 border border-blue-700/60 text-blue-300 hover:bg-blue-800/60 transition-all">
+                <span>🔗</span> LinkedIn Profile ↗
+              </a>
+              <a href="https://howardliao.github.io/portfolio/" target="_blank" rel="noopener" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-indigo-900/40 border border-indigo-700/60 text-indigo-300 hover:bg-indigo-800/60 transition-all">
+                <span>🌐</span> Portfolio Website ↗
+              </a>
+            </div>
+
+            <!-- Summary Statement -->
+            <p class="text-sm sm:text-base text-slate-300 leading-relaxed pt-2" data-i18n="hero.leadText">
+              CISO-level technology executive with 27+ years of enterprise IT leadership, 15+ years of cybersecurity experience, and 10+ years leading cybersecurity strategy, cloud governance, digital resilience, and enterprise transformation across publicly listed, multinational, and regulated business environments.
+            </p>
+
+            <!-- Quick Action Buttons -->
+            <div class="flex flex-wrap items-center justify-center lg:justify-start gap-3 pt-3">
+              <a href="#experience" class="px-5 py-2.5 rounded-xl bg-cyan-600 hover:bg-cyan-500 text-white text-sm font-semibold shadow-lg shadow-cyan-900/30 transition-all hover:scale-105 active:scale-95" data-i18n="hero.btnExperience">
+                Explore Career Milestones
+              </a>
+              <button onclick="openCoverLetter()" class="px-5 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 text-sm font-semibold border border-slate-700 transition-all" data-i18n="hero.btnLetter">
+                View C-Level Cover Letter
+              </button>
+              <a href="Howard_Liao_CISO_Resume.docx" download="Howard_Liao_CISO_Resume.docx" class="px-5 py-2.5 rounded-xl bg-blue-600/20 hover:bg-blue-600/30 text-blue-300 border border-blue-500/30 text-sm font-semibold transition-all">
+                📥 1-Click .DOCX
+              </a>
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- BENTO GRID KPI DASHBOARD -->
+    <section id="kpi" class="space-y-4">
+      <div class="flex items-center justify-between">
+        <h2 class="text-xl sm:text-2xl font-bold tracking-tight text-white flex items-center gap-2">
+          <span class="text-cyan-400">📊</span>
+          <span data-i18n="kpi.heading">Key Leadership & Resilience Metrics</span>
+        </h2>
+        <span class="text-xs text-slate-400" data-i18n="kpi.subtitle">Quantified Operational Impact</span>
+      </div>
+
+      <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3 sm:gap-4">
+        
+        <div class="glass-card rounded-2xl p-4 text-center border border-slate-800 hover:border-cyan-500/50 transition-all group">
+          <div class="text-2xl sm:text-3xl font-extrabold text-cyan-400 group-hover:scale-110 transition-transform">100%</div>
+          <div class="text-xs font-bold text-slate-200 mt-1" data-i18n="kpi.kpi1Title">Zero Outage</div>
+          <div class="text-[10px] text-slate-400 mt-0.5" data-i18n="kpi.kpi1Sub">GKE Multi-Cloud HA</div>
+        </div>
+
+        <div class="glass-card rounded-2xl p-4 text-center border border-slate-800 hover:border-blue-500/50 transition-all group">
+          <div class="text-2xl sm:text-3xl font-extrabold text-blue-400 group-hover:scale-110 transition-transform">-30%</div>
+          <div class="text-xs font-bold text-slate-200 mt-1" data-i18n="kpi.kpi2Title">Cloud FinOps</div>
+          <div class="text-[10px] text-slate-400 mt-0.5" data-i18n="kpi.kpi2Sub">Annual TCO Reduction</div>
+        </div>
+
+        <div class="glass-card rounded-2xl p-4 text-center border border-slate-800 hover:border-emerald-500/50 transition-all group">
+          <div class="text-2xl sm:text-3xl font-extrabold text-emerald-400 group-hover:scale-110 transition-transform">-30%</div>
+          <div class="text-xs font-bold text-slate-200 mt-1" data-i18n="kpi.kpi3Title">Major Incidents</div>
+          <div class="text-[10px] text-slate-400 mt-0.5" data-i18n="kpi.kpi3Sub">SOC/SIEM & EDR</div>
+        </div>
+
+        <div class="glass-card rounded-2xl p-4 text-center border border-slate-800 hover:border-indigo-500/50 transition-all group">
+          <div class="text-2xl sm:text-3xl font-extrabold text-indigo-400 group-hover:scale-110 transition-transform">-30%</div>
+          <div class="text-xs font-bold text-slate-200 mt-1" data-i18n="kpi.kpi4Title">MTTR Reduced</div>
+          <div class="text-[10px] text-slate-400 mt-0.5" data-i18n="kpi.kpi4Sub">APM & Observability</div>
+        </div>
+
+        <div class="glass-card rounded-2xl p-4 text-center border border-slate-800 hover:border-amber-500/50 transition-all group">
+          <div class="text-2xl sm:text-3xl font-extrabold text-amber-400 group-hover:scale-110 transition-transform">$14M</div>
+          <div class="text-xs font-bold text-slate-200 mt-1" data-i18n="kpi.kpi5Title">Budget Scale</div>
+          <div class="text-[10px] text-slate-400 mt-0.5" data-i18n="kpi.kpi5Sub">Annual IT & Security</div>
+        </div>
+
+        <div class="glass-card rounded-2xl p-4 text-center border border-slate-800 hover:border-purple-500/50 transition-all group">
+          <div class="text-2xl sm:text-3xl font-extrabold text-purple-400 group-hover:scale-110 transition-transform">27+ Y</div>
+          <div class="text-xs font-bold text-slate-200 mt-1" data-i18n="kpi.kpi6Title">IT Leadership</div>
+          <div class="text-[10px] text-slate-400 mt-0.5" data-i18n="kpi.kpi6Sub">15+ Y Cybersecurity</div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- SECTION: EXECUTIVE PROFILE & VALUE PROPOSITION -->
+    <section id="profile" class="space-y-6">
+      <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+        <h2 class="text-2xl font-bold text-white flex items-center gap-2">
+          <span class="text-cyan-400">🛡️</span>
+          <span data-i18n="profile.heading">Executive Profile & Leadership Value Proposition</span>
+        </h2>
+      </div>
+
+      <!-- Profile 5 Paragraphs -->
+      <div class="glass-card rounded-2xl p-6 sm:p-8 space-y-4 text-sm sm:text-base text-slate-300 leading-relaxed">
+        <div id="profile-paragraphs" class="space-y-3">
+          <!-- Dynamic injection -->
+        </div>
+      </div>
+
+      <!-- Leadership Value Proposition (6 Cards) -->
+      <div>
+        <h3 class="text-lg font-bold text-slate-200 mb-4 flex items-center gap-2" data-i18n="value.subheading">
+          <span>⚡</span> Core Value Pillars for Boards & Enterprises
+        </h3>
+        <div id="value-cards" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          <!-- Dynamic injection -->
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION: CORE COMPETENCIES (8 DOMAINS) -->
+    <section id="competencies" class="space-y-6">
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between border-b border-slate-800 pb-3 gap-2">
+        <h2 class="text-2xl font-bold text-white flex items-center gap-2">
+          <span class="text-cyan-400">🎯</span>
+          <span data-i18n="comp.heading">Core Competencies & Technical Governance</span>
+        </h2>
+        <span class="text-xs text-slate-400" data-i18n="comp.subtitle">8 Strategic Security & Architecture Domains</span>
+      </div>
+
+      <div id="competency-domains" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <!-- Dynamic injection -->
+      </div>
+    </section>
+
+    <!-- SECTION: PROFESSIONAL EXPERIENCE (7 MILESTONES) -->
+    <section id="experience" class="space-y-6">
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between border-b border-slate-800 pb-3 gap-2">
+        <h2 class="text-2xl font-bold text-white flex items-center gap-2">
+          <span class="text-cyan-400">🏢</span>
+          <span data-i18n="exp.heading">Professional Career & Leadership Experience</span>
+        </h2>
+        <span class="text-xs text-slate-400" data-i18n="exp.subtitle">2002 – Present (27+ Years Leadership)</span>
+      </div>
+
+      <!-- Career Timeline List -->
+      <div id="experience-list" class="space-y-6">
+        <!-- Dynamic injection -->
+      </div>
+    </section>
+
+    <!-- SECTION: CERTIFICATIONS & EDUCATION -->
+    <section id="credentials" class="space-y-6">
+      <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+        <h2 class="text-2xl font-bold text-white flex items-center gap-2">
+          <span class="text-cyan-400">🎓</span>
+          <span data-i18n="cred.heading">Professional Certifications & Academic Degrees</span>
+        </h2>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        
+        <!-- Certifications -->
+        <div class="glass-card rounded-2xl p-6 space-y-4 border border-slate-800">
+          <h3 class="text-lg font-bold text-white flex items-center gap-2" data-i18n="cred.certsTitle">
+            <span>📜</span> Professional Certifications
+          </h3>
+          <ul id="cert-list" class="space-y-2.5 text-sm text-slate-300">
+            <!-- Dynamic injection -->
+          </ul>
+        </div>
+
+        <!-- Education -->
+        <div class="glass-card rounded-2xl p-6 space-y-4 border border-slate-800">
+          <h3 class="text-lg font-bold text-white flex items-center gap-2" data-i18n="cred.eduTitle">
+            <span>🎓</span> Academic Education
+          </h3>
+          <div id="edu-list" class="space-y-4">
+            <!-- Dynamic injection -->
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- SECTION: AWARDS, KEYNOTES, PUBLICATIONS & MEDIA -->
+    <section id="speaking" class="space-y-6">
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between border-b border-slate-800 pb-3 gap-2">
+        <h2 class="text-2xl font-bold text-white flex items-center gap-2">
+          <span class="text-cyan-400">🎤</span>
+          <span data-i18n="speak.heading">Awards, Keynotes, Publications & Speaking</span>
+        </h2>
+        <span class="text-xs text-slate-400" data-i18n="speak.subtitle">Verified Industry & Academic Evidence</span>
+      </div>
+
+      <!-- Category Filter Pills -->
+      <div class="flex flex-wrap gap-2 text-xs font-semibold">
+        <button onclick="filterSpeaking('all')" class="speak-filter-btn px-3 py-1.5 rounded-lg bg-cyan-600 text-white" data-filter="all" data-i18n="speak.all">All Records</button>
+        <button onclick="filterSpeaking('keynote')" class="speak-filter-btn px-3 py-1.5 rounded-lg bg-slate-800 text-slate-300 hover:text-white" data-filter="keynote" data-i18n="speak.keynotes">Keynotes & Speaking</button>
+        <button onclick="filterSpeaking('paper')" class="speak-filter-btn px-3 py-1.5 rounded-lg bg-slate-800 text-slate-300 hover:text-white" data-filter="paper" data-i18n="speak.papers">Publications & DOI</button>
+        <button onclick="filterSpeaking('media')" class="speak-filter-btn px-3 py-1.5 rounded-lg bg-slate-800 text-slate-300 hover:text-white" data-filter="media" data-i18n="speak.media">Media & Interviews</button>
+        <button onclick="filterSpeaking('csr')" class="speak-filter-btn px-3 py-1.5 rounded-lg bg-slate-800 text-slate-300 hover:text-white" data-filter="csr" data-i18n="speak.csr">Awards & CSR</button>
+      </div>
+
+      <!-- Speaking Cards Grid -->
+      <div id="speaking-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <!-- Dynamic injection -->
+      </div>
+    </section>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="border-t border-slate-800 bg-obsidian-950 py-10 mt-20 text-center text-xs text-slate-500 space-y-3">
+    <div class="flex justify-center items-center gap-4 text-slate-400">
+      <a href="https://howardliao.github.io/portfolio/" target="_blank" class="hover:text-cyan-400 transition-colors">Howard Portfolio ↗</a>
+      <span>•</span>
+      <a href="https://linkedin.com/in/howardliao78" target="_blank" class="hover:text-cyan-400 transition-colors">LinkedIn ↗</a>
+      <span>•</span>
+      <a href="mailto:Liao.Howard@gmail.com" class="hover:text-cyan-400 transition-colors">Liao.Howard@gmail.com</a>
+      <span>•</span>
+      <a href="tel:+886975323161" class="hover:text-cyan-400 transition-colors">+886-975-323161</a>
+    </div>
+    <p>© 2026 Howard Liao, Ph.D. (廖倫豪 博士). All rights reserved. Progressive Web App (PWA) Enabled.</p>
+  </footer>
+
+  <!-- LIGHTBOX MODAL -->
+  <div id="lightbox-modal" class="fixed inset-0 z-50 bg-black/90 backdrop-blur-md hidden items-center justify-center p-4" onclick="closeLightbox()">
+    <div class="relative max-w-4xl w-full max-h-[90vh] flex flex-col items-center" onclick="event.stopPropagation()">
+      <button onclick="closeLightbox()" class="absolute -top-12 right-0 text-white text-3xl font-bold hover:text-cyan-400">✕</button>
+      <img id="lightbox-img" src="" alt="Enlarged Evidence" class="max-h-[80vh] w-auto max-w-full rounded-xl shadow-2xl object-contain border border-slate-700">
+      <p id="lightbox-caption" class="text-slate-300 text-sm mt-3 text-center"></p>
+    </div>
+  </div>
+
+  <!-- COVER LETTER MODAL -->
+  <div id="letter-modal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden items-center justify-center p-4" onclick="closeCoverLetter()">
+    <div class="bg-obsidian-900 border border-slate-700 rounded-3xl max-w-3xl w-full max-h-[85vh] flex flex-col shadow-2xl overflow-hidden" onclick="event.stopPropagation()">
+      
+      <!-- Modal Header -->
+      <div class="p-6 border-b border-slate-800 flex items-center justify-between">
+        <div class="flex items-center gap-2.5">
+          <span class="text-2xl">✉️</span>
+          <div>
+            <h3 class="text-lg font-bold text-white" data-i18n="letter.title">CISO Executive Cover Letter</h3>
+            <p class="text-xs text-slate-400" data-i18n="letter.subtitle">Direct Message to Board, CEO & Global CIO</p>
+          </div>
+        </div>
+        <button onclick="closeCoverLetter()" class="text-slate-400 hover:text-white text-2xl font-bold">✕</button>
+      </div>
+
+      <!-- Modal Body -->
+      <div class="p-6 overflow-y-auto space-y-4 text-sm text-slate-200 leading-relaxed font-sans" id="letter-content">
+        <!-- Dynamic injection -->
+      </div>
+
+      <!-- Modal Footer -->
+      <div class="p-4 border-t border-slate-800 bg-obsidian-950 flex items-center justify-between">
+        <span id="copy-toast" class="text-xs font-semibold text-emerald-400 opacity-0 transition-opacity">✓ Copied to clipboard!</span>
+        <div class="flex items-center gap-3">
+          <button onclick="copyCoverLetter()" class="px-4 py-2 rounded-xl bg-cyan-600 hover:bg-cyan-500 text-white text-xs font-bold shadow-md transition-all">
+            📋 Copy Letter
+          </button>
+          <button onclick="closeCoverLetter()" class="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-semibold transition-all">
+            Close
+          </button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- PWA SCRIPT & APP LOGIC -->
+  <script>
+    // PWA Service Worker Registration
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('./sw.js')
+          .then(reg => console.log('[PWA] Service Worker registered:', reg.scope))
+          .catch(err => console.log('[PWA] Service Worker failed:', err));
+      });
+    }
+
+    // Theme Management
+    function toggleTheme() {
+      const html = document.documentElement;
+      const isDark = html.classList.contains('dark');
+      if (isDark) {
+        html.classList.remove('dark');
+        html.classList.add('light');
+        document.getElementById('theme-icon').textContent = '☀️';
+        localStorage.setItem('theme', 'light');
+      } else {
+        html.classList.remove('light');
+        html.classList.add('dark');
+        document.getElementById('theme-icon').textContent = '🌙';
+        localStorage.setItem('theme', 'dark');
+      }
+    }
+
+    // Lightbox Helpers
+    function openLightbox(src, caption) {
+      document.getElementById('lightbox-img').src = src;
+      document.getElementById('lightbox-caption').textContent = caption || '';
+      const modal = document.getElementById('lightbox-modal');
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+    }
+
+    function closeLightbox() {
+      const modal = document.getElementById('lightbox-modal');
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+    }
+
+    // Cover Letter Helpers
+    function openCoverLetter() {
+      const modal = document.getElementById('letter-modal');
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+    }
+
+    function closeCoverLetter() {
+      const modal = document.getElementById('letter-modal');
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+    }
+
+    function copyCoverLetter() {
+      const text = document.getElementById('letter-content').innerText;
+      navigator.clipboard.writeText(text).then(() => {
+        const toast = document.getElementById('copy-toast');
+        toast.classList.remove('opacity-0');
+        setTimeout(() => toast.classList.add('opacity-0'), 2500);
+      });
+    }
+
+    // MULTILINGUAL DATA STORE
+    const DATA = {
+      en: {
+        nav: {
+          profile: "Profile",
+          competencies: "Competencies",
+          experience: "Experience",
+          credentials: "Certifications",
+          speaking: "Speaking & Papers"
+        },
+        btn: {
+          coverLetter: "Cover Letter",
+          downloadResume: "Download Word (.docx)"
+        },
+        hero: {
+          status: "Available for Executive Leadership",
+          badge1: "ISO 27001 & 42001 Lead Auditor",
+          badge2: "Ph.D. in IT Management",
+          badge3: "PMP & CSM Certified",
+          roleTag: "Board-Level Technology & Security Leadership",
+          title: "Group Chief Information Security Officer (CISO)",
+          subtitle: "Global Cybersecurity, Digital Trust & Resilience",
+          leadText: "CISO-level technology executive with 27+ years of enterprise IT leadership, 15+ years of cybersecurity experience, and 10+ years leading cybersecurity strategy, cloud governance, digital resilience, and enterprise transformation across publicly listed, multinational, and regulated business environments.",
+          btnExperience: "Explore Career Milestones",
+          btnLetter: "View C-Level Cover Letter"
+        },
+        kpi: {
+          heading: "Key Leadership & Resilience Metrics",
+          subtitle: "Quantified Operational Impact",
+          kpi1Title: "Zero Outage", kpi1Sub: "GKE Multi-Cloud HA",
+          kpi2Title: "Cloud FinOps", kpi2Sub: "Annual TCO Reduction",
+          kpi3Title: "Major Incidents", kpi3Sub: "SOC/SIEM & EDR",
+          kpi4Title: "MTTR Reduced", kpi4Sub: "APM & Observability",
+          kpi5Title: "Budget Scale", kpi5Sub: "Annual IT & Security",
+          kpi6Title: "IT Leadership", kpi6Sub: "15+ Y Cybersecurity"
+        },
+        profile: {
+          heading: "Executive Profile & Leadership Value Proposition",
+          paragraphs: [
+            "CISO-level technology executive with 27+ years of enterprise IT leadership, 15+ years of cybersecurity experience, and 10+ years leading cybersecurity strategy, cloud governance, digital resilience, and enterprise transformation across publicly listed, multinational, and regulated business environments.",
+            "Combines board-level cybersecurity leadership with hands-on technical depth in Zero Trust, identity and access management, multi-cloud security, SOC/SIEM/EDR, incident response, DevSecOps, data protection, third-party risk management, and AI governance.",
+            "Experienced in securing business-critical systems, sensitive records, intellectual property, enterprise applications, cloud/SaaS platforms, and cross-border data flows. Applies a pragmatic, risk-based approach to improving security maturity, operational resilience, audit readiness, recoverability, and digital trust.",
+            "Proven record of translating cybersecurity risks and technical priorities into measurable business, financial, operational, and compliance outcomes for boards and executive leadership. Builds scalable security operating models that enable international growth while protecting critical assets and improving business continuity.",
+            "Prior experience in IT/OT convergence and multi-site industrial environments provides additional capability for complex infrastructure, operational resilience, supply-chain integration, and partner ecosystem security."
+          ]
+        },
+        value: {
+          subheading: "Core Value Pillars for Boards & Enterprises",
+          pillars: [
+            { title: "CISO & Board Leadership", desc: "Translates security posture, risk exposure, incidents, investment priorities, and control gaps into business impact through risk matrices, RTO/RPO, SLA, ROI/TCO, and maturity roadmaps." },
+            { title: "Group Security Governance", desc: "Establishes group-wide security operating models across headquarters, international sites, cloud environments, SaaS platforms, managed-service providers, and business partners." },
+            { title: "Digital Trust & Resilience", desc: "Protects critical enterprise systems, confidential records, intellectual property, and sensitive information through identity governance, security monitoring, encryption, auditability, backup, recovery, and incident readiness." },
+            { title: "Cloud-Native Technical Depth", desc: "Combines executive strategy with practical experience across AWS, Azure, GCP, Kubernetes/GKE, Zero Trust, API security, WAF/WAAP, SIEM/SOC, EDR/XDR, DevSecOps, and infrastructure automation." },
+            { title: "AI Governance (ISO 42001)", desc: "Implements ISO/IEC 42001-based AI governance to enable responsible AI adoption while controlling shadow AI, data leakage, IP exposure, third-party model risk, and operational risk." },
+            { title: "Business-Enabling Mindset", desc: "Works closely with business, finance, legal, HR, engineering, operations, product, and IT leaders to embed cybersecurity into growth, transformation, and customer trust." }
+          ]
+        },
+        comp: {
+          heading: "Core Competencies & Technical Governance",
+          subtitle: "8 Strategic Security & Architecture Domains",
+          domains: [
+            {
+              title: "Cybersecurity Strategy, Governance & Risk",
+              bullets: [
+                "Group cybersecurity strategy, operating model, policy architecture, risk appetite, maturity assessments, KPI/KRI design, executive reporting, and multi-year security roadmaps.",
+                "ISO 27001/27002, NIST Cybersecurity Framework, Zero Trust architecture, risk management, vendor risk, security due diligence, audit readiness, and security control assessment.",
+                "Security investment governance through risk reduction, ROI/TCO, RTO/RPO, SLA, business continuity, and measurable value realization.",
+                "Board reporting, audit engagement, customer security reviews, crisis governance, and executive stakeholder management."
+              ]
+            },
+            {
+              title: "Digital Trust, Data Governance & Auditability",
+              bullets: [
+                "Security governance for critical business systems, confidential records, sensitive data, intellectual property, enterprise workflows, and digital platforms.",
+                "System inventory, business-criticality classification, risk assessment, security control baselines, evidence management, and security operating procedures.",
+                "Least privilege, segregation of duties, access recertification, logging, audit-trail protection, encryption, backup, recovery, and change-control governance.",
+                "Data lifecycle controls covering classification, access, retention, archival, deletion, integrity, traceability, availability, and recoverability.",
+                "Security architecture and supplier assurance for ERP, CRM, HRIS, finance, document management, workflow, data platforms, collaboration tools, and SaaS ecosystems."
+              ]
+            },
+            {
+              title: "Identity, Zero Trust & Data Protection",
+              bullets: [
+                "Enterprise IAM, SSO, MFA, conditional access, privileged-access governance, PAM concepts, least privilege, joiner-mover-leaver lifecycle controls, and third-party identity management.",
+                "Data classification, DLP, encryption, key management, endpoint protection, secure collaboration, CASB/SSE concepts, and cross-border data governance.",
+                "Protection of IP, confidential R&D information, customer and partner data, financial records, commercial information, and internal corporate assets."
+              ]
+            },
+            {
+              title: "Cloud, SaaS & Enterprise Application Security",
+              bullets: [
+                "AWS, Azure, and GCP security governance, landing zones, centralized logging, configuration assurance, CSPM/CNAPP-aligned controls, segmentation, WAF/WAAP, API security, backup, and disaster recovery.",
+                "Secure governance of ERP/SAP, CRM, HRIS, finance applications, data platforms, collaboration tools, workflow systems, and business-critical SaaS services.",
+                "Cloud and SaaS vendor due diligence, shared-responsibility assessments, architecture review, contractual security controls, continuous assurance, and exit/continuity planning.",
+                "Multi-region and multi-zone architecture design for critical services and cross-region disaster recovery."
+              ]
+            },
+            {
+              title: "Security Operations, Resilience & Incident Response",
+              bullets: [
+                "SOC/MDR operating model, SIEM, EDR/XDR, centralized logging, detection engineering, threat intelligence, vulnerability management, incident response, and executive incident reporting.",
+                "Ransomware readiness, immutable backup, disaster recovery, business continuity, crisis communication, tabletop exercises, adversary simulation, and recovery governance.",
+                "Security observability using ELK Stack, Graylog, Prometheus, LibreNMS, Spiceworks, cloud-native monitoring, and application/system telemetry.",
+                "Security metrics covering MTTR, detection coverage, incident severity, response effectiveness, recovery capability, and control effectiveness."
+              ]
+            },
+            {
+              title: "DevSecOps, Application & Supply-Chain Security",
+              bullets: [
+                "Secure SDLC, threat modeling, SAST, DAST, SCA, secrets management, API security, secure CI/CD, policy-as-code, Terraform/IaC governance, Kubernetes/GKE security, and SBOM.",
+                "Software-supply-chain security, open-source component governance, secure code review, vulnerability remediation, and application security requirements.",
+                "Security governance for internal engineering teams, outsourced development partners, system integrations, APIs, data pipelines, and third-party platforms."
+              ]
+            },
+            {
+              title: "AI Governance & Secure Innovation",
+              bullets: [
+                "ISO/IEC 42001-based AI governance, Responsible AI policies, approved use-case governance, model and vendor risk assessments, data classification, and AI lifecycle management.",
+                "GenAI data-leakage prevention, shadow-AI control, secure RAG knowledge-base governance, access control, prompt/data protection, monitoring, auditability, and human oversight.",
+                "AI-assisted risk scoring, anomaly detection, threat correlation, and security analytics."
+              ]
+            },
+            {
+              title: "Leadership & Stakeholder Management",
+              bullets: [
+                "Cross-functional and cross-border leadership across Taiwan, China, Asia-Pacific, Europe, and global managed-service partners.",
+                "Leadership of cybersecurity, IT operations, cloud operations, infrastructure, SRE, DevOps, applications, service desk, and external service-provider teams.",
+                "Multi-million-dollar annual IT and cybersecurity budget responsibility.",
+                "Chinese and English executive communication; board reporting; audit facilitation; customer due diligence; vendor governance; and incident crisis leadership."
+              ]
+            }
+          ]
+        },
+        exp: {
+          heading: "Professional Career & Leadership Experience",
+          subtitle: "2002 – Present (27+ Years Leadership)",
+          items: [
+            {
+              role: "Vice President / Group Cybersecurity & Digital Transformation Lead",
+              groupNote: "(Kaohsiung, Shanghai, Taipei / Shengxin, Shengji Network / China Poker City / Taipei Finger International Co., Ltd.) Listed Affiliate Group",
+              company: "Confidential Group | Taiwan | Multi-site Operations",
+              period: "May 2025 – Present",
+              desc: "Acting in a CISO-level capacity, leading group cybersecurity strategy, cloud and infrastructure governance, enterprise resilience, and AI governance across multiple business units.",
+              scope: [
+                "Group-wide IT and cybersecurity governance across multiple business units and operating sites.",
+                "Leadership of approximately 35–40 professionals across cybersecurity, infrastructure, applications, operations, and external service partners.",
+                "Annual IT and cybersecurity budget responsibility of approximately USD 10–12 million."
+              ],
+              achievements: [
+                "Established group-wide cybersecurity governance based on ISO 27001 and NIST CSF, elevating risk, investment prioritization, resilience metrics, and accountability to board-level oversight.",
+                "Built an enterprise cybersecurity risk-management system covering asset criticality, threats, vulnerabilities, control maturity, third-party exposure, and quantified risk matrices.",
+                "Developed multi-year cybersecurity roadmaps linked to annual budgets, OGSM objectives, business priorities, and measurable risk-reduction outcomes.",
+                "Designed Zero Trust-aligned identity, endpoint, network, cloud, and access-control architecture for critical enterprise applications, data platforms, and partner collaboration.",
+                "Implemented centralized SOC/SIEM, EDR, log aggregation, security monitoring, and incident-response procedures, reducing major security incidents by approximately 30% and improving detection and response performance.",
+                "Established multi-cloud security observability and configuration-assurance dashboards, improving executive visibility, audit evidence, customer due-diligence response, and remediation governance.",
+                "Introduced ISO/IEC 42001-based AI governance, including AI-use policies, risk assessment, data-protection requirements, model lifecycle controls, and third-party AI-service governance.",
+                "Secured executive sponsorship and investment for Zero Trust, SOC/SIEM, disaster recovery, and cloud-security initiatives through ROI/TCO, RTO/RPO, SLA, risk-reduction, and audit-readiness analysis.",
+                "Coordinated security and digital-transformation initiatives among IT, finance, legal, HR, engineering, business operations, and external service partners."
+              ],
+              leaving: "Seeking a northern Taiwan-based executive opportunity aligned with long-term family, career, and group-level cybersecurity leadership objectives."
+            },
+            {
+              role: "IT Director",
+              groupNote: "Longzhong Network Co., Ltd. / GameSparcs (Headquartered in Taichung with offices in Taipei, Los Angeles, Sydney, Malta, Hangzhou, Chengdu / XSGames, Longzhong, Wanguo, Haiyu, VIVIDGAMING, Galaxy, Haotian, Jingqi) Publicly Listed Company",
+              company: "Publicly Listed Global Gaming Platform Operator | Taichung, Taiwan",
+              period: "September 2022 – April 2025",
+              desc: "Led global cloud architecture, cybersecurity governance, digital-platform resilience, DevOps productivity, and high-availability operations for a publicly listed online platform serving millions of users.",
+              scope: [
+                "Led approximately 30–35 professionals across cloud operations, DevOps, SRE, cybersecurity, infrastructure, and application-support functions.",
+                "Accountable for multi-cloud infrastructure and cybersecurity budgets of approximately USD 12–14 million annually.",
+                "Supported high-traffic, customer-facing digital platforms requiring 24/7 availability, large-scale transaction processing, and resilient cross-region operations."
+              ],
+              achievements: [
+                "Designed and delivered a GKE-centered, multi-zone, multi-region architecture with cross-region disaster recovery, enabling 24/7 service availability and a zero-downtime record for critical services.",
+                "Built centralized observability, APM, SIEM, cloud logging, monitoring, and incident-response processes, reducing MTTR by approximately 30% through real-time event correlation and improved operational visibility.",
+                "Implemented ISO 27001- and NIST CSF-aligned cybersecurity policies and controls for IAM, asset management, secure development, cloud operations, incident response, vendor governance, and audit evidence.",
+                "Introduced Zero Trust principles through IAM, SSO, MFA, least privilege, and controlled remote access, strengthening protection for distributed teams, privileged users, and external partners.",
+                "Strengthened the external attack surface through API security, WAF/WAAP, DDoS protection, anti-bot controls, rate limiting, API authorization, and network-security governance.",
+                "Established incident-response playbooks, security exercises, adversary simulations, crisis communication procedures, and recovery governance, improving organizational readiness and reducing breach impact.",
+                "Embedded SAST, DAST, secrets management, CI/CD controls, IaC governance, container-security practices, and software-supply-chain controls into engineering and deployment workflows.",
+                "Built FinOps practices across multi-cloud environments, achieving approximately 30% cloud-cost optimization while maintaining performance, resilience, and customer experience during traffic spikes.",
+                "Received a Cloud Architecture Excellence Award for a GKE-based multi-cloud platform combining high availability, operational resilience, and cost optimization."
+              ],
+              leaving: "Seeking a senior cybersecurity leadership role with broader group-level governance responsibility and improved alignment with long-term career and lifestyle objectives."
+            },
+            {
+              role: "IT Director",
+              groupNote: "Hongen Technology (Headquartered in Shenzhen with offices in Hsinchu, Hangzhou, Chengdu / 泓晏科技)",
+              company: "Electronics Manufacturing & Technology Services | Taiwan and China",
+              period: "March 2018 – August 2022",
+              desc: "Led enterprise IT, cybersecurity, data governance, digital transformation, and multi-site technology operations across Taiwan and China.",
+              scope: [
+                "Managed approximately 30–40 professionals across IT, cybersecurity, applications, infrastructure, operations, and technology services.",
+                "Held annual IT and cybersecurity budget responsibility of approximately USD 5–7 million.",
+                "Supported multi-site business operations, R&D, supply-chain, engineering, finance, procurement, and external-partner environments."
+              ],
+              achievements: [
+                "Established ISO 27001-aligned cybersecurity governance, risk assessment, asset management, identity and access controls, segmentation, vulnerability management, and auditability for enterprise and operational environments.",
+                "Designed secure architecture for ERP, PLM, supply-chain, workflow, analytics, and enterprise systems, improving availability, traceability, data protection, and continuity.",
+                "Led secure integration of ERP, MES, PLM, APS, HR, and analytics platforms, enabling controlled information flow, authentication, encryption, audit logging, and management visibility across business functions.",
+                "Built data-governance and BI capabilities supporting inventory management, anomaly analysis, operational decision-making, and post-merger data integration.",
+                "Developed risk-based vulnerability, patch-management, incident-response, backup, and continuity processes that balanced cybersecurity improvement with operational requirements.",
+                "Coordinated cybersecurity and resilience initiatives across IT, engineering, operations, procurement, finance, and external service partners in Taiwan and China.",
+                "Supported organizational integration and data-asset due diligence during acquisition by a major Chinese manufacturing group."
+              ],
+              additionalContext: "Prior IT/OT convergence experience provides practical capability for complex infrastructure, supply-chain, partner, and operational integration needs.",
+              leaving: "Following acquisition by a major Chinese conglomerate, pursued opportunities aligned with broader technology and cybersecurity leadership goals."
+            },
+            {
+              role: "IT Manager",
+              groupNote: "HyWeb Technology Co., Ltd. (Headquartered in Hsinchu with offices in Taipei, Taichung, Kaohsiung, Thailand, Beijing / 凌網科技、凌網知識) Publicly Listed Company",
+              company: "Publicly Listed IT Services Company | Taiwan, China and Thailand",
+              period: "May 2014 – February 2018",
+              desc: "Led regional IT operations, service management, data-center strategy, infrastructure governance, and cross-border technology support for offices in Taipei, Hsinchu, Taichung, Beijing, and Thailand.",
+              scope: [
+                "Managed approximately 34–45 professionals across infrastructure, enterprise applications, service desk, support, and operations.",
+                "Led regional IT budgets, data-center operations, backup architecture, disaster-recovery planning, and service-management improvement."
+              ],
+              achievements: [
+                "Implemented ITSM and cross-regional service-management processes, improving service consistency, accountability, incident response, and operational transparency across Asia-Pacific offices.",
+                "Established regional data-center strategy, high-availability architecture, backup governance, and disaster-recovery plans to support critical business services.",
+                "Introduced PMP and agile delivery practices, improving cross-border project governance, delivery predictability, and stakeholder collaboration.",
+                "Strengthened infrastructure standards, security operations, and technology-service governance for geographically distributed operations."
+              ]
+            },
+            {
+              role: "IT Manager / Digital Transformation Lead",
+              groupNote: "Kuang Nan Group / Fengchen Group – Aiju Computer (Headquartered in Taichung with offices in Taipei, Shenzhen, Shanghai, Zhangjiagang / 光南集團) Publicly Listed Company",
+              company: "Retail, Distribution & Technology Services Group | Taiwan and China",
+              period: "July 2011 – April 2014",
+              desc: "Led enterprise-system integration, business-data governance, and digital transformation during merger-and-acquisition activities for a retail and distribution group.",
+              scope: [
+                "Managed approximately 15–20 IT professionals.",
+                "Responsible for ERP, POS, CRM, enterprise data integration, business continuity, application governance, and transformation budgets."
+              ],
+              achievements: [
+                "Consolidated ERP, POS, CRM, and analytics platforms to improve group-level visibility into sales, inventory, customer behavior, and operational performance.",
+                "Led data cleansing, master-data governance, migration, and business-system consolidation to maintain continuity during cross-border M&A.",
+                "Enabled management reporting and decision support through integrated enterprise-data architecture."
+              ]
+            },
+            {
+              role: "IT Manager",
+              groupNote: "Borland (美商 寶藍) Multinational Company",
+              company: "Multinational Software Company | Taiwan and China",
+              period: "March 2008 – June 2011",
+              desc: "Built cross-border IT collaboration platforms, high-availability enterprise systems, infrastructure services, and data-protection capabilities for Taiwan and China R&D and operations teams.",
+              achievements: [
+                "Designed high-availability database, application, backup, and recovery architecture for enterprise applications and mission-critical transaction environments.",
+                "Supported deployment of software-lifecycle-management platforms, engineering collaboration systems, and regional IT services.",
+                "Maintained operational stability, data protection, and cross-border collaboration capability in multinational operating environments."
+              ]
+            },
+            {
+              role: "IT Manager",
+              groupNote: "Sybase (美商 賽貝斯) Multinational Company",
+              company: "Multinational Database and Enterprise Software Vendor | Asia-Pacific",
+              period: "August 2002 – February 2008",
+              desc: "Led Asia-Pacific data-center consolidation, infrastructure standardization, database availability, regional IT operations, and mission-critical support for telecommunications and financial-services customers.",
+              scope: [
+                "Managed regional infrastructure teams of approximately 10–15 professionals.",
+                "Supported enterprise database, high-availability, failover, backup, and data-center environments."
+              ],
+              achievements: [
+                "Implemented unified Active Directory, data-center consolidation, high-availability database, and failover strategies across Asia-Pacific operations.",
+                "Delivered carrier-grade database tuning, availability, recovery, and performance solutions for business-critical customer environments.",
+                "Ensured operational continuity and audit compliance during regional consolidation and global customer projects."
+              ]
+            }
+          ]
+        },
+        cred: {
+          heading: "Professional Certifications & Academic Degrees",
+          certsTitle: "Professional Certifications",
+          eduTitle: "Academic Education",
+          certs: [
+            "ISO 27001 Information Security Management System — Lead Auditor / Internal Auditor",
+            "ISO/IEC 42001 AI Management System — AI Governance",
+            "Project Management Professional — PMP",
+            "Certified ScrumMaster — CSM",
+            "Oracle Certified Professional — OCP",
+            "Oracle Certified Associate — OCA",
+            "ESG Sustainability Planner"
+          ],
+          edu: [
+            {
+              degree: "Ph.D. in Information Technology Management",
+              school: "Chaoyang University of Technology, College of Informatics",
+              period: "September 2009 – June 2013",
+              desc: "Research interests: Cybersecurity governance, cloud security, AI governance, data governance, software engineering, DevSecOps, and digital transformation strategy."
+            },
+            {
+              degree: "Master of Science in Information Science",
+              school: "National Chung Hsing University, Institute of Computer Science",
+              period: "September 2004 – June 2006",
+              desc: "Focus areas: Modern cryptography, data mining, data governance, software engineering, systems analysis, and enterprise information systems."
+            },
+            {
+              degree: "Bachelor of Computer Science",
+              school: "National Chung Hsing University, Department of Computer Science",
+              period: "September 2000 – June 2004",
+              desc: "Focus areas: Software development lifecycle, software engineering, systems analysis, enterprise architecture, and application development."
+            }
+          ]
+        },
+        speak: {
+          heading: "Awards, Keynotes, Publications & Speaking",
+          subtitle: "Verified Industry & Academic Evidence",
+          all: "All Records",
+          keynotes: "Keynotes & Speaking",
+          papers: "Publications & DOI",
+          media: "Media & Interviews",
+          csr: "Awards & CSR",
+          items: [
+            {
+              type: "keynote",
+              title: "MongoDB.local Taipei Keynote Speaker",
+              topic: "Enterprise Data Architecture with MongoDB Atlas: Global High Availability",
+              orgDate: "MongoDB Inc. | September 2024",
+              desc: "Delivered Keynote on global multi-region high-availability data architecture, sharing how MongoDB Atlas fully managed cloud database supported global cross-region low-latency gaming with 99.995% availability.",
+              url: "https://www.ithome.com.tw/pr/163534",
+              image: "assets/2024_MongoDB02.jpg"
+            },
+            {
+              type: "keynote",
+              title: "CIO Taiwan Value Academy 17th Keynote Speaker",
+              topic: "Gaining Insights into Opportunities: Cloud Management & Practices",
+              orgDate: "CIO Taiwan Value Academy | May 2024",
+              desc: "Keynote presentation to enterprise CIOs/CISOs on multi-cloud resource governance, cybersecurity compliance, FinOps TCO optimization, and architecture resilience.",
+              url: "https://www.cio.com.tw/events/value-index-2/",
+              image: "assets/問題比答案重要.png"
+            },
+            {
+              type: "keynote",
+              title: "Executive Yuan DGPA Master Lecture Series",
+              topic: "Cloud Governance & Practices in Public Sector Transformation",
+              orgDate: "Directorate-General of Personnel Administration | June 2024",
+              desc: "Invited master instructor for civil servants, promoting cloud modernization, Zero Trust architecture, and resilient IT governance.",
+              url: "https://elearn.hrd.gov.tw/info/10042804",
+              image: "assets/e等公務園__洞見機遇-雲端管理與實務01.png"
+            },
+            {
+              type: "media",
+              title: "Google Cloud Official Global Customer Success Story",
+              topic: "GameSparcs Transforms Gaming Experience with GKE & Multi-Cloud",
+              orgDate: "Google Cloud APAC Video | March 2024",
+              desc: "Featured in official video case study on deploying Kubernetes/GKE multi-zone architecture achieving 100% Zero Outage during peak traffic spikes.",
+              url: "https://youtu.be/_kTZSZ_0lNE?si=CT2lo8c4IF0zI1Ki",
+              image: null
+            },
+            {
+              type: "paper",
+              title: "Springer SCI Journal Paper Publication",
+              topic: "Reversible secret-image sharing with high visual quality",
+              orgDate: "Multimedia Tools and Applications (Springer Nature, Vol. 74) | June 2014",
+              desc: "Authors: Ching-Chiuan Lin, Lun-Hao Liao (Howard Liao), Kuo-Feng Hwang, Shih-Chieh Chen. Proposes a high visual quality reversible secret-image sharing scheme in cryptographic image security.",
+              url: "https://link.springer.com/article/10.1007/s11042-012-1190-1",
+              image: null
+            },
+            {
+              type: "paper",
+              title: "International Journal Publication",
+              topic: "Utilizing GIS and GPS in Designing a Trilingual Tourist APP",
+              orgDate: "Applied Science and Management Research (Vol. 2) | May 2015",
+              desc: "Research on location-based mobile systems integrating GIS and GPS technologies for multilingual travel platforms.",
+              url: null,
+              image: null
+            },
+            {
+              type: "paper",
+              title: "National Central Library Legal Archive & Academic Advising",
+              topic: "Adaptive SOA-based Enterprise Self-Service Portal IT Governance Model",
+              orgDate: "National Central Library (Advising Archive ID: 106IKTC0183002) | October 2014",
+              desc: "Ph.D. dissertation on ITIL V3 and SOA framework governance. Registered research advisor in National Central Library under ID 106IKTC0183002.",
+              url: "https://ndltd.ncl.edu.tw/",
+              image: null
+            },
+            {
+              type: "media",
+              title: "CIO Taiwan Magazine Cover Feature Interview",
+              topic: "Leveraging Public Cloud to Seize Global Opportunities",
+              orgDate: "CIO Taiwan Magazine (Issue 2024.05) | May 2024",
+              desc: "In-depth interview by Editor-in-Chief on Multi-Cloud Networking (MCN), Kubernetes native architecture, and FinOps cost optimization.",
+              url: "https://www.cio.com.tw/interview-howard-liao-online-gamesparcs-it-director/",
+              image: "assets/2024_CIO報導.png"
+            },
+            {
+              type: "media",
+              title: "iThome Tech Feature Report",
+              topic: "GameSparcs Builds High-Performance Gaming Data Platform with Atlas",
+              orgDate: "iThome Computer Daily | September 2024",
+              desc: "Full-page technology feature highlighting Howard Liao's data platform architecture delivering 99.995% availability for global operations.",
+              url: "https://www.ithome.com.tw/pr/163534",
+              image: "assets/IThome_MangoDB.png"
+            },
+            {
+              type: "media",
+              title: "DIGITIMES Tech News Feature",
+              topic: "MongoDB 8.0 Launch: Powering Enterprise Generative AI Adoption",
+              orgDate: "DIGITIMES Tech News | September 2024",
+              desc: "News coverage citing GameSparcs architecture cases in generative AI and real-time database workloads.",
+              url: "https://www.digitimes.com.tw/tech/dt/n/shwnws.asp?id=0000704377_KI14VVDK6CQ8TB8OXC3GJ",
+              image: null
+            },
+            {
+              type: "csr",
+              title: "Cloud Architecture Excellence Award",
+              topic: "Awarded for GKE-based Multi-Cloud Architecture & FinOps",
+              orgDate: "Industry Excellence Award | 2024",
+              desc: "Recognized for architecting a resilient multi-cloud platform achieving 100% Zero Outage and ~30% cost reduction.",
+              url: null,
+              image: null
+            },
+            {
+              type: "csr",
+              title: "Cancer NoNo Foundation Board Member & CIO",
+              topic: "Digital Philanthropy, Children Health & Healthcare Security",
+              orgDate: "Cancer NoNo Foundation (CSR) | 2022 – Present",
+              desc: "Serving as Board Director and CIO, leading CSR digital initiatives, children dietary education, and secure medical IT platforms.",
+              url: "https://www.cancer-nono.org.tw/web/about/page.php?lang=zh_tw&scid=7&sid=5",
+              image: null
+            }
+          ]
+        },
+        letter: {
+          title: "CISO Executive Cover Letter",
+          subtitle: "Direct Message to Board of Directors, CEO & Global CIO",
+          content: `Dear Board of Directors, Executive Leadership, and Selection Committee,
+
+As a CISO-level technology executive with over 27 years of enterprise IT leadership, 15 years of cybersecurity depth, and more than a decade steering cybersecurity strategy across publicly listed, multinational, and regulated environments, I offer a proven blend of board-level governance and hands-on technical architecture.
+
+Throughout my executive career, I have specialized in turning cybersecurity from a cost center into a strategic business enabler. At GameSparcs and multinational groups, I architected GKE-centered multi-cloud environments delivering 100% Zero Outage, established ISO 27001 / NIST CSF frameworks, reduced major security incidents by 30%, and achieved 30% FinOps cost optimization across multi-million-dollar budgets. Furthermore, I hold ISO 27001 and ISO/IEC 42001 (AI Management System) Lead Auditor credentials, enabling forward-looking governance over generative AI, data protection, and enterprise Zero Trust transformation.
+
+I lead with a pragmatic, risk-based approach—aligning security posture with business agility, ROI/TCO, and operational resilience. I look forward to bringing this strategic leadership and execution capability to your esteemed organization.
+
+Sincerely,
+Howard Liao, Ph.D.
+Group Chief Information Security Officer (CISO)
+Mobile: +886-975-323161 | Email: Liao.Howard@gmail.com`
+        }
+      },
+
+      zh: {
+        nav: {
+          profile: "個人總覽",
+          competencies: "核心職能",
+          experience: "經歷成就",
+          credentials: "證照學歷",
+          speaking: "演講論文"
+        },
+        btn: {
+          coverLetter: "高階自薦信",
+          downloadResume: "下載 Word 履歷檔"
+        },
+        hero: {
+          status: "隨時履新高階主管",
+          badge1: "ISO 27001 & 42001 主任稽核員",
+          badge2: "資訊科技管理 博士",
+          badge3: "PMP & CSM 國際專案認證",
+          roleTag: "董事會級 科技與資安戰略領導者",
+          title: "集團資安長 暨 科技副總 (Group CISO)",
+          subtitle: "全球資安治理、數位信任與架構韌性",
+          leadText: "具備 27+ 年企業資訊科技領導力、15+ 年資訊安全治理經驗，以及 10+ 年於上市櫃、跨國與受法規監管企業擔任資安長與科技副總之高階歷練。兼具董事會戰略視野與零信任、多雲資安、DevSecOps、AI 治理等實戰深度。",
+          btnExperience: "瀏覽職涯里程碑",
+          btnLetter: "查看高階自薦信"
+        },
+        kpi: {
+          heading: "核心領導力與營運韌性指標",
+          subtitle: "量化營運成果與實質商業價值",
+          kpi1Title: "零停機紀錄", kpi1Sub: "GKE 多雲高可用架構",
+          kpi2Title: "多雲 FinOps", kpi2Sub: "年度 TCO 壓降 30%",
+          kpi3Title: "重大資安事件", kpi3Sub: "降低 30% (SOC/EDR)",
+          kpi4Title: "MTTR 縮短", kpi4Sub: "縮短 30% (可觀測性)",
+          kpi5Title: "管控預算規模", kpi5Sub: "年度 1,400 萬美元 IT/資安",
+          kpi6Title: "IT 領導底蘊", kpi6Sub: "15+ 年資安戰略治理"
+        },
+        profile: {
+          heading: "高階職涯定位與六大領導價值主張",
+          paragraphs: [
+            "CISO 級別高階科技主管，具備 27+ 年企業 IT 領導經驗、15+ 年資訊安全實務，以及 10+ 年在上市櫃公司、跨國集團與受監管業務環境中主導資安戰略、雲端治理、數位韌性與企業數位轉型的深厚底蘊。",
+            "兼具董事會層級之資安治理高度，以及零信任 (Zero Trust)、身分存取管理 (IAM)、多雲資安 (Multi-Cloud Security)、SOC/SIEM/EDR、資安事件應變 (Incident Response)、DevSecOps、資料保護、第三方風險管理與 AI 治理 (ISO 42001) 的實戰技術深度。",
+            "精通保護關鍵業務系統、敏感機密紀錄、核心智慧財產權、企業級應用程式、雲端/SaaS 平台與跨境資料流。以務實、風險驅動的方法持續提升資安成熟度、營運韌性、稽核整備度、災難復原力與數位信任。",
+            "擁有卓越的成果紀錄，能將資安風險與技術優先級轉化為董事會與高階主管重視的商業價值、財務效益、營運指標與法規遵循結果。建構具備高擴展性的資安營運模型，在保護關鍵資產與強化業務連續性的同時，全力支援集團之跨國擴張。",
+            "過去在 IT/OT 融合與跨國多廠區工業製造環境之豐富實務，進一步奠定了駕馭複雜基礎架構、營運韌性、供應鏈整合與合作夥伴生態系安全防護的全面能力。"
+          ]
+        },
+        value: {
+          subheading: "賦能董事會與企業集團之核心價值支柱",
+          pillars: [
+            { title: "CISO 董事會戰略治理", desc: "透過風險矩陣、RTO/RPO、SLA、ROI/TCO 與成熟度藍圖，將資安態勢、風險暴露、事件與控制落差精準轉化為具體商業衝擊與決策依據。" },
+            { title: "集團級資安營運架構", desc: "跨越企業總部、國際據點、多公有雲環境、SaaS 平台、託管服務商 (MSP) 與商業夥伴，建立全集團標準化資安營運體系。" },
+            { title: "數位信任與架構韌性", desc: "透過身分治理、安全監控、加密、完整稽核軌跡、備份、復原與即時應變機制，全方位守護關鍵系統、機密紀錄與智慧財產權。" },
+            { title: "雲原生技術深度", desc: "結合高階策略與 AWS、Azure、GCP、Kubernetes/GKE、Zero Trust、API 安全、WAF/WAAP、SIEM/SOC、EDR/XDR 與 IaC 自動化之深厚實作經驗。" },
+            { title: "AI 治理 (ISO/IEC 42001)", desc: "落地 ISO/IEC 42001 AI 管理系統標準，在推動企業負責任採用 GenAI 的同時，嚴密控管 Shadow AI、資料外洩、IP 侵權與第三方模型風險。" },
+            { title: "業務賦能與成長思維", desc: "與業務、財務、法務、人資、研發、營運、產品與 IT 團隊緊密協同，將資訊安全無縫嵌入業務增長、數位轉型與客戶信任之中。" }
+          ]
+        },
+        comp: {
+          heading: "八大核心職能與技術治理體系",
+          subtitle: "覆蓋戰略、雲端、零信任、維運、供應鏈與 AI 治理",
+          domains: [
+            {
+              title: "資安策略、治理與風險管理 (Cybersecurity Strategy, Governance & Risk)",
+              bullets: [
+                "集團資安策略、營運模型、政策架構、風險胃納、成熟度評估、KPI/KRI 指標設計、高階主管報告與多年期資安藍圖規劃。",
+                "ISO 27001/27002、NIST CSF、Zero Trust 零信任架構、風險管理、供應商風險、資安盡職調查、稽核整備度與控制措施評估。",
+                "藉由風險降低、ROI/TCO 分析、RTO/RPO、SLA、業務連續性與可量化價值實現，落實資安投資治理。",
+                "董事會定期匯報、外部稽核應對、重要客戶資安審查、危機治理與高階利害關係人管理。"
+              ]
+            },
+            {
+              title: "數位信任、數據治理與可稽核性 (Digital Trust, Data Governance & Auditability)",
+              bullets: [
+                "關鍵業務系統、機密檔案、敏感資料、智慧財產權、企業工作流與數位平台的全面資安治理。",
+                "資產盤點、業務關鍵性分級、風險評估、安全控制基準線、稽核佐證管理與標準作業程序 (SOP)。",
+                "最小權限、職責分離 (SoD)、存取定期複核、日誌記錄、稽核軌跡保護、資料加密、備份復原與變更控制治理。",
+                "涵蓋資料分類、存取、留存、封存、銷毀、完整性、可追溯性、可用性與可復原性之數據生命週期管理。",
+                "針對 ERP、CRM、HRIS、財務系統、文件管理、資料中台、協作工具與 SaaS 生態系的安全架構與供應商審查。"
+              ]
+            },
+            {
+              title: "身分鑑別、零信任與資料保護 (Identity, Zero Trust & Data Protection)",
+              bullets: [
+                "企業級 IAM、SSO、MFA、條件式存取、特權存取治理 (PAM)、最小權限、員工進轉離生命週期控管與第三方身分管理。",
+                "資料分級分類、DLP 防外洩、加密與金鑰管理、端點安全、安全協作、CASB/SSE 概念與跨境資料流動治理。",
+                "全面防護核心智慧財產權、機密研發資料、客戶與合作夥伴資訊、財務紀錄、商業情報與內部核心資產。"
+              ]
+            },
+            {
+              title: "多雲、SaaS 與企業應用安全 (Cloud, SaaS & Enterprise Application Security)",
+              bullets: [
+                "AWS、Azure 與 GCP 資安治理、Landing Zones、集中化日誌、組態合規、CSPM/CNAPP 控制項、網路微隔離、WAF/WAAP、API 安全、備份與跨區災難復原。",
+                "ERP/SAP、CRM、HRIS、財務軟體、資料平台、協作工具、工作流與關鍵 SaaS 服務之安全管控。",
+                "雲端與 SaaS 供應商盡職調查、共同責任模型評估、架構審查、合約安全條款、持續合規保證與退場/業務連續性計畫。",
+                "針對關鍵服務之跨區域 (Multi-Region) 與跨可用區 (Multi-Zone) 高可用架構設計與跨區災備機制。"
+              ]
+            },
+            {
+              title: "維運監控、營運韌性與事件應變 (Security Operations, Resilience & Incident Response)",
+              bullets: [
+                "SOC/MDR 營運模型、SIEM、EDR/XDR、集中式日誌聚合、偵測工程、威脅情資、弱點管理、事件應變與高階事件通報機制。",
+                "勒索軟體防禦、不可變備份 (Immutable Backup)、災難復原、業務連續性、危機通訊、兵棋推演、紅藍對抗演練與復原治理。",
+                "運用 ELK Stack、Graylog、Prometheus、LibreNMS、Spiceworks、雲端原生監控與系統遙測落實全域可觀測性。",
+                "追蹤 MTTR、偵測覆蓋率、事件嚴重度、應變處置成效、復原能力與控制措施有效性等量化指標。"
+              ]
+            },
+            {
+              title: "DevSecOps、應用程式與軟體供應鏈安全 (DevSecOps, Application & Supply-Chain Security)",
+              bullets: [
+                "安全軟體開發生命週期 (SSDLC)、威脅建模、SAST、DAST、SCA、機敏密鑰管理、API 安全、安全 CI/CD、Policy-as-Code、IaC 治理、Kubernetes/GKE 資安與 SBOM。",
+                "軟體供應鏈安全、開源元件合規治理、安全代碼審查、漏洞修補流程與應用程式安全規範要求。",
+                "針對內部研發團隊、委外開發廠商、系統整合商、API 串接、數據管道與第三方平台之全面安全管理。"
+              ]
+            },
+            {
+              title: "AI 治理與安全創新 (AI Governance & Secure Innovation)",
+              bullets: [
+                "基於 ISO/IEC 42001 之 AI 治理體系、負責任 AI 政策、核准用例管理、模型與供應商風險評估、資料分級與 AI 生命週期控管。",
+                "生成式 AI 資料防洩漏 (GenAI DLP)、Shadow AI 管控、安全 RAG 知識庫治理、存取控制、Prompt/資料保護、即時監控、可稽核性與人機複核 (Human-in-the-Loop)。",
+                "結合 AI 輔助風險評分、異常行為偵測、威脅事件關聯分析與進階資安數據分析。"
+              ]
+            },
+            {
+              title: "高階領導力與跨域利害關係人管理 (Leadership & Stakeholder Management)",
+              bullets: [
+                "具備橫跨台灣、中國大陸、亞太地區、歐洲與全球託管服務夥伴的跨國跨職能領導實務。",
+                "統領資安、IT 維運、雲端維運、基礎架構、SRE、DevOps、應用程式開發、服務台與外部廠商團隊。",
+                "管控每年高達數百萬至千萬美元之全球 IT 與資安預算。",
+                "中英文高階溝通能力；董事會定期報告；各類稽核應對；重要客戶調查評估；供應商管理；資安危機處置領導力。"
+              ]
+            }
+          ]
+        },
+        exp: {
+          heading: "專業歷練與職涯成就里程碑",
+          subtitle: "2002 – 至今 (27+ 年 IT 管理與資安戰略實績)",
+          items: [
+            {
+              role: "集團副總 暨 資安與數位轉型負責人 (Vice President)",
+              groupNote: "(高雄、上海、台北 / 盛欣、盛碁網絡/中國 波克/台北 芬格國際有限公司) 上市櫃公司 關聯集團",
+              company: "跨國集團 | 台灣 | 多據點運營",
+              period: "2025.05 – 至今",
+              desc: "以 CISO 級別角色主導全集團資訊安全戰略、多雲與基礎架構治理、企業營運韌性及 AI 治理，橫跨多個事業群與跨國營運據點。",
+              scope: [
+                "全集團跨事業部、跨營運據點之 IT 與資安最高治理架構。",
+                "帶領約 35–40 位專業人員，涵蓋資訊安全、基礎架構、應用系統、維運與外部託管服務夥伴。",
+                "管控每年約 1,000–1,200 萬美元之全集團 IT 與資安總預算。"
+              ],
+              achievements: [
+                "建立基於 ISO 27001 與 NIST CSF 之集團資安治理框架，將風險管理、投資排序、韌性指標與權責機制提升至董事會層級監管。",
+                "打造企業級資安風險管理體系，涵蓋資產關鍵性分級、威脅情資、弱點管理、控制措施成熟度、第三方風險與量化風險矩陣。",
+                "制定緊密連結年度預算、OGSM 目標、商業優先級與可量化風險降減成果之多年期資安藍圖。",
+                "針對關鍵企業應用、資料中台與夥伴協作，設計符合零信任 (Zero Trust) 原則之身分、端點、網路、雲端與存取控制架構。",
+                "導入集中式 SOC/SIEM、EDR、日誌聚合、資安即時監控與應變標準作業流程，降低重大資安事件約 30%，大幅提升偵測處置效能。",
+                "建立多雲資安可觀測性與組態合規儀表板，提升高階主管能見度、稽核佐證效率、重要客戶盡職調查回應與弱點修復治理。",
+                "推動導入 ISO/IEC 42001 AI 管理系統，訂定 AI 使用規範、風險評估、資料防護標準、模型生命週期控制與第三方 AI 服務治理。",
+                "透過 ROI/TCO、RTO/RPO、SLA、風險降減幅度與稽核整備度分析，成功爭取零信任、SOC/SIEM、災難復原與雲端資安等重大投資贊助。",
+                "有效協調 IT、財務、法務、人資、研發、業務營運與外部服務供應商，推進資安與數位轉型專案。"
+              ],
+              leaving: "尋求位於台灣北部、能與長期家庭生活規劃、職涯發展及集團級資安長治理目標高度契合的高階主管機會。"
+            },
+            {
+              role: "資訊處長 / IT Director",
+              groupNote: "隆中網絡股份有限公司 / GameSparcs (總部在台中，並在台北、洛杉磯、雪梨、馬爾他、杭州與成都設有據點 / 向上國際XSGames、隆中網絡、萬國遊戲、海淯遊戲、VIVIDGAMING、銀河網絡、浩天遊戲、晶綺科技) 上市櫃公司",
+              company: "上市櫃全球線上娛樂與遊戲平台營運商 | 台中, 台灣",
+              period: "2022.09 – 2025.04",
+              desc: "主導全球雲端架構、資安治理、數位平台韌性、DevOps 效能與高可用性維運，支撐服務全球數百萬玩家之上市櫃線上平台。",
+              scope: [
+                "帶領約 30–35 位專業技術人員，涵蓋雲端維運、DevOps、SRE、資訊安全、基礎架構與應用系統支援。",
+                "負責每年約 1,200–1,400 萬美元之多雲基礎架構與資安預算。",
+                "全面支撐需 24/7 全天候高可用、巨量交易處理與跨區域高韌性之高並發大型面向客戶數位平台。"
+              ],
+              achievements: [
+                "設計並交付以 GKE 為核心之多可用區、多區域架構與跨區災備機制，確保 24/7 服務不中斷，創下關鍵服務 100% 零停機 (Zero Outage) 紀錄。",
+                "建立集中式可觀測性、APM、SIEM、雲端日誌聚合、即時監控與應變機制，透過即時事件關聯分析將 MTTR 縮短約 30%。",
+                "落實符合 ISO 27001 與 NIST CSF 之資安政策與控制措施，涵蓋 IAM、資產管理、安全開發、雲端維運、事件應變、供應商治理與稽核軌跡。",
+                "透過 IAM、SSO、MFA、最小權限與安全遠端存取導入零信任原則，強化分散式團隊、特權用戶與外部合作夥伴之防護力。",
+                "強化外部攻擊面防禦，導入 API 安全防護、WAF/WAAP、DDoS 緩解、防爬蟲機制、速率限制、API 鑑權與網路安全治理。",
+                "建立資安應變 Playbooks、應變演練、紅藍對抗推演、危機通訊程序與復原治理，大幅提升組織資安整備度並降低資安事件衝擊。",
+                "將 SAST、DAST、機敏密鑰管理、CI/CD 安全控制、IaC 治理、容器安全與軟體供應鏈安全無縫整合至工程研發與部署流程。",
+                "推動多雲 FinOps 雲端財務營運實踐，在業務流量劇增期間維持極致效能與穩定性的同時，達成約 30% 雲端成本優化。",
+                "憑藉兼具超高可用性、營運韌性與成本最佳化之 GKE 多雲架構，榮獲「雲端架構卓越獎 (Cloud Architecture Excellence Award)」。"
+              ],
+              leaving: "尋求具備更廣泛全集團治理權責、能與長期職涯目標更緊密契合的資深資安長領導職位。"
+            },
+            {
+              role: "資訊處長 / IT Director",
+              groupNote: "泓晏科技 (總部在深圳，並在新竹、杭州與成都設有據點)",
+              company: "電子製造與高科技技術服務集團 | 台灣 與 中國大陸",
+              period: "2018.03 – 2022.08",
+              desc: "統領企業 IT、資訊安全、數據治理、數位轉型及跨越台灣與中國大陸之多廠區多據點科技營運體系。",
+              scope: [
+                "管理約 30–40 位專業人員，橫跨 IT、資安、企業應用、基礎架構、維運與技術服務範疇。",
+                "管控每年約 500–700 萬美元之 IT 與資訊安全年度預算。",
+                "全面支援多廠區營運、研發中心、供應鏈、工程、財務、採購與外部合作夥伴環境。"
+              ],
+              achievements: [
+                "為企業與製造營運環境建立符合 ISO 27001 之資安治理、風險評估、資產盤點、身分與存取控制、網路微隔離、弱點管理與可稽核性。",
+                "為 ERP、PLM、供應鏈、工作流、數據分析與企業核心系統設計安全架構，提升高可用性、可追溯性、資料防護與業務連續性。",
+                "主導 ERP、MES、PLM、APS、HR 與 BI 分析平台之安全整合，實現跨業務流程之受控資料流、身分鑑別、傳輸加密、稽核日誌與管理能見度。",
+                "建置數據治理與商業智慧 (BI) 能力，有效支援庫存智慧管理、異常分析、營運決策與併購後數據資產整合。",
+                "建立兼顧資安防護與生產營運連續性之風險驅動漏洞修補、修補管理、事件處置、備份與業務連續性程序。",
+                "橫跨台灣與大陸協調 IT、工程、製造營運、採購、財務及外部服務供應商之資安與營運韌性專案。",
+                "於集團被中國大型製造業集團收購期間，主導組織 IT 整合與數據資產之盡職調查。"
+              ],
+              additionalContext: "深厚的 IT/OT 融合經驗，為複雜基礎架構、供應鏈整合、夥伴生態系與跨國製造運營提供堅實支撐。",
+              leaving: "隨公司順利併入大型製造集團後，為追求具備更廣闊戰略發展之資訊安全與科技高階領導機會而離任。"
+            },
+            {
+              role: "資訊部經理 / IT Manager",
+              groupNote: "凌網科技股份有限公司 (總部在新竹，並在台北、台中、高雄、泰國、北京設有據點 / 凌網科技、凌網知識) 上市櫃公司",
+              company: "上市櫃大型資訊服務集團 | 台灣、中國大陸 與 泰國",
+              period: "2014.05 – 2018.02",
+              desc: "負責亞太區 IT 維運、服務管理 (ITSM)、資料中心戰略、基礎架構治理與跨越台北、新竹、台中、北京與泰國之跨境技術支援。",
+              scope: [
+                "管理 34–45 位專業工程師，橫跨基礎架構、企業應用、Service Desk、技術支援與機房維運。",
+                "主導區域 IT 預算、資料中心營運、備份架構、災難復原計畫與服務管理流程優化。"
+              ],
+              achievements: [
+                "導入 ITSM 與跨區域服務管理機制，提升亞太各分公司之服務一致性、當責性、事件處置速度與營運透明度。",
+                "制定區域資料中心戰略、高可用架構、備份治理與災難復原方案，強力支撐關鍵業務服務。",
+                "引入 PMP 與敏捷交付實務，強化跨國專案治理、交付可預測性與利害關係人協作效能。",
+                "為跨國地理分散據點建立一致化之基礎架構標準、資安營運規範與技術服務體系。"
+              ]
+            },
+            {
+              role: "資訊部經理 / 數位轉型負責人",
+              groupNote: "光南集團 / 峰晨集團 – 艾居電腦 (總部在台中，並在台北、深圳、上海、張家港設有據點 / 光南集團) 上市櫃公司",
+              company: "零售通路、供應鏈物流與科技服務集團 | 台灣 與 中國大陸",
+              period: "2011.07 – 2014.04",
+              desc: "於零售與流通集團併購期間，主導企業核心系統整合、商業數據治理與數位轉型推動。",
+              scope: [
+                "管理 15–20 位專業 IT 技術團隊成員。",
+                "負責 ERP、POS、CRM、企業數據整合、業務連續性、應用系統治理與轉型預算。"
+              ],
+              achievements: [
+                "整併 ERP、POS、CRM 與數據分析中台，全面提升集團對門市銷售、庫存周轉、會員行為與營運績效之全局掌控力。",
+                "主導跨國併購期間之數據清洗、主數據治理 (MDM)、系統遷移與業務系統整合，確保業務不中斷。",
+                "建構整合式企業數據架構，全面賦能管理階層之即時報表分析與策略決策支援。"
+              ]
+            },
+            {
+              role: "資訊部經理 / IT Manager",
+              groupNote: "美商寶藍 (Borland Taiwan) 跨國外商公司",
+              company: "跨國軟體與生命週期管理外商集團 | 台灣 與 中國大陸",
+              period: "2008.03 – 2011.06",
+              desc: "為台灣與中國大陸研發及營運團隊建構跨國 IT 協作平台、高可用企業系統、基礎架構服務與數據保護機制。",
+              achievements: [
+                "為企業級應用程式與關鍵交易環境設計高可用資料庫、應用中台、備份與災難復原架構。",
+                "支援軟體生命週期管理 (ALM) 平台、工程協作系統與區域 IT 服務之全面部署與維運。",
+                "維持跨國運營環境中之高度系統穩定性、資料安全保護與跨境研發協作效能。"
+              ]
+            },
+            {
+              role: "資訊部經理 / IT Manager",
+              groupNote: "美商賽貝斯 (Sybase) 跨國外商公司",
+              company: "跨國頂級資料庫與企業軟體外商集團 | 亞太區",
+              period: "2002.08 – 2008.02",
+              desc: "主導亞太區資料中心整併、基礎架構標準化、高可用資料庫架構、區域 IT 維運，並為電信與金融級客戶提供關鍵任務技術支援。",
+              scope: [
+                "管理亞太區基礎架構團隊約 10–15 位資深工程師。",
+                "全面支援企業級大型資料庫、高可用叢集、容錯移轉、備份與資料中心營運。"
+              ],
+              achievements: [
+                "於亞太區據點建置統一 Active Directory 目錄服務、資料中心整併、高可用資料庫與自動容錯移轉策略。",
+                "為電信運營商與金融機構關鍵任務環境提供電信級 (Carrier-Grade) 資料庫調優、高可用性、災難復原與效能解決方案。",
+                "在跨國區域整併與全球大客戶專案執行期間，確保 100% 業務營運連續性與各項稽核法規遵循。"
+              ]
+            }
+          ]
+        },
+        cred: {
+          heading: "專業國際證照與學術學位",
+          certsTitle: "專業國際證照資格",
+          eduTitle: "正規學術學位",
+          certs: [
+            "ISO 27001 資訊安全管理系統 — 主任稽核員 / 內部稽核員 (Lead Auditor)",
+            "ISO/IEC 42001 人工智慧管理系統 (AIMS) — AI 治理主任稽核員認證",
+            "國際專案管理師認證 — PMP (Project Management Professional)",
+            "敏捷專案大師認證 — CSM (Certified ScrumMaster)",
+            "Oracle 官方認證專業專家 — OCP (Oracle Certified Professional)",
+            "Oracle 官方認證專員 — OCA (Oracle Certified Associate)",
+            "ESG 永續規劃師證照 (ESG Sustainability Planner)"
+          ],
+          edu: [
+            {
+              degree: "資訊科技管理 博士 (Ph.D. in IT Management)",
+              school: "朝陽科技大學 資訊科技管理研究所 (College of Informatics)",
+              period: "2009.09 – 2013.06",
+              desc: "研究領域：資訊安全治理、雲端安全、AI 治理、數據治理、軟體工程、DevSecOps 與企業數位轉型戰略。"
+            },
+            {
+              degree: "資訊科學 碩士 (Master of Science in Information Science)",
+              school: "國立中興大學 資訊科學與工程研究所",
+              period: "2004.09 – 2006.06",
+              desc: "專注領域：現代密碼學 (Modern Cryptography)、資料探勘、數據治理、軟體工程、系統分析與企業資訊系統架構。"
+            },
+            {
+              degree: "資訊科學與工程 學士 (Bachelor of Computer Science)",
+              school: "國立中興大學 資訊科學與工程學系",
+              period: "2000.09 – 2004.06",
+              desc: "專注領域：軟體開發生命週期 (SDLC)、軟體工程、系統分析、企業架構與應用程式開發。"
+            }
+          ]
+        },
+        speak: {
+          heading: "獲獎榮譽、大會演講、國際期刊論文與媒體報導",
+          subtitle: "100% 雙重查證之公開官方來源與學術典藏",
+          all: "全部紀錄",
+          keynotes: "大會演講與課程",
+          papers: "期刊論文與 DOI",
+          media: "主流媒體專訪",
+          csr: "獲獎與社會公益",
+          items: [
+            {
+              type: "keynote",
+              title: "MongoDB.local Taipei Keynote 大會主講",
+              topic: "運用 MongoDB Atlas 建構全球規模遊戲資料管理平台",
+              orgDate: "MongoDB 原廠大會 (Taipei) | 2024.09",
+              desc: "擔任 Keynote 主講人，公開發表全球跨區高可用資料架構，闡述如何藉由 MongoDB Atlas 全託管雲端資料庫兼具高擴展與 99.995% 高可用性，支撐全球百萬玩家跨區即時對弈與高併發讀寫需求。",
+              url: "https://www.ithome.com.tw/pr/163534",
+              image: "assets/2024_MongoDB02.jpg"
+            },
+            {
+              type: "keynote",
+              title: "CIO Taiwan 價值學院第十七屆大會 Keynote 演講",
+              topic: "《洞見機遇-雲端管理與實務》多雲戰略與 FinOps 降本心法",
+              orgDate: "CIO Taiwan 價值學院 (Taipei) | 2024.05",
+              desc: "受邀擔任 Keynote 主講人，向與會上市櫃企業 CIO 與 CISO 分享多雲資源治理、安全合規與 FinOps 實務落地心法，探討雲端現代化治理與架構韌性。",
+              url: "https://www.cio.com.tw/events/value-index-2/",
+              image: "assets/問題比答案重要.png"
+            },
+            {
+              type: "keynote",
+              title: "行政院人事行政總處 e等公務園+學習平臺 大師講座",
+              topic: "《洞見機遇-雲端管理與實務》國家數位公務員專屬課程",
+              orgDate: "行政院人事行政總處 e等公務園數位學習平台 | 2024.06",
+              desc: "受邀為行政院公務同仁錄製《洞見機遇-雲端管理與實務》大師講座數位課程，推廣公部門雲端轉型、資安韌性與現代化資訊治理思維，列入國家公務員數位學習專屬教材。",
+              url: "https://elearn.hrd.gov.tw/info/10042804",
+              image: "assets/e等公務園__洞見機遇-雲端管理與實務01.png"
+            },
+            {
+              type: "media",
+              title: "Google Cloud 官方全球客戶成功案例影音專訪",
+              topic: "隆中網絡運用 GKE 與多雲架構顛覆全球玩家遊戲體驗",
+              orgDate: "Google Cloud APAC 官方專訪 (YouTube) | 2024.03",
+              desc: "接受 Google Cloud 官方採訪，深入解析如何運用 GKE 多雲架構與自動擴縮容技術，支撐全球百萬級高併發手遊連線營運，創下 100% Zero Outage 零停機紀錄。",
+              url: "https://youtu.be/_kTZSZ_0lNE?si=CT2lo8c4IF0zI1Ki",
+              image: null
+            },
+            {
+              type: "paper",
+              title: "Springer SCI 國際頂級期刊論文發表",
+              topic: "Reversible secret-image sharing with high visual quality",
+              orgDate: "Multimedia Tools and Applications (Springer Nature, Vol. 74) | 2014.06",
+              desc: "共同作者：Ching-Chiuan Lin, Lun-Hao Liao (廖倫豪), Kuo-Feng Hwang, Shih-Chieh Chen。提出基於高視覺品質陰影圖像之可逆秘密影像共享技術，在密碼學與資安影像傳輸領域具高度學術影響力。",
+              url: "https://link.springer.com/article/10.1007/s11042-012-1190-1",
+              image: null
+            },
+            {
+              type: "paper",
+              title: "國際學術期刊論文發表",
+              topic: "Utilizing GIS and GPS in Designing a Trilingual Tourist APP",
+              orgDate: "Applied Science and Management Research (Vol. 2) | 2015.05",
+              desc: "探討結合地理資訊系統 (GIS) 與全球定位系統 (GPS) 開發三語觀光導覽系統之行動應用架構設計與實作。",
+              url: null,
+              image: null
+            },
+            {
+              type: "paper",
+              title: "國家圖書館博碩士學位論文法定典藏與指導學者",
+              topic: "整合系統的商業自助式入口網站植基於調適性服務導向架構資訊科技治理之研究",
+              orgDate: "國家圖書館臺灣博碩士論文知識加值系統 (典藏代碼: 106IKTC0183002) | 2014.10",
+              desc: "博士論文研究：結合 ITIL V3 與 SOA 服務導向架構建立企業級自助式入口網站 IT 治理模型，並於國家圖書館永久法定典藏，擔任學術研究指導學者典藏代碼 106IKTC0183002。",
+              url: "https://ndltd.ncl.edu.tw/",
+              image: null
+            },
+            {
+              type: "media",
+              title: "CIO Taiwan 官方專訪封面報導",
+              topic: "【專訪】隆中網絡 GameSparcs IT Director Howard Liao | 善用公有雲服務 搶攻全球遊戲商機",
+              orgDate: "CIO Taiwan 雜誌 (採訪／施鑫澤‧文／林裕洋‧刊期／2024.05) | 2024.05",
+              desc: "CIO Taiwan 總編輯專題專訪，實名刊登 Howard Liao, PhD 廖博士之多雲架構佈局，深入剖析採用多雲網路 (MCN) 與 Kubernetes 原生架構橫跨公有雲與邊緣運算，強化全球發行競爭力與 FinOps 降本 30%。",
+              url: "https://www.cio.com.tw/interview-howard-liao-online-gamesparcs-it-director/",
+              image: "assets/2024_CIO報導.png"
+            },
+            {
+              type: "media",
+              title: "iThome 電腦報專題企劃實名報導",
+              topic: "【iThome 專題企劃】隆中網絡運用 MongoDB Atlas 建構遊戲資料管理平台，打造全方位休閒娛樂平台",
+              orgDate: "iThome 電腦報官方專題企劃 | 2024.09",
+              desc: "技術專題企劃實名專訪廖倫豪博士，闡述以 MongoDB Atlas 建置多區域即時數據中台，兼具 99.995% 高可用性與高擴展性，成功支撐全球跨區高併發讀寫需求。",
+              url: "https://www.ithome.com.tw/pr/163534",
+              image: "assets/IThome_MangoDB.png"
+            },
+            {
+              type: "media",
+              title: "DIGITIMES 科技網深度報導",
+              topic: "MongoDB 8.0 問世，助企業接軌生成式 AI (隆中網絡等企業案例)",
+              orgDate: "DIGITIMES 科技網 | 2024.09",
+              desc: "DIGITIMES 深度報導 MongoDB 8.0 發表會，實名收錄隆中網絡技術團隊架構分享與 AI 數據治理之成功應用案例。",
+              url: "https://www.digitimes.com.tw/tech/dt/n/shwnws.asp?id=0000704377_KI14VVDK6CQ8TB8OXC3GJ",
+              image: null
+            },
+            {
+              type: "csr",
+              title: "雲端架構卓越獎 (Cloud Architecture Excellence Award)",
+              topic: "表彰 GKE 多雲架構、高可用性、營運韌性與 FinOps 卓越成效",
+              orgDate: "業界技術卓越獎項 | 2024",
+              desc: "因打造支撐全球百萬玩家、實現 100% 零停機 (Zero Outage) 紀錄並達成 30% 雲端成本最佳化之 GKE 多雲架構而獲獎。",
+              url: null,
+              image: null
+            },
+            {
+              type: "csr",
+              title: "財團法人康善基金會 (Cancer NoNo Foundation) 董事 兼 資訊長",
+              topic: "推動兒童健康飲食教育、便當童話劇與醫療資訊安全數位公益",
+              orgDate: "財團法人康善基金會 (CSR 永續公益) | 2022 – 至今",
+              desc: "擔任基金會董事兼資訊長，推動兒童健康飲食教育、便當童話劇、數位公益與醫療資訊安全系統整合，落實企業社會責任 (CSR) 與數位治理。",
+              url: "https://www.cancer-nono.org.tw/web/about/page.php?lang=zh_tw&scid=7&sid=5",
+              image: null
+            }
+          ]
+        },
+        letter: {
+          title: "C-Level 董事會高階自薦信 (Executive Cover Letter)",
+          subtitle: "致 董事會、執行長 (CEO) 與全球資訊長 (Global CIO)",
+          content: `尊敬的 董事會、遴選委員會 與 經營決策層主管：
+
+您好！我是 廖倫豪 博士 (Howard Liao, Ph.D.)。
+
+作為一位具備 27 年以上企業資訊科技領導力、15 年以上資訊安全實務底蘊，並在上市櫃公司與跨國集團中深耕超過 10 年資安戰略與技術副總歷練之高階主管，我兼具董事會戰略治理高度與第一線架構實戰深度。
+
+在過往的職涯歷程中，我致力於將資訊安全從「成本中心」轉化為「企業全球擴張與客戶信任的核心引擎」。在跨國娛樂平台與製造集團期間，我主導以 Kubernetes (GKE) 為核心的多雲高可用架構，創下 100% 零停機 (Zero Outage) 紀錄；建構基於 ISO 27001 與 NIST CSF 之集團防禦體系，降低重大資安事件 30%；並推動多雲 FinOps 達成 30% 的年度 TCO 壓降。同時，我持有 ISO 27001 以及最新的 ISO/IEC 42001 (AI 管理系統) 主任稽核員資格，能為企業在生成式 AI 導入、資料保護與零信任轉型上建立前瞻且合規的治理護城河。
+
+我秉持務實、以風險為本的治理哲學，擅長將資安態勢轉化為清晰的 ROI/TCO、RTO/RPO 與營運韌性指標。我期待能將這份兼具全球視野、戰略決策與落地執行的領導力，貢獻於 貴集團的長遠發展。
+
+謹致
+廖倫豪 博士 (Howard Liao, Ph.D.)
+集團資安長 暨 科技副總 (Group CISO)
+聯絡電話：+886-975-323161 | 電子郵件：Liao.Howard@gmail.com`
+        }
+      },
+
+      ja: {
+        nav: {
+          profile: "プロフィール",
+          competencies: "専門能力",
+          experience: "職務経歴",
+          credentials: "資格・学歴",
+          speaking: "登壇・論文"
+        },
+        btn: {
+          coverLetter: "カバーレター",
+          downloadResume: "履歴書 (.docx) ダウンロード"
+        },
+        hero: {
+          status: "エグゼクティブ採用対応可能",
+          badge1: "ISO 27001 & 42001 リード審査員",
+          badge2: "情報技術管理 博士 (Ph.D.)",
+          badge3: "PMP & CSM 国際認定資格",
+          roleTag: "取締役会レベル IT・セキュリティ戦略リーダー",
+          title: "グループ最高情報セキュリティ責任者 (Group CISO)",
+          subtitle: "グローバルサイバーセキュリティ・デジタルトラスト・レジリエンス統括",
+          leadText: "27年以上のエンタープライズITリーダーシップ、15年以上のサイバーセキュリティ経験、上場企業および多国籍企業における10年以上のCISO・IT副社長経験を有し、ボードレベルの戦略立案とクラウドネイティブ技術の実践を兼ね備えたエグゼクティブ。",
+          btnExperience: "職務経歴を見る",
+          btnLetter: "カバーレターを表示"
+        },
+        kpi: {
+          heading: "主要リーダーシップ & レジリエンス指標",
+          subtitle: "定量化された事業貢献と運用実績",
+          kpi1Title: "稼働率 100%", kpi1Sub: "GKEマルチクラウドHA",
+          kpi2Title: "FinOps 最適化", kpi2Sub: "クラウドTCO 30%削減",
+          kpi3Title: "インシデント低減", kpi3Sub: "重大事故 30%削減",
+          kpi4Title: "MTTR 30%短縮", kpi4Sub: "オブザーバビリティ導入",
+          kpi5Title: "管理予算規模", kpi5Sub: "年間1,400万ドル規模",
+          kpi6Title: "IT統括経験", kpi6Sub: "27年+ (セキュリティ15年+)"
+        },
+        profile: {
+          heading: "エグゼクティブサマリー & 6大リーダーシップ価値提案",
+          paragraphs: [
+            "27年以上の企業ITリーダーシップ、15年以上のサイバーセキュリティ実務、そして上場企業・多国籍企業・規制対象業界において10年以上にわたりセキュリティ戦略、クラウドガバナンス、デジタルレジリエンス、DXを主導してきたCISOレベルのエグゼクティブ。",
+            "取締役会レベルのセキュリティガバナンス力と、ゼロトラスト、IAM、マルチクラウドセキュリティ、SOC/SIEM/EDR、インシデント対応、DevSecOps、データ保護、サードパーティリスク管理、AIガバナンス(ISO 42001)における高度な技術力を兼備。",
+            "基幹業務システム、機密情報、知的財産、ERP/SaaSプラットフォーム、越境データフローの保護に精通。リスクベースのアプローチにより、セキュリティ成熟度、事業継続性、監査即応性、デジタルトラストを継続的に向上。",
+            "セキュリティリスクや技術課題を、取締役会が重視する事業利益、財務成果、コンプライアンス指標へと翻訳する卓越した実績。重要資産を保護しながらグローバル事業拡大を強力に後押しするスケーラブルな運用モデルを構築。",
+            "IT/OT融合および多拠点製造環境での豊富な経験により、複雑なインフラ統合、サプライチェーンセキュリティ、パートナー連携においても確固たる実績を有す。"
+          ]
+        },
+        value: {
+          subheading: "取締役会と企業グループに提供する中核的価値",
+          pillars: [
+            { title: "CISO & 取締役会統括", desc: "リスクマトリクス、RTO/RPO、SLA、ROI/TCO、成熟度ロードマップを用いて、セキュリティ態勢とリスクを明確な事業価値へ変換。" },
+            { title: "グループ統合ガバナンス", desc: "本社、海外拠点、マルチクラウド、SaaS、マネージドサービス事業者、パートナー企業を網羅するグループ標準セキュリティ運用モデルを確立。" },
+            { title: "デジタルトラスト & 復原力", desc: "アイデンティティ統制、監査証跡保護、暗号化、イミュータブルバックアップ、インシデント対応体制により重要データと知財を全方位で防御。" },
+            { title: "クラウドネイティブ技術深度", desc: "AWS、Azure、GCP、Kubernetes/GKE、Zero Trust、APIセキュリティ、WAF/WAAP、SIEM、EDR、IaC自動化の戦略と実践を高度に融合。" },
+            { title: "AIガバナンス (ISO 42001)", desc: "ISO/IEC 42001規格に準拠し、GenAIの責任ある活用を推進しながら、Shadow AI、データ流出、IPリスク、第三者モデルリスクを徹底統制。" },
+            { title: "事業成長イネーブラー", desc: "事業、財務、法務、人事、開発、運用部門と密接に連携し、セキュリティを企業成長、DX、顧客信頼の基盤として組み込む。" }
+          ]
+        },
+        comp: {
+          heading: "8大コアコンピテンシー & 技術統治体系",
+          subtitle: "戦略、ゼロトラスト、クラウド、DevSecOps、AIガバナンスを網羅",
+          domains: [
+            {
+              title: "セキュリティ戦略・ガバナンス・リスク管理",
+              bullets: [
+                "グループセキュリティ戦略、運用モデル、ポリシー策定、リスク選好度、成熟度評価、KPI/KRI設計、取締役会報告、中長期ロードマップ。",
+                "ISO 27001/27002、NIST CSF、Zero Trust、ベンダーリスク評価、デューデリジェンス、監査即応性、コントロールアセスメント。",
+                "リスク低減、ROI/TCO、RTO/RPO、SLA、事業継続性を通じたセキュリティ投資ガバナンス。",
+                "取締役会報告、外部監査対応、主要顧客セキュリティレビュー、危機管理統治。"
+              ]
+            },
+            {
+              title: "デジタルトラスト・データ統治・監査証跡",
+              bullets: [
+                "重要業務システム、機密記録、個人情報、知的財産、ワークフロー、データ基盤のセキュリティガバナンス。",
+                "資産棚卸し、重要度分類、リスク評価、セキュリティベースライン、監査証跡管理、SOP策定。",
+                "最小権限、職務分掌(SoD)、アクセス定期棚卸し、ログ保護、暗号化、バックアップ・復元、変更管理統制。",
+                "データの分類、アクセス、保管、アーカイブ、廃棄、完全性、追跡可能性を網羅するライフサイクル管理。",
+                "ERP、CRM、HRIS、財務システム、文書管理、SaaS連携におけるセキュリティアーキテクチャとベンダー保証。"
+              ]
+            },
+            {
+              title: "アイデンティティ・ゼロトラスト・データ保護",
+              bullets: [
+                "企業IAM、SSO、MFA、条件付きアクセス、特権アクセス管理(PAM)、最小権限、JMLライフサイクル、サードパーティID管理。",
+                "データ分類、DLP、暗号化・鍵管理、エンドポイント保護、CASB/SSE、越境データガバナンス。",
+                "知的財産、機密R&D情報、顧客・パートナーデータ、財務記録、内部コア資産の完全保護。"
+              ]
+            },
+            {
+              title: "マルチクラウド・SaaS・エンタープライズアプリ",
+              bullets: [
+                "AWS/Azure/GCPセキュリティ統治、ランディングゾーン、集中ログ、CSPM/CNAPP、ネットワーク分離、WAF/WAAP、API保護、DR。",
+                "ERP/SAP、CRM、HRIS、財務アプリ、データ基盤、SaaSサービスのセキュア統制。",
+                "クラウド/SaaSデューデリジェンス、責任共有モデル、アーキテクチャレビュー、継続的アシュアランス、BCP。",
+                "重要サービスのマルチゾーン・マルチリージョン高可用性設計および越境ディザスタリカバリ。"
+              ]
+            },
+            {
+              title: "セキュリティ運用・レジリエンス・インシデント対応",
+              bullets: [
+                "SOC/MDR運用、SIEM、EDR/XDR、集中ログ、検知エンジニアリング、脅威インテリジェンス、脆弱性管理、事故対応体制。",
+                "ランサムウェア対策、イミュータブルバックアップ、ディザスタリカバリ、危機対応、机上演習、復旧統制。",
+                "ELK Stack、Graylog、Prometheus、LibreNMS、クラウドネイティブ監視によるエンドツーエンドの可観測性。",
+                "MTTR、検知カバー率、事故重大度、対応実効性、復旧能力などの定量的メトリクス管理。"
+              ]
+            },
+            {
+              title: "DevSecOps・アプリケーション・サプライチェーン",
+              bullets: [
+                "セキュアSDLC、脅威モデリング、SAST/DAST/SCA、シークレット管理、APIセキュリティ、CI/CD統制、IaC/Terraform、K8s/GKE、SBOM。",
+                "ソフトウェアサプライチェーンセキュリティ、オープンソース管理、セキュアコードレビュー、脆弱性修復。",
+                "社内開発チーム、外部委託先、SIer、API統合、データパイプラインの包括的セキュリティ統制。"
+              ]
+            },
+            {
+              title: "AIガバナンス & セキュアイノベーション",
+              bullets: [
+                "ISO/IEC 42001準拠AIガバナンス、責任あるAI方針、承認ユースケース管理、モデル・ベンダーリスク評価、ライフサイクル管理。",
+                "GenAIデータ漏洩防止(DLP)、Shadow AI抑止、セキュアRAGナレッジ統治、アクセス制御、プロンプト保護、Human-in-the-Loop。",
+                "AI活用によるリスクスコアリング、異常検知、脅威相関分析、セキュリティアナリティクス。"
+              ]
+            },
+            {
+              title: "リーダーシップ & ステークホルダーマネジメント",
+              bullets: [
+                "台湾、中国、アジア太平洋、欧州、グローバルマネージドパートナーにまたがる多国籍チーム統括実績。",
+                "セキュリティ、IT運用、クラウド、インフラ、SRE、DevOps、アプリ開発、外部パートナーの組織マネジメント。",
+                "年間数百万〜1,400万ドル規模のグローバルIT・セキュリティ予算管理。",
+                "中英バイリンガルによる取締役会報告、外部監査対応、主要顧客監査対応、危機管理リーダーシップ。"
+              ]
+            }
+          ]
+        },
+        exp: {
+          heading: "職務経歴 & 主要実績マイルストーン",
+          subtitle: "2002年 – 現在 (27年以上のIT・セキュリティ指導実績)",
+          items: [
+            {
+              role: "副社長 兼 グループセキュリティ・DX統括 (Vice President)",
+              groupNote: "(高雄・上海・台北 / 盛欣・盛碁ネットワーク / 中国Poker City / 台北Finger International) 上場関連グループ",
+              company: "多国籍インターネット・デジタルプラットフォームグループ | 台湾・海外拠点",
+              period: "2025年5月 – 現在",
+              desc: "CISOレベルの役割として、複数事業部門および海外拠点におけるグループ全体のサイバーセキュリティ戦略、マルチクラウド統治、レジリエンス、AIガバナンスを統括。",
+              scope: [
+                "複数事業部門および国内外拠点にまたがるグループ全体のIT・セキュリティガバナンス。",
+                "セキュリティ、インフラ、アプリケーション、運用、外部パートナーからなる約35〜40名の専門組織を統括。",
+                "年間約1,000万〜1,200万米ドルのIT・セキュリティ予算の統括管理。"
+              ],
+              achievements: [
+                "ISO 27001およびNIST CSFに基づくグループ共通のセキュリティ統治体制を確立し、取締役会レベルの監視へ格上げ。",
+                "資産重要度、脅威情報、脆弱性、統制成熟度、サードパーティリスクを網羅する企業リスク管理システムと定量マトリクスを構築。",
+                "年度予算、OGSM目標、事業優先度、定量的リスク低減効果と連動した複数年セキュリティロードマップを策定。",
+                "基幹アプリ、データ基盤、パートナー連携を対象に、ゼロトラスト原則に準拠したID・エンドポイント・クラウドアクセスアーキテクチャを設計。",
+                "集中SOC/SIEM、EDR、ログ統合、監視・対応SOPを導入し、重大セキュリティインシデントを約30%削減、検知・初動時間を大幅短縮。",
+                "マルチクラウド可観測性および設定遵守ダッシュボードを構築し、経営陣の可視性、監査対応、顧客DD対応を効率化。",
+                "ISO/IEC 42001に基づくAIガバナンスを導入し、利用規程、リスク評価、データ保護、モデル管理、外部AIサービス統制を確立。",
+                "ROI/TCO、RTO/RPO、SLA、リスク低減効果の精緻な分析により、ゼロトラスト、SIEM、DR、クラウドセキュリティへの役員投資承認を獲得。",
+                "IT、財務、法務、人事、開発、事業部門、外部パートナー間の緊密な連携を推進し、全社DXプロジェクトを完遂。"
+              ],
+              leaving: "長期的なキャリア形成、家族との生活設計、およびグループ全体を見据えた最高セキュリティ責任者(CISO)職への就任を見据え、台湾北部拠点のポジションを希望。"
+            },
+            {
+              role: "IT Director (情報技術統括部長)",
+              groupNote: "Longzhong Network Co., Ltd. / GameSparcs (台中本社、台北・ロサンゼルス・シドニー・マルタ・杭州・成都拠点 / XSGames, Longzhong, Wanguo, Haiyu, VIVIDGAMING, Galaxy, Haotian, Jingqi) 台湾上場企業",
+              company: "グローバルオンラインゲーム・エンターテインメントプラットフォーム上場企業 | 台中, 台湾",
+              period: "2022年9月 – 2025年4月",
+              desc: "世界数百万のユーザーを支える上場プラットフォームにおいて、グローバルクラウドアーキテクチャ、セキュリティ統治、プラットフォーム復原力、DevOps生産性、高可用性運用を主導。",
+              scope: [
+                "クラウド運用、DevOps、SRE、セキュリティ、インフラ、アプリサポートからなる約30〜35名のエンジニア組織を統括。",
+                "年間約1,200万〜1,400万米ドルのマルチクラウドインフラおよびセキュリティ予算を管理。",
+                "24時間365日無停止、大規模トランザクション処理、高耐久性が求められる高負荷プラットフォームを支援。"
+              ],
+              achievements: [
+                "GKEを中心とするマルチゾーン・マルチリージョン構成と越境DRを構築し、24/7稼働と基幹サービス障害ゼロ(100% Zero Outage)を達成。",
+                "集中可観測性、APM、SIEM、ログ分析基盤を導入し、リアルタイムイベント相関分析によりMTTRを約30%短縮。",
+                "ISO 27001およびNIST CSFに準拠したIAM、資産管理、セキュア開発、クラウド運用、インシデント対応ポリシーを全面適用。",
+                "IAM、SSO、MFA、最小権限、セキュアリモートアクセスによるゼロトラスト原則を導入し、分散拠点と特権ユーザーの防御を強化。",
+                "APIセキュリティ、WAF/WAAP、DDoS防御、アンチボット、レート制限、認可制御により外部アタックサーフェスを強固に防御。",
+                "インシデント対応プレイブック、机上演習、Red/Blue演習、危機管理手順を確立し、組織の対応力強化と被害極小化を実現。",
+                "SAST/DAST、シークレット管理、CI/CDセキュリティ、IaC統治、コンテナセキュリティ、SBOMを開発・デプロイ工程へ統合。",
+                "マルチクラウドFinOpsを推進し、トラフィック急増時にも高パフォーマンスを維持しつつ、クラウドコストの約30%最適化を達成。",
+                "可用性・復原力・コスト最適化を高度に融合したGKEマルチクラウド基盤が高く評価され、「クラウドアーキテクチャ卓越賞」を受賞。"
+              ],
+              leaving: "グループ全体へのより広範なガバナンス責任を担うシニアセキュリティリーダーシップポジションへの挑戦のため。"
+            },
+            {
+              role: "IT Director (情報システム責任者)",
+              groupNote: "Hongen Technology (深セン本社、新竹・杭州・成都拠点 / 泓晏科技)",
+              company: "電子機器製造 & ハイテクサービス企業 | 台湾・中国",
+              period: "2018年3月 – 2022年8月",
+              desc: "台湾および中国本土の複数拠点にまたがる企業IT、セキュリティ、データガバナンス、DX、工場インフラ運用を統括。",
+              scope: [
+                "IT、セキュリティ、アプリ、インフラ、製造ITからなる約30〜40名の専門組織を統括。",
+                "年間約500万〜700万米ドルのIT・セキュリティ予算を執行。",
+                "多拠点製造、R&D、サプライチェーン、生産管理、財務、調達環境を全面支援。"
+              ],
+              achievements: [
+                "オフィスおよび製造現場を対象にISO 27001準拠のセキュリティガバナンス、リスク評価、資産管理、IAM、ネットワーク分離、監査性を確立。",
+                "ERP、PLM、SCM、ワークフロー、分析基盤のセキュアアーキテクチャを設計し、可用性、追跡可能性、事業継続性を強化。",
+                "ERP、MES、PLM、APS、HR基盤のセキュア統合を主導し、認証・暗号化・監査ログを伴う安全なデータ連携を実現。",
+                "データガバナンスとBI基盤を構築し、在庫最適化、異常検知、経営意思決定、M&A後のデータ統合を支援。",
+                "セキュリティ強化と工場連続稼働を両立するリスクベースのパッチ管理、インシデント対応、BCP手順を策定。",
+                "台湾・中国拠点のIT、製造、調達、財務部門および外部パートナー間のセキュリティプロジェクトを統括。",
+                "中国大手製造グループによる買収時において、IT組織統合とデータ資産デューデリジェンスを主導。"
+              ],
+              additionalContext: "豊富なIT/OT融合経験により、複雑な産業インフラ、サプライチェーン、パートナー統合にも即応可能。",
+              leaving: "大手製造グループへの統合完了後、更なる広範なセキュリティおよびテクノロジーリーダーシップ機会を追求するため。"
+            },
+            {
+              role: "IT Manager (IT部門マネージャー)",
+              groupNote: "HyWeb Technology Co., Ltd. (新竹本社、台北・台中・高雄・タイ・北京拠点 / 凌網科技) 台湾上場企業",
+              company: "上場大手ITサービス企業 | 台湾・中国・タイ",
+              period: "2014年5月 – 2018年2月",
+              desc: "台北、新竹、台中、北京、タイ拠点における地域IT運用、ITSMサービス管理、データセンター戦略、クロスボーダー技術支援を統括。",
+              scope: [
+                "インフラ、基幹アプリ、サービスデスク、運用保守からなる約34〜45名の技術組織をマネジメント。",
+                "地域IT予算、データセンター運用、バックアップ構成、ディザスタリカバリ計画を主導。"
+              ],
+              achievements: [
+                "ITSMおよび地域共通サービス管理を導入し、アジア太平洋各拠点のサービス品質、透明性、インシデント対応力を向上。",
+                "地域データセンター戦略、高可用性構成、バックアップ統治、DR計画を策定し基幹サービスを安定稼働。",
+                "PMPおよびアジャイル手法を導入し、国境を越えたプロジェクト推進力と納期予見性を強化。",
+                "分散拠点におけるインフラ標準化、セキュリティ運用規範、ITサービス体制を確立。"
+              ]
+            },
+            {
+              role: "IT Manager / DX推進責任者",
+              groupNote: "Kuang Nan Group / Fengchen Group – Aiju Computer (台中本社、台北・深セン・上海・張家港拠点 / 光南集團) 上場企業",
+              company: "小売・流通・サプライチェーン & ITサービスグループ | 台湾・中国",
+              period: "2011年7月 – 2014年4月",
+              desc: "M&A局面における基幹システム統合、ビジネスデータガバナンス、全社デジタル変革を主導。",
+              scope: [
+                "15〜20名のITエンジニア組織をマネジメント。",
+                "ERP、POS、CRM、データ統合、事業継続性、アプリケーション統治予算を担当。"
+              ],
+              achievements: [
+                "ERP、POS、CRM、分析基盤を統合し、全店舗の売上、在庫回転、顧客動態のリアルタイム可視化を実現。",
+                "越境M&Aに伴うデータクレンジング、マスターデータ管理(MDM)、システム移行を指揮し業務継続を担保。",
+                "統合データ基盤により、経営陣の意思決定を支援するリアルタイムダッシュボードを構築。"
+              ]
+            },
+            {
+              role: "IT Manager",
+              groupNote: "Borland Taiwan (米商ポーランド)",
+              company: "世界的ソフトウェア & アプリケーション開発ベンダー | 台湾・中国",
+              period: "2008年3月 – 2011年6月",
+              desc: "台湾・中国のR&Dおよび事業組織向けに、越境IT協調基盤、高可用性基幹システム、データ保護環境を構築。",
+              achievements: [
+                "ミッションクリティカルなトランザクション環境向けに高可用性DB、アプリ基盤、バックアップ・DR構成を設計。",
+                "ソフトウェアライフサイクル管理(ALM)ツールおよび開発コラボレーション基盤の全社展開を完遂。",
+                "多国籍開発環境において最高水準のシステム安定性と越境データ保護を維持。"
+              ]
+            },
+            {
+              role: "IT Manager",
+              groupNote: "Sybase (米商サイベース)",
+              company: "世界的データベース & エンタープライズソフトウェアベンダー | アジア太平洋",
+              period: "2002年8月 – 2008年2月",
+              desc: "アジア太平洋地域のデータセンター統合、インフラ標準化、高可用性DB運用、通信・金融顧客向けミッションクリティカル支援を統括。",
+              scope: [
+                "アジア太平洋地域のインフラチーム約10〜15名のエンジニアを統括。",
+                "大規模データベース、クラスタリング、フェイルオーバー、データセンター運用を支援。"
+              ],
+              achievements: [
+                "APAC全域で統一Active Directoryの構築、データセンター統合、高可用性DBフェイルオーバー戦略を実行。",
+                "通信事業者および金融機関向けにキャリアグレードのDBチューニング、高可用性、リカバリソリューションを提供。",
+                "グローバル組織統合および顧客プロジェクトにおいて、100%の業務継続と監査コンプライアンスを達成。"
+              ]
+            }
+          ]
+        },
+        cred: {
+          heading: "国際認定資格 & 学術学位",
+          certsTitle: "保有プロフェッショナル資格",
+          eduTitle: "学術学位・専攻",
+          certs: [
+            "ISO 27001 情報セキュリティマネジメントシステム — リード審査員 / 内部監査員 (Lead Auditor)",
+            "ISO/IEC 42001 人工知能マネジメントシステム (AIMS) — AIガバナンスリード審査員",
+            "Project Management Professional — PMP 認定国際プロジェクトマネージャー",
+            "Certified ScrumMaster — CSM 認定スクラムマスター",
+            "Oracle Certified Professional — OCP 認定プロフェッショナル",
+            "Oracle Certified Associate — OCA 認定アソシエイト",
+            "ESG サステナビリティプランナー (ESG Sustainability Planner)"
+          ],
+          edu: [
+            {
+              degree: "情報技術管理 博士 (Ph.D. in IT Management)",
+              school: "朝陽科技大学 情報技術管理研究所 (College of Informatics)",
+              period: "2009年9月 – 2013年6月",
+              desc: "研究分野：サイバーセキュリティ統治、クラウドセキュリティ、AIガバナンス、データガバナンス、ソフトウェア工学、DevSecOps、DX戦略。"
+            },
+            {
+              degree: "情報科学 修士 (Master of Science in Information Science)",
+              school: "国立中興大学 情報科学工学研究所",
+              period: "2004年9月 – 2006年6月",
+              desc: "研究分野：現代暗号学 (Modern Cryptography)、データマイニング、データ統治、ソフトウェア工学、システム分析、企業システム設計。"
+            },
+            {
+              degree: "情報科学工学 学士 (Bachelor of Computer Science)",
+              school: "国立中興大学 情報科学工学科",
+              period: "2000年9月 – 2004年6月",
+              desc: "専攻分野：ソフトウェア開発ライフサイクル(SDLC)、ソフトウェア工学、システム分析、エンタープライズアーキテクチャ。"
+            }
+          ]
+        },
+        speak: {
+          heading: "受賞歴・基調講演・国際論文・メディア掲載",
+          subtitle: "公開された公式情報源および学術アーカイブによる100%実名検証済み記録",
+          all: "すべての記録",
+          keynotes: "基調講演・講義",
+          papers: "学術論文 & DOI",
+          media: "メディア取材・報道",
+          csr: "受賞 & 社会貢献",
+          items: [
+            {
+              type: "keynote",
+              title: "MongoDB.local Taipei 基調講演スピーカー",
+              topic: "MongoDB Atlasを活用したグローバル規模ゲームデータ基盤の構築",
+              orgDate: "MongoDB Inc. 主催カンファレンス | 2024年9月",
+              desc: "Keynoteスピーカーとして登壇。MongoDB AtlasフルマネージドDBの高拡張性と99.995%可用性を活かし、世界百万人規模のリアルタイム対戦を支える高並行アーキテクチャを発表。",
+              url: "https://www.ithome.com.tw/pr/163534",
+              image: "assets/2024_MongoDB02.jpg"
+            },
+            {
+              type: "keynote",
+              title: "CIO Taiwan Value Academy 第17回大会 基調講演",
+              topic: "《好機を捉える：クラウド管理と実務》マルチクラウドとFinOps",
+              orgDate: "CIO Taiwan Value Academy | 2024年5月",
+              desc: "上場企業CIO/CISOを対象に、マルチクラウド資源統治、セキュリティコンプライアンス、FinOpsコスト最適化、レジリエンス戦略を講演。",
+              url: "https://www.cio.com.tw/events/value-index-2/",
+              image: "assets/問題比答案重要.png"
+            },
+            {
+              type: "keynote",
+              title: "行政院人事行政総処 e等公務園 マスター講座",
+              topic: "《好機を捉える：クラウド管理と実務》国家公務員向けデジタル講義",
+              orgDate: "行政院人事行政総処 デジタル学習基盤 | 2024年6月",
+              desc: "公務員向けマスター講座講師として、公共部門のクラウドトランスフォーメーション、ゼロトラスト、現代的ITガバナンス講義を担当。",
+              url: "https://elearn.hrd.gov.tw/info/10042804",
+              image: "assets/e等公務園__洞見機遇-雲端管理與實務01.png"
+            },
+            {
+              type: "media",
+              title: "Google Cloud 公式グローバル導入事例 (ビデオ取材)",
+              topic: "GameSparcs：GKEとマルチクラウドで世界のプレイヤー体験を革新",
+              orgDate: "Google Cloud APAC 公式ビデオ取材 | 2024年3月",
+              desc: "Google Cloud公式取材において、GKE自動スケーリングと高可用構成により、ピーク時にも障害ゼロ(100% Zero Outage)を達成したアーキテクチャを解説。",
+              url: "https://youtu.be/_kTZSZ_0lNE?si=CT2lo8c4IF0zI1Ki",
+              image: null
+            },
+            {
+              type: "paper",
+              title: "Springer SCI 国際トップ学術ジャーナル論文掲載",
+              topic: "Reversible secret-image sharing with high visual quality",
+              orgDate: "Multimedia Tools and Applications (Springer Nature, Vol. 74) | 2014年6月",
+              desc: "著者：Ching-Chiuan Lin, Lun-Hao Liao (廖倫豪), Kuo-Feng Hwang, Shih-Chieh Chen。高品質なシャドウ画像を用いた可逆秘密画像共有技術を提案し、暗号セキュリティ分野で高インパクトを記録。",
+              url: "https://link.springer.com/article/10.1007/s11042-012-1190-1",
+              image: null
+            },
+            {
+              type: "paper",
+              title: "国際学術論文発表 (Trilingual Tourist APP)",
+              topic: "Utilizing GIS and GPS in Designing a Trilingual Tourist APP",
+              orgDate: "Applied Science and Management Research (Vol. 2) | 2015年5月",
+              desc: "GISとGPSを融合させた多言語観光プラットフォームのモバイルシステムアーキテクチャ設計と実装に関する研究。",
+              url: null,
+              image: null
+            },
+            {
+              type: "paper",
+              title: "国家図書館 博士学位論文 法定所蔵 & 指導教授アーカイブ",
+              topic: "適応型SOAに基づく企業セルフサービスポータルITガバナンスモデルの研究",
+              orgDate: "国家図書館 台湾博修士論文アーカイブ (所蔵コード: 106IKTC0183002) | 2014年10月",
+              desc: "ITIL V3とSOAを融合したエンタープライズポータルITガバナンスモデルを確立。国家図書館にて永久所蔵、学術指導学者コード 106IKTC0183002 として登録。",
+              url: "https://ndltd.ncl.edu.tw/",
+              image: null
+            },
+            {
+              type: "media",
+              title: "CIO Taiwan 誌 カバー特集 実名独占インタビュー",
+              topic: "パブリッククラウドサービスを駆使し世界のゲーム商機を掴む",
+              orgDate: "CIO Taiwan 誌 (編集長インタビュー / 2024.05刊期) | 2024年5月",
+              desc: "編集長による特別インタビュー。マルチクラウドネットワーキング(MCN)、Kubernetesネイティブ設計、FinOpsによる30%コスト削減戦略を実名公開。",
+              url: "https://www.cio.com.tw/interview-howard-liao-online-gamesparcs-it-director/",
+              image: "assets/2024_CIO報導.png"
+            },
+            {
+              type: "media",
+              title: "iThome コンピュータ報 専門企画 実名特集",
+              topic: "MongoDB Atlasでゲームデータ管理基盤を構築、総合レジャー空間を創出",
+              orgDate: "iThome コンピュータ報 専門企画 | 2024年9月",
+              desc: "技術特集取材において、99.995%の可用性を誇るMongoDB Atlasマルチリージョンリアルタイムデータハブの設計思想を解説。",
+              url: "https://www.ithome.com.tw/pr/163534",
+              image: "assets/IThome_MangoDB.png"
+            },
+            {
+              type: "media",
+              title: "DIGITIMES 科技網 報道",
+              topic: "MongoDB 8.0 発表：企業の生成AI導入を加速する成功事例",
+              orgDate: "DIGITIMES 科技網 | 2024年9月",
+              desc: "MongoDB 8.0発表会報道において、GameSparcsのAIデータ基盤および高並行処理アーキテクチャ事例が紹介。",
+              url: "https://www.digitimes.com.tw/tech/dt/n/shwnws.asp?id=0000704377_KI14VVDK6CQ8TB8OXC3GJ",
+              image: null
+            },
+            {
+              type: "csr",
+              title: "クラウドアーキテクチャ卓越賞 (Excellence Award)",
+              topic: "GKEマルチクラウド基盤、障害ゼロ記録、FinOps最適化を表彰",
+              orgDate: "業界技術卓越賞 | 2024年",
+              desc: "百万人規模のトラフィックを支え、100% Zero Outageと約30%のクラウドコスト削減を両立した功績により受賞。",
+              url: null,
+              image: null
+            },
+            {
+              type: "csr",
+              title: "財団法人康善基金会 (Cancer NoNo Foundation) 理事 兼 CIO",
+              topic: "子どもの健康教育、食育劇、医療ITセキュリティのデジタル公益",
+              orgDate: "財団法人康善基金会 (CSR活動) | 2022年 – 現在",
+              desc: "理事兼CIOとして、子どもの健康的な食育啓発、医療情報システムのセキュア連携、デジタル公益活動を推進し、企業の社会的責任(CSR)を実践。",
+              url: "https://www.cancer-nono.org.tw/web/about/page.php?lang=zh_tw&scid=7&sid=5",
+              image: null
+            }
+          ]
+        },
+        letter: {
+          title: "C-Level カバーレター (Executive Cover Letter)",
+          subtitle: "取締役会、CEO、グローバルCIO各位",
+          content: `拝啓
+
+貴社取締役会、選考委員会、ならびに経営陣の皆様
+
+27年以上の企業ITリーダーシップ、15年以上のサイバーセキュリティ実務、そして上場企業および多国籍企業における10年以上のセキュリティ戦略統括と副社長経験を有するエグゼクティブとして、取締役会レベルのガバナンスと実践的アーキテクチャを兼ね備えたリーダーシップをご提案いたします。
+
+これまで私は、サイバーセキュリティを単なる「コスト」ではなく「企業のグローバル成長と顧客信頼を牽引する中核エンジン」として再定義してまいりました。オンラインプラットフォームおよび多拠点製造グループにおいて、Kubernetes(GKE)を中心とするマルチクラウド基盤を主導して稼働率100%(Zero Outage)を達成し、ISO 27001/NIST CSF統治体系を確立して重大インシデントを30%削減、FinOpsにより数千万ドル規模の予算において30%のTCO削減を実現いたしました。また、ISO 27001および最新のISO/IEC 42001(AI管理システム)リード審査員資格を保持し、生成AIガバナンスやゼロトラスト変革を先見的かつ強固に推進可能です。
+
+リスクベースの確実な統治哲学に基づき、セキュリティ態勢をROI/TCO、RTO/RPO、事業復原力へと直結させてまいります。貴社の更なる飛躍に貢献できることを心より楽しみにいたしております。
+
+敬具
+
+廖倫豪 博士 (Howard Liao, Ph.D.)
+グループ最高情報セキュリティ責任者 (Group CISO)
+電話：+886-975-323161 | メール：Liao.Howard@gmail.com`
+        }
+      }
+    };
+
+    let currentLang = 'en';
+
+    function setLang(lang) {
+      currentLang = lang;
+      
+      // Update active language button styles
+      ['en', 'zh', 'ja'].forEach(l => {
+        const btn = document.getElementById(`btn-lang-${l}`);
+        if (l === lang) {
+          btn.className = "px-2 py-1 rounded transition-all bg-cyan-600 text-white shadow-sm";
+        } else {
+          btn.className = "px-2 py-1 rounded transition-all text-slate-400 hover:text-white";
+        }
+      });
+
+      const d = DATA[lang];
+
+      // Update basic texts via data-i18n attributes
+      document.querySelectorAll('[data-i18n]').forEach(el => {
+        const key = el.getAttribute('data-i18n');
+        const keys = key.split('.');
+        let val = d;
+        for (const k of keys) {
+          if (val && val[k] !== undefined) val = val[k];
+          else { val = null; break; }
+        }
+        if (val) el.textContent = val;
+      });
+
+      // Update Profile Paragraphs
+      const pContainer = document.getElementById('profile-paragraphs');
+      pContainer.innerHTML = d.profile.paragraphs.map(p => `<p>${p}</p>`).join('');
+
+      // Update Value Pillars
+      const vContainer = document.getElementById('value-cards');
+      vContainer.innerHTML = d.value.pillars.map((item, idx) => `
+        <div class="glass-card rounded-2xl p-5 border border-slate-800 hover:border-cyan-500/40 transition-all flex flex-col justify-between">
+          <div class="space-y-2">
+            <div class="flex items-center gap-2">
+              <span class="w-6 h-6 rounded-lg bg-cyan-500/10 text-cyan-400 font-mono text-xs flex items-center justify-center font-bold">0${idx+1}</span>
+              <h4 class="font-bold text-white text-sm sm:text-base">${item.title}</h4>
+            </div>
+            <p class="text-xs sm:text-sm text-slate-300 leading-relaxed">${item.desc}</p>
+          </div>
+        </div>
+      `).join('');
+
+      // Update Competencies (8 domains)
+      const cContainer = document.getElementById('competency-domains');
+      cContainer.innerHTML = d.comp.domains.map((dom, idx) => `
+        <div class="glass-card rounded-2xl p-6 border border-slate-800 hover:border-blue-500/40 transition-all space-y-3">
+          <div class="flex items-center gap-2 border-b border-slate-800 pb-2.5">
+            <span class="text-cyan-400 text-sm font-mono font-bold">#0${idx+1}</span>
+            <h3 class="font-bold text-white text-sm sm:text-base">${dom.title}</h3>
+          </div>
+          <ul class="space-y-2 text-xs sm:text-sm text-slate-300">
+            ${dom.bullets.map(b => `<li class="flex items-start gap-2"><span class="text-cyan-400 mt-1 flex-shrink-0">•</span><span>${b}</span></li>`).join('')}
+          </ul>
+        </div>
+      `).join('');
+
+      // Update Experience
+      const eContainer = document.getElementById('experience-list');
+      eContainer.innerHTML = d.exp.items.map((exp, idx) => `
+        <div class="glass-card rounded-3xl p-6 sm:p-8 border border-slate-800 hover:border-cyan-500/40 transition-all space-y-4 relative overflow-hidden">
+          <div class="flex flex-col sm:flex-row sm:items-start justify-between gap-2 border-b border-slate-800 pb-4">
+            <div>
+              <div class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-semibold bg-cyan-500/10 text-cyan-400 border border-cyan-500/20 mb-1.5">
+                Milestone 0${idx+1}
+              </div>
+              <h3 class="text-lg sm:text-xl font-extrabold text-white">${exp.role}</h3>
+              <p class="text-xs sm:text-sm font-semibold text-slate-400 mt-0.5">${exp.groupNote || ''}</p>
+              <p class="text-xs sm:text-sm text-cyan-300/90 font-medium mt-0.5">${exp.company}</p>
+            </div>
+            <span class="px-3 py-1 rounded-xl bg-slate-800 text-slate-300 font-mono text-xs font-bold whitespace-nowrap self-start">
+              ${exp.period}
+            </span>
+          </div>
+
+          <p class="text-sm text-slate-200 italic leading-relaxed">${exp.desc}</p>
+
+          ${exp.scope ? `
+            <div class="space-y-1.5 bg-slate-900/40 p-4 rounded-xl border border-slate-800/80">
+              <h4 class="text-xs font-bold uppercase tracking-wider text-slate-400">Leadership Scope</h4>
+              <ul class="space-y-1 text-xs sm:text-sm text-slate-300">
+                ${exp.scope.map(s => `<li class="flex items-start gap-2"><span class="text-cyan-400">▹</span><span>${s}</span></li>`).join('')}
+              </ul>
+            </div>
+          ` : ''}
+
+          <div class="space-y-2">
+            <h4 class="text-xs font-bold uppercase tracking-wider text-cyan-400">Selected Achievements & Impact</h4>
+            <ul class="space-y-1.5 text-xs sm:text-sm text-slate-300">
+              ${exp.achievements.map(a => `<li class="flex items-start gap-2"><span class="text-emerald-400 font-bold">✓</span><span>${a}</span></li>`).join('')}
+            </ul>
+          </div>
+
+          ${exp.additionalContext ? `
+            <div class="text-xs text-slate-400 bg-slate-900/30 p-3 rounded-lg border border-slate-800/50">
+              <strong class="text-slate-300">Additional Context:</strong> ${exp.additionalContext}
+            </div>
+          ` : ''}
+
+          ${exp.leaving ? `
+            <div class="text-xs text-slate-400 border-t border-slate-800/60 pt-3">
+              <strong class="text-slate-300">Reason for Leaving:</strong> <span class="italic">${exp.leaving}</span>
+            </div>
+          ` : ''}
+        </div>
+      `).join('');
+
+      // Update Certs & Education
+      const certList = document.getElementById('cert-list');
+      certList.innerHTML = d.cred.certs.map(c => `
+        <li class="flex items-center gap-2.5 p-2.5 rounded-xl bg-slate-900/40 border border-slate-800/80">
+          <span class="text-cyan-400 text-base">🛡️</span>
+          <span class="font-medium text-slate-200">${c}</span>
+        </li>
+      `).join('');
+
+      const eduList = document.getElementById('edu-list');
+      eduList.innerHTML = d.cred.edu.map(e => `
+        <div class="p-4 rounded-xl bg-slate-900/40 border border-slate-800/80 space-y-1.5">
+          <div class="flex items-start justify-between gap-2">
+            <h4 class="font-bold text-white text-sm sm:text-base">${e.degree}</h4>
+            <span class="text-xs font-mono text-cyan-400 whitespace-nowrap">${e.period}</span>
+          </div>
+          <p class="text-xs font-semibold text-slate-400">${e.school}</p>
+          <p class="text-xs text-slate-300 leading-relaxed">${e.desc}</p>
+        </div>
+      `).join('');
+
+      // Update Speaking
+      renderSpeakingCards(currentSpeakingFilter);
+
+      // Update Cover Letter Content
+      document.getElementById('letter-content').innerHTML = `
+        <pre class="whitespace-pre-wrap font-sans text-slate-200">${d.letter.content}</pre>
+      `;
+    }
+
+    let currentSpeakingFilter = 'all';
+
+    function filterSpeaking(filter) {
+      currentSpeakingFilter = filter;
+      document.querySelectorAll('.speak-filter-btn').forEach(btn => {
+        if (btn.getAttribute('data-filter') === filter) {
+          btn.className = "speak-filter-btn px-3 py-1.5 rounded-lg bg-cyan-600 text-white font-semibold shadow-sm";
+        } else {
+          btn.className = "speak-filter-btn px-3 py-1.5 rounded-lg bg-slate-800 text-slate-300 hover:text-white font-semibold";
+        }
+      });
+      renderSpeakingCards(filter);
+    }
+
+    function renderSpeakingCards(filter) {
+      const d = DATA[currentLang];
+      const sContainer = document.getElementById('speaking-grid');
+      const filtered = (filter === 'all') 
+        ? d.speak.items 
+        : d.speak.items.filter(item => item.type === filter);
+
+      sContainer.innerHTML = filtered.map((item, idx) => `
+        <div class="glass-card rounded-2xl p-5 border border-slate-800 hover:border-cyan-500/40 transition-all flex flex-col justify-between space-y-4 group">
+          <div class="space-y-3">
+            
+            ${item.image ? `
+              <div class="relative overflow-hidden rounded-xl bg-slate-900 border border-slate-800 cursor-pointer" onclick="openLightbox('${item.image}', '${item.title.replace(/'/g, "\\'")}')">
+                <img src="${item.image}" alt="${item.title}" class="w-full h-44 object-cover group-hover:scale-105 transition-transform duration-300">
+                <div class="absolute bottom-2 right-2 px-2 py-1 rounded bg-black/70 text-[10px] text-white flex items-center gap-1 backdrop-blur-md">
+                  <span>🔍</span> Click to Zoom
+                </div>
+              </div>
+            ` : ''}
+
+            <div>
+              <div class="flex items-center gap-2 mb-1">
+                <span class="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full ${
+                  item.type === 'keynote' ? 'bg-amber-500/10 text-amber-400 border border-amber-500/20' :
+                  item.type === 'paper' ? 'bg-purple-500/10 text-purple-400 border border-purple-500/20' :
+                  item.type === 'media' ? 'bg-cyan-500/10 text-cyan-400 border border-cyan-500/20' :
+                  'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20'
+                }">
+                  ${item.type}
+                </span>
+                <span class="text-xs font-mono text-slate-400">${item.orgDate}</span>
+              </div>
+
+              <h4 class="font-bold text-white text-base leading-snug group-hover:text-cyan-400 transition-colors">${item.title}</h4>
+              <p class="text-xs font-semibold text-slate-300 mt-1">${item.topic}</p>
+            </div>
+
+            <p class="text-xs text-slate-400 leading-relaxed">${item.desc}</p>
+          </div>
+
+          ${item.url ? `
+            <div class="pt-3 border-t border-slate-800/80">
+              <a href="${item.url}" target="_blank" rel="noopener" class="inline-flex items-center gap-1.5 text-xs font-bold text-cyan-400 hover:text-cyan-300 transition-colors">
+                <span>🔗</span> Verified Source / DOI ↗
+              </a>
+            </div>
+          ` : ''}
+        </div>
+      `).join('');
+    }
+
+    // Initialize Language & Theme on Page Load
+    window.addEventListener('DOMContentLoaded', () => {
+      const savedTheme = localStorage.getItem('theme') || 'dark';
+      if (savedTheme === 'light') {
+        toggleTheme();
+      }
+      setLang('en');
+    });
+  </script>
+
+</body>
+</html>
+"""
+
+with open(target_file, "w", encoding="utf-8") as f:
+    f.write(html_template)
+
+print(f"Successfully generated full PWA index.html at {target_file}")
