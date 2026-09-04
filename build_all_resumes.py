@@ -8,9 +8,9 @@ from docx.enum.table import WD_TABLE_ALIGNMENT, WD_ALIGN_VERTICAL
 from docx.oxml import parse_xml
 import sys
 
-target_dir = "/Users/howardliao/Desktop/Howard/Howard_CISO"
-photo_path = "/Users/howardliao/Library/Application Support/Hermes/composer-images/composer_2026-08-21_07-55-16-061_53c1dd.jpg"
-asset_dir = "/Users/howardliao/Desktop/Howard/Howard_CISO/assets"
+target_dir = os.path.dirname(os.path.abspath(__file__))
+photo_path = os.path.join(target_dir, "assets", "howard_portrait.jpg")
+asset_dir = os.path.join(target_dir, "assets")
 
 COLOR_PRIMARY = RGBColor(15, 41, 66)      # #0F2942 Deep Navy
 COLOR_SECONDARY = RGBColor(30, 58, 138)  # #1E3A8A Executive Blue
@@ -286,7 +286,7 @@ def add_media_entry(doc, title, org_date, desc, url=None, image_filename=None, i
             r_img.add_picture(img_path, width=img_width)
 
 # Load DATA from build_index_html.py
-with open("/Users/howardliao/Desktop/Howard/Howard_CISO/build_index_html.py", "r", encoding="utf-8") as f:
+with open(os.path.join(target_dir, "build_index_html.py"), "r", encoding="utf-8") as f:
     orig = f.read()
 
 data_idx = orig.find("const DATA = {")

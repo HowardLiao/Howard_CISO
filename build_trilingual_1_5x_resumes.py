@@ -6,26 +6,28 @@ from docx.enum.table import WD_TABLE_ALIGNMENT, WD_ALIGN_VERTICAL
 from docx.oxml import parse_xml
 import os
 
-target_dir = "/Users/howardliao/Desktop/Howard/Howard_CISO"
-photo_path = "/Users/howardliao/Desktop/Howard/Howard_CISO/assets/howard_portrait.jpg"
-asset_dir = "/Users/howardliao/Desktop/Howard/Howard_CISO/assets"
+target_dir = os.path.dirname(os.path.abspath(__file__))
+photo_path = os.path.join(target_dir, "assets", "howard_portrait.jpg")
+asset_dir = os.path.join(target_dir, "assets")
 
-COLOR_PRIMARY = RGBColor(15, 41, 66)      # #0F2942 Deep Navy
-COLOR_SECONDARY = RGBColor(30, 58, 138)  # #1E3A8A Executive Blue
-COLOR_SLATE = RGBColor(51, 65, 85)        # #334155 Slate
-COLOR_TEXT = RGBColor(31, 41, 55)         # #1F2937 Charcoal Body Text
-COLOR_MUTED = RGBColor(100, 116, 139)     # #64748B Subtitle/Meta Gray
-COLOR_LINK = RGBColor(37, 99, 235)        # #2563EB Blue Link
-FONT_FAMILY = 'Arial'
+COLOR_PRIMARY = RGBColor(194, 65, 12)       # #C2410C Warm Rust / Egyptian Terracotta Orange
+COLOR_SECONDARY = RGBColor(180, 83, 9)     # #B45309 Egyptian Pharaoh Amber Gold
+COLOR_ACCENT = RGBColor(217, 119, 6)       # #D97706 Warm Citrus Amber Highlight
+COLOR_GOLD = RGBColor(245, 158, 11)        # #F59E0B Sun Gold Accent
+COLOR_SLATE = RGBColor(71, 85, 105)        # #475569 Executive Slate
+COLOR_TEXT = RGBColor(45, 55, 72)          # #2D3748 Dark Gray Body Text
+COLOR_MUTED = RGBColor(113, 128, 150)      # #718096 Warm Stone / Meta Gray
+COLOR_LINK = RGBColor(194, 65, 12)         # #C2410C Warm Rust Accent Link
+FONT_FAMILY = 'Segoe UI'
 
-# 1.5x Font Size Standards
-SZ_TITLE = Pt(28)         # was ~19-20pt -> 1.5x = 28-30pt
-SZ_H1 = Pt(19.5)          # was ~13pt -> 1.5x = 19.5pt
-SZ_H2 = Pt(16.5)          # was ~11pt -> 1.5x = 16.5pt
-SZ_H3 = Pt(15.5)          # was ~10.5pt -> 1.5x = 15.5pt
-SZ_BODY = Pt(14.5)        # was ~9.5-10pt -> 1.5x = 14.5-15pt
-SZ_BULLET = Pt(14)        # was ~9.5pt -> 1.5x = 14pt
-SZ_META = Pt(13.5)        # was ~9pt -> 1.5x = 13.5pt
+# Unified Visual Hierarchy Standards
+SZ_TITLE = Pt(25)
+SZ_H1 = Pt(17)
+SZ_H2 = Pt(14)
+SZ_H3 = Pt(12.5)
+SZ_BODY = Pt(11.5)
+SZ_BULLET = Pt(11)
+SZ_META = Pt(10.5)
 
 def create_base_doc():
     doc = Document()
@@ -59,13 +61,13 @@ def add_heading_1(doc, text, space_before=16, space_after=6, east_asia="Microsof
     pPr = p._p.get_or_add_pPr()
     pBdr = parse_xml(
         '<w:pBdr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main">'
-        '<w:bottom w:val="single" w:sz="16" w:space="4" w:color="1E3A8A"/>'
+        '<w:bottom w:val="single" w:sz="16" w:space="4" w:color="C2410C"/>'
         '</w:pBdr>'
     )
     pPr.append(pBdr)
     return p
 
-def add_subheading(doc, text, space_before=12, space_after=4, color=COLOR_SECONDARY, size=SZ_H2, east_asia="Microsoft JhengHei"):
+def add_subheading(doc, text, space_before=11, space_after=3, color=COLOR_SECONDARY, size=SZ_H2, east_asia="Microsoft JhengHei"):
     p = doc.add_paragraph()
     p.paragraph_format.space_before = Pt(space_before)
     p.paragraph_format.space_after = Pt(space_after)
@@ -74,7 +76,7 @@ def add_subheading(doc, text, space_before=12, space_after=4, color=COLOR_SECOND
     set_run_font(run, size=size, bold=True, color=color, east_asia=east_asia)
     return p
 
-def add_body_p(doc, text, space_before=0, space_after=6, line_spacing=1.2, east_asia="Microsoft JhengHei"):
+def add_body_p(doc, text, space_before=0, space_after=4.5, line_spacing=1.2, east_asia="Microsoft JhengHei"):
     p = doc.add_paragraph()
     p.paragraph_format.space_before = Pt(space_before)
     p.paragraph_format.space_after = Pt(space_after)
@@ -83,18 +85,18 @@ def add_body_p(doc, text, space_before=0, space_after=6, line_spacing=1.2, east_
     set_run_font(run, size=SZ_BODY, color=COLOR_TEXT, east_asia=east_asia)
     return p
 
-def add_bullet(doc, text, space_before=0, space_after=3.5, line_spacing=1.2, bold_prefix_colon=True, east_asia="Microsoft JhengHei"):
+def add_bullet(doc, text, space_before=0, space_after=2.5, line_spacing=1.2, bold_prefix_colon=True, east_asia="Microsoft JhengHei"):
     p = doc.add_paragraph(style='List Bullet')
     p.paragraph_format.space_before = Pt(space_before)
     p.paragraph_format.space_after = Pt(space_after)
     p.paragraph_format.line_spacing = line_spacing
-    p.paragraph_format.left_indent = Inches(0.28)
+    p.paragraph_format.left_indent = Inches(0.25)
     
     if bold_prefix_colon and (':' in text or '：' in text) and not text.startswith('http'):
         sep = ':' if ':' in text else '：'
         parts = text.split(sep, 1)
         r1 = p.add_run(parts[0] + sep)
-        set_run_font(r1, size=SZ_BULLET, bold=True, color=COLOR_TEXT, east_asia=east_asia)
+        set_run_font(r1, size=SZ_BULLET, bold=True, color=COLOR_PRIMARY, east_asia=east_asia)
         r2 = p.add_run(parts[1])
         set_run_font(r2, size=SZ_BULLET, color=COLOR_TEXT, east_asia=east_asia)
     else:
@@ -102,7 +104,24 @@ def add_bullet(doc, text, space_before=0, space_after=3.5, line_spacing=1.2, bol
         set_run_font(run, size=SZ_BULLET, color=COLOR_TEXT, east_asia=east_asia)
     return p
 
-def add_header(doc, name_text, title_text, subtitle_text, contact_text1, contact_text2, east_asia="Microsoft JhengHei"):
+def add_footer(doc, footer_text="Howard Liao Ph.D. (廖倫豪 博士) | Group CISO 專業履歷戰略檔案", east_asia="Microsoft JhengHei"):
+    for s in doc.sections:
+        footer = s.footer
+        p_ft = footer.paragraphs[0]
+        p_ft.alignment = WD_ALIGN_PARAGRAPH.RIGHT
+        p_ft.paragraph_format.space_before = Pt(4)
+        p_ft.paragraph_format.space_after = Pt(0)
+        pPr = p_ft._p.get_or_add_pPr()
+        pBdr = parse_xml(
+            '<w:pBdr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main">'
+            '<w:top w:val="single" w:sz="6" w:space="3" w:color="D97706"/>'
+            '</w:pBdr>'
+        )
+        pPr.append(pBdr)
+        r_ft = p_ft.add_run(footer_text)
+        set_run_font(r_ft, size=Pt(9), color=COLOR_MUTED, east_asia=east_asia)
+
+def add_header(doc, name_text, title_text, subtitle_text, contact_text1, contact_text2, presenter_text="報告人：Howard Liao Ph.D. (廖倫豪 博士)", east_asia="Microsoft JhengHei"):
     table = doc.add_table(rows=1, cols=2)
     table.alignment = WD_TABLE_ALIGNMENT.CENTER
     table.autofit = False
@@ -139,9 +158,15 @@ def add_header(doc, name_text, title_text, subtitle_text, contact_text1, contact
         run_photo = p_photo.add_run()
         run_photo.add_picture(photo_path, width=Inches(1.65))
 
-    p_name = cell_right.paragraphs[0]
+    p_pres = cell_right.paragraphs[0]
+    p_pres.paragraph_format.space_before = Pt(0)
+    p_pres.paragraph_format.space_after = Pt(2)
+    r_pres = p_pres.add_run(presenter_text)
+    set_run_font(r_pres, size=Pt(11.5), bold=True, color=COLOR_ACCENT, east_asia=east_asia)
+
+    p_name = cell_right.add_paragraph()
     p_name.paragraph_format.space_before = Pt(0)
-    p_name.paragraph_format.space_after = Pt(3)
+    p_name.paragraph_format.space_after = Pt(2)
     run_name = p_name.add_run(name_text)
     set_run_font(run_name, size=SZ_TITLE, bold=True, color=COLOR_PRIMARY, east_asia=east_asia)
 
@@ -149,13 +174,13 @@ def add_header(doc, name_text, title_text, subtitle_text, contact_text1, contact
     p_title.paragraph_format.space_before = Pt(0)
     p_title.paragraph_format.space_after = Pt(2)
     run_t1 = p_title.add_run(title_text)
-    set_run_font(run_t1, size=Pt(16.5), bold=True, color=COLOR_SECONDARY, east_asia=east_asia)
+    set_run_font(run_t1, size=Pt(15), bold=True, color=COLOR_SECONDARY, east_asia=east_asia)
 
     p_sub = cell_right.add_paragraph()
     p_sub.paragraph_format.space_before = Pt(0)
-    p_sub.paragraph_format.space_after = Pt(5)
+    p_sub.paragraph_format.space_after = Pt(4)
     run_t2 = p_sub.add_run(subtitle_text)
-    set_run_font(run_t2, size=Pt(15), bold=True, color=COLOR_SLATE, east_asia=east_asia)
+    set_run_font(run_t2, size=Pt(13), bold=True, color=COLOR_SLATE, east_asia=east_asia)
 
     p_c1 = cell_right.add_paragraph()
     p_c1.paragraph_format.space_before = Pt(0)
@@ -170,7 +195,7 @@ def add_header(doc, name_text, title_text, subtitle_text, contact_text1, contact
     set_run_font(r_c2, size=SZ_META, color=COLOR_SLATE, east_asia=east_asia)
 
     p_sep = doc.add_paragraph()
-    p_sep.paragraph_format.space_before = Pt(8)
+    p_sep.paragraph_format.space_before = Pt(6)
     p_sep.paragraph_format.space_after = Pt(0)
 
 def add_exp_item(doc, role, group_note, company_line, period, desc, scopes, achs, leaving=None, add_ctx=None, east_asia="Microsoft JhengHei", labels=None):
@@ -209,40 +234,40 @@ def add_exp_item(doc, role, group_note, company_line, period, desc, scopes, achs
         
     if scopes:
         p_sh = doc.add_paragraph()
-        p_sh.paragraph_format.space_before = Pt(4)
+        p_sh.paragraph_format.space_before = Pt(5)
         p_sh.paragraph_format.space_after = Pt(2)
         p_sh.paragraph_format.keep_with_next = True
         rsh = p_sh.add_run(labels["scope"])
-        set_run_font(rsh, size=SZ_H3, bold=True, color=COLOR_SLATE, east_asia=east_asia)
+        set_run_font(rsh, size=SZ_H3, bold=True, color=COLOR_SECONDARY, east_asia=east_asia)
         for s in scopes:
             add_bullet(doc, s, space_after=2.5, bold_prefix_colon=False, east_asia=east_asia)
             
     if achs:
         p_ah = doc.add_paragraph()
-        p_ah.paragraph_format.space_before = Pt(4)
+        p_ah.paragraph_format.space_before = Pt(5)
         p_ah.paragraph_format.space_after = Pt(2)
         p_ah.paragraph_format.keep_with_next = True
         rah = p_ah.add_run(labels["ach"])
-        set_run_font(rah, size=SZ_H3, bold=True, color=COLOR_SLATE, east_asia=east_asia)
+        set_run_font(rah, size=SZ_H3, bold=True, color=COLOR_SECONDARY, east_asia=east_asia)
         for a in achs:
             add_bullet(doc, a, space_after=3, bold_prefix_colon=False, east_asia=east_asia)
             
     if add_ctx:
         p_ch = doc.add_paragraph()
-        p_ch.paragraph_format.space_before = Pt(4)
+        p_ch.paragraph_format.space_before = Pt(5)
         p_ch.paragraph_format.space_after = Pt(2)
         p_ch.paragraph_format.keep_with_next = True
         rch = p_ch.add_run(labels["ctx"])
-        set_run_font(rch, size=SZ_H3, bold=True, color=COLOR_SLATE, east_asia=east_asia)
+        set_run_font(rch, size=SZ_H3, bold=True, color=COLOR_SECONDARY, east_asia=east_asia)
         add_body_p(doc, add_ctx, space_after=4, east_asia=east_asia)
         
     if leaving:
         p_lh = doc.add_paragraph()
-        p_lh.paragraph_format.space_before = Pt(4)
+        p_lh.paragraph_format.space_before = Pt(5)
         p_lh.paragraph_format.space_after = Pt(2)
         p_lh.paragraph_format.keep_with_next = True
         rlh = p_lh.add_run(labels["leaving"])
-        set_run_font(rlh, size=SZ_H3, bold=True, color=COLOR_SLATE, east_asia=east_asia)
+        set_run_font(rlh, size=SZ_H3, bold=True, color=COLOR_SECONDARY, east_asia=east_asia)
         p_l = doc.add_paragraph()
         p_l.paragraph_format.space_before = Pt(0)
         p_l.paragraph_format.space_after = Pt(6)
@@ -278,7 +303,7 @@ def add_media_entry(doc, title, org_date, desc, url=None, image_filename=None, i
         p_u.paragraph_format.space_after = Pt(4)
         p_u.paragraph_format.keep_with_next = True
         r_ulbl = p_u.add_run(url_label)
-        set_run_font(r_ulbl, size=SZ_META, bold=True, color=COLOR_SLATE, east_asia=east_asia)
+        set_run_font(r_ulbl, size=SZ_META, bold=True, color=COLOR_ACCENT, east_asia=east_asia)
         r_u = p_u.add_run(url)
         set_run_font(r_u, size=SZ_META, color=COLOR_LINK, east_asia=east_asia)
         
@@ -304,12 +329,14 @@ def generate_zh():
         subtitle_text="全球資安治理、數位信任與架構韌性 (呈報 董事會、董事長、總經理、CEO 專用履歷)",
         contact_text1="台灣 (支援全球跨國據點)  |  行動電話：+886-975-323161  |  電子郵件：Liao.Howard@gmail.com",
         contact_text2="LinkedIn 領英：linkedin.com/in/howardliao78  |  作品集網站：https://howardliao.github.io/portfolio/",
+        presenter_text="報告人：Howard Liao Ph.D. (廖倫豪 博士)",
         east_asia="Microsoft JhengHei"
     )
+    add_footer(doc, footer_text="Howard Liao Ph.D. (廖倫豪 博士) | Group CISO 專業履歷戰略檔案", east_asia="Microsoft JhengHei")
     
-    # Opening Preface per user requirement
+    # Opening Preface per user requirement (Objective narrative without '我')
     add_heading_1(doc, "前言與高階主管職涯定位 (Executive Summary)", east_asia="Microsoft JhengHei")
-    add_body_p(doc, "我是廖倫豪博士，跨國網絡科技與數位娛樂平台集團副總 暨 IT Director / 集團資安長 (Group CISO)。具備 27+ 年企業資訊科技領導力、15+ 年資訊安全治理經驗，以及 10+ 年於上市櫃、跨國與受法規監管企業擔任資安長與科技副總之高階歷練。")
+    add_body_p(doc, "廖倫豪 博士 (Howard Liao, Ph.D.)，為跨國網絡科技與數位娛樂平台集團副總 暨 IT Director / 集團資安長 (Group CISO)。具備 27+ 年企業資訊科技領導力、15+ 年資訊安全治理經驗，以及 10+ 年於上市櫃、跨國與受法規監管企業擔任資安長與科技副總之高階歷練。")
     add_body_p(doc, "兼具董事會層級之資安治理高度，以及零信任 (Zero Trust)、身分存取管理 (IAM)、多雲資安 (Multi-Cloud Security)、SOC/SIEM/EDR、資安事件應變 (Incident Response)、DevSecOps、資料保護、第三方風險管理與 AI 治理 (ISO 42001) 的實戰技術深度。")
     add_body_p(doc, "精通保護關鍵業務系統、敏感機密紀錄、核心智慧財產權、企業級應用程式、雲端/SaaS 平台與跨境資料流。以務實、風險驅動的方法持續提升資安成熟度、營運韌性、稽核整備度、災難復原力與數位信任。")
     add_body_p(doc, "擁有卓越的成果紀錄，能將資安風險與技術優先級轉化為董事會與高階主管重視的商業價值、財務效益、營運指標與法規遵循結果。建構具備高擴展性的資安營運模型，在保護關鍵資產與強化業務連續性的同時，全力支援集團之跨國擴張。")
@@ -603,8 +630,6 @@ def generate_zh():
 # 2. BUILD ENGLISH RESUME (1.5x Font, New Headshot)
 # ========================================================
 def generate_en():
-    from build_all_resumes import build_en_docx
-    # Modify sizing in build_en_docx
     doc = create_base_doc()
     add_header(
         doc,
@@ -612,11 +637,14 @@ def generate_en():
         title_text="Group Chief Information Security Officer (CISO)",
         subtitle_text="Global Cybersecurity, Digital Trust & Resilience (For Board, President & CEO)",
         contact_text1="Taiwan (Open to Global Sites)  |  Mobile: +886-975-323161  |  Email: Liao.Howard@gmail.com",
-        contact_text2="LinkedIn: linkedin.com/in/howardliao78  |  Portfolio: https://howardliao.github.io/portfolio/"
+        contact_text2="LinkedIn: linkedin.com/in/howardliao78  |  Portfolio: https://howardliao.github.io/portfolio/",
+        presenter_text="Presenter: Howard Liao, Ph.D.",
+        east_asia="Microsoft JhengHei"
     )
+    add_footer(doc, footer_text="Howard Liao, Ph.D. | Group CISO Executive Resume Dossier", east_asia="Microsoft JhengHei")
     
     add_heading_1(doc, "Executive Summary")
-    add_body_p(doc, "I am Dr. Howard Liao (Howard Liao, Ph.D.), Group Chief Information Security Officer (CISO) and Vice President of Technology across multinational internet technology and digital platforms. A CISO-level technology executive with 27+ years of enterprise IT leadership, 15+ years of cybersecurity experience, and 10+ years leading cybersecurity strategy, cloud governance, digital resilience, and enterprise transformation across publicly listed, multinational, and regulated business environments.")
+    add_body_p(doc, "Dr. Howard Liao (Howard Liao, Ph.D.) is Group Chief Information Security Officer (CISO) and Vice President of Technology across multinational internet technology and digital platforms. A CISO-level technology executive with 27+ years of enterprise IT leadership, 15+ years of cybersecurity experience, and 10+ years leading cybersecurity strategy, cloud governance, digital resilience, and enterprise transformation across publicly listed, multinational, and regulated business environments.")
     add_body_p(doc, "Combines board-level cybersecurity leadership with hands-on technical depth in Zero Trust, identity and access management, multi-cloud security, SOC/SIEM/EDR, incident response, DevSecOps, data protection, third-party risk management, and AI governance.")
     add_body_p(doc, "Experienced in securing business-critical systems, sensitive records, intellectual property, enterprise applications, cloud/SaaS platforms, and cross-border data flows. Applies a pragmatic, risk-based approach to improving security maturity, operational resilience, audit readiness, recoverability, and digital trust.")
     add_body_p(doc, "Proven record of translating cybersecurity risks and technical priorities into measurable business, financial, operational, and compliance outcomes for boards and executive leadership. Builds scalable security operating models that enable international growth while protecting critical assets and improving business continuity.")
@@ -631,7 +659,6 @@ def generate_en():
     add_bullet(doc, "Business-enabling mindset: Works closely with business, finance, legal, HR, engineering, operations, product, and IT leaders to embed cybersecurity into growth, transformation, and customer trust.")
 
     add_heading_1(doc, "Core Competencies")
-    from build_all_resumes import build_en_docx
     # Load same competency data
     comp_data = [
         ("Cybersecurity Strategy, Governance & Risk", [
@@ -687,9 +714,6 @@ def generate_en():
             add_bullet(doc, b, bold_prefix_colon=False)
 
     add_heading_1(doc, "Professional Experience")
-    from build_all_resumes import add_exp_item
-    # Re-use same exp items with 1.5x fonts
-    import build_all_resumes
     # 1. Confidential Group
     add_exp_item(
         doc,
@@ -903,8 +927,6 @@ def generate_en():
 # 3. BUILD JAPANESE RESUME (1.5x Font, New Headshot)
 # ========================================================
 def generate_ja():
-    from build_all_resumes import build_ja_docx
-    # Modify with 1.5x font sizes
     doc = create_base_doc()
     add_header(
         doc,
@@ -913,8 +935,10 @@ def generate_ja():
         subtitle_text="グローバルサイバーセキュリティ・デジタルトラスト統括 (取締役会・CEO向け 職務経歴書)",
         contact_text1="台湾 (グローバル拠点対応可能)  |  電話番号：+886-975-323161  |  Eメール：Liao.Howard@gmail.com",
         contact_text2="LinkedIn：linkedin.com/in/howardliao78  |  ポートフォリオ：https://howardliao.github.io/portfolio/",
+        presenter_text="報告者：廖倫豪 博士 (Howard Liao, Ph.D.)",
         east_asia="Meiryo"
     )
+    add_footer(doc, footer_text="廖倫豪 博士 (Howard Liao, Ph.D.) | グループCISO エグゼクティブ職務経歴書", east_asia="Meiryo")
     
     add_heading_1(doc, "エグゼクティブサマリー (Executive Summary)", east_asia="Meiryo")
     add_body_p(doc, "廖倫豪 博士 (Howard Liao, Ph.D.) と申します。グローバルインターネット技術・デジタルプラットフォームグループにおいて、副社長 兼 グループ最高情報セキュリティ責任者 (Group CISO) を務めております。27年以上の企業ITリーダーシップ、15年以上のサイバーセキュリティ実務、そして上場企業・多国籍企業において10年以上にわたりセキュリティ戦略、クラウドガバナンス、デジタルレジリエンス、DXを主導してきたCISOレベルのエグゼクティブです。", east_asia="Meiryo")
@@ -932,7 +956,6 @@ def generate_ja():
     add_bullet(doc, "事業成長イネーブラー：事業、財務、法務、人事、開発、運用部門と密接に連携し、セキュリティを企業成長、DX、顧客信頼の基盤として組み込む。", east_asia="Meiryo")
 
     add_heading_1(doc, "8大コアコンピテンシー & 技術統治体系 (Core Competencies)", east_asia="Meiryo")
-    from build_all_resumes import build_ja_docx
     comp_data_ja = [
         ("セキュリティ戦略・ガバナンス・リスク管理 (Strategy, Governance & Risk)", [
             "グループセキュリティ戦略、運用モデル、ポリシー策定、リスク選好度、成熟度評価、KPI/KRI設計、取締役会報告、中長期ロードマップ。",
@@ -1216,4 +1239,7 @@ if __name__ == "__main__":
     generate_zh()
     generate_en()
     generate_ja()
-    print("All 3 trilingual 1.5x resumes successfully regenerated!")
+    import shutil
+    shutil.copyfile(os.path.join(target_dir, "Howard_Liao_CISO_Resume_ZH.docx"), os.path.join(target_dir, "202608_Howard_Liao_CISO_Resume_ZH.docx"))
+    shutil.copyfile(os.path.join(target_dir, "Howard_Liao_CISO_Resume_ZH.docx"), os.path.join(target_dir, "Howard_Liao_CISO_Resume.docx"))
+    print("All trilingual unified resumes successfully regenerated and synchronized!")
