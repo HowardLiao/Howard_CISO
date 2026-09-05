@@ -100,16 +100,36 @@
     }
 
     .glass-card {
+      position: relative;
       background: rgba(28, 25, 23, 0.78);
       backdrop-filter: blur(14px);
       -webkit-backdrop-filter: blur(14px);
-      border: 1px solid rgba(245, 158, 11, 0.14);
+      border: 1px solid rgba(245, 158, 11, 0.16);
       transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .glass-card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      padding: 1.5px;
+      background: radial-gradient(350px circle at var(--mouse-x, -500px) var(--mouse-y, -500px), rgba(245, 158, 11, 0.35), transparent 70%);
+      -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      -webkit-mask-composite: xor;
+      mask-composite: exclude;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .glass-card:hover::before {
+      opacity: 1;
     }
 
     .glass-card:hover {
       border-color: rgba(234, 88, 12, 0.45);
-      box-shadow: 0 12px 30px -10px rgba(217, 119, 6, 0.22);
+      box-shadow: 0 14px 35px -10px rgba(217, 119, 6, 0.25);
     }
 
     .light .glass-card {
@@ -142,6 +162,80 @@
       background: linear-gradient(135deg, #ea580c 0%, #d97706 50%, #f59e0b 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
+    }
+
+    /* Radar Beam Sweep */
+    @keyframes radar-sweep {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+    .radar-beam {
+      position: absolute;
+      inset: 2%;
+      border-radius: 50%;
+      background: conic-gradient(from 0deg at 50% 50%, rgba(245, 158, 11, 0.24) 0deg, rgba(234, 88, 12, 0.08) 45deg, transparent 75deg);
+      animation: radar-sweep 4.5s linear infinite;
+      pointer-events: none;
+      mix-blend-mode: screen;
+      z-index: 1;
+    }
+
+    /* Portrait Orbiting Rings */
+    @keyframes orbit-cw {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+    @keyframes orbit-ccw {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(-360deg); }
+    }
+    .orbit-ring-outer {
+      animation: orbit-cw 22s linear infinite;
+    }
+    .orbit-ring-inner {
+      animation: orbit-ccw 16s linear infinite;
+    }
+
+    /* Shimmer Effect */
+    @keyframes shimmer-sweep {
+      0% { transform: translateX(-120%) rotate(35deg); }
+      100% { transform: translateX(220%) rotate(35deg); }
+    }
+    .btn-shimmer {
+      position: relative;
+      overflow: hidden;
+    }
+    .btn-shimmer::after {
+      content: '';
+      position: absolute;
+      top: -100%;
+      left: -100%;
+      width: 300%;
+      height: 300%;
+      background: linear-gradient(60deg, transparent 30%, rgba(255, 255, 255, 0.22) 50%, transparent 70%);
+      transform: translateX(-120%) rotate(35deg);
+      animation: shimmer-sweep 5s infinite ease-in-out;
+      pointer-events: none;
+    }
+
+    /* Scroll Reveal */
+    .reveal {
+      opacity: 0;
+      transform: translateY(22px);
+      transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1), transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .reveal.active {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Telemetry row animation */
+    @keyframes telemetry-in {
+      0% { opacity: 0; transform: translateY(-8px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+    .telemetry-row {
+      animation: telemetry-in 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
     }
 
     .light {
@@ -320,11 +414,13 @@
           <!-- Photo & Status & Interactive Badges -->
           <div class="flex flex-col items-center flex-shrink-0">
             <div class="relative group">
-              <div class="absolute -inset-1 rounded-2xl bg-gradient-to-r from-cyan-500 via-indigo-500 to-purple-500 opacity-40 group-hover:opacity-100 blur-sm transition duration-500"></div>
+              <!-- Orbiting Cyber Pharaoh Rings -->
+              <div class="absolute -inset-5 rounded-full border border-dashed border-amber-500/30 orbit-ring-outer pointer-events-none"></div>
+              <div class="absolute -inset-2.5 rounded-2xl border border-dashed border-orange-500/30 orbit-ring-inner pointer-events-none"></div>
+              <div class="absolute -inset-1 rounded-2xl bg-gradient-to-r from-amber-500 via-orange-500 to-amber-600 opacity-50 group-hover:opacity-100 blur-sm transition duration-500"></div>
               
-              <img src="assets/howard_portrait.jpg" alt="Howard Liao, Ph.D." class="relative w-48 h-64 sm:w-56 sm:h-72 object-cover rounded-2xl ring-2 ring-slate-800 shadow-2xl transition-all duration-300">
-              
-              </div>
+              <img src="assets/howard_portrait.jpg" alt="Howard Liao, Ph.D." class="relative w-48 h-64 sm:w-56 sm:h-72 object-cover rounded-2xl ring-2 ring-amber-500/40 shadow-2xl transition-all duration-300 group-hover:scale-[1.02]">
+            </div>
 
             <!-- Dynamic Micro-Icon Badges -->
             <div class="mt-6 flex flex-col gap-2 w-full max-w-xs text-xs">
@@ -373,27 +469,34 @@
               <p class="text-base sm:text-lg font-medium text-slate-300" data-i18n="hero.subtitle">
                 Global Cybersecurity, Digital Trust & Resilience
               </p>
+
+              <!-- Dynamic Rotating Focus Ticker -->
+              <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-xl bg-amber-500/10 border border-amber-500/25 text-xs font-mono shadow-inner mt-2 max-w-xl">
+                <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping flex-shrink-0"></span>
+                <span class="text-amber-400 font-bold uppercase tracking-wider flex-shrink-0" id="ticker-lead">FOCUS:</span>
+                <span id="dynamic-focus-ticker" class="text-slate-200 font-semibold truncate transition-opacity duration-300">GKE 多雲高可用架構 100% Zero Outage 零停機卓越紀錄</span>
+              </div>
             </div>
 
             <!-- Contact & Social Pills with Animated Hover -->
             <div class="flex flex-wrap items-center justify-center lg:justify-start gap-2 sm:gap-3 text-xs sm:text-sm pt-2">
-              <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-800/80 border border-slate-700 text-slate-300 hover:border-cyan-500/50 transition-colors">
+              <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-800/80 border border-slate-700 text-slate-300 hover:border-amber-500/50 transition-colors">
                 <svg class="w-4 h-4 text-red-400 animate-bounce" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
                 Taiwan (Open to Global Sites)
               </span>
-              <a href="tel:+886975323161" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-800/80 border border-slate-700 text-slate-300 hover:text-cyan-400 hover:border-cyan-500/50 transition-all">
+              <a href="tel:+886****3161" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-800/80 border border-slate-700 text-slate-300 hover:text-amber-400 hover:border-amber-500/50 transition-all">
                 <svg class="w-4 h-4 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path></svg>
                 +886-975-323161
               </a>
-              <a href="mailto:Liao.Howard@gmail.com" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-800/80 border border-slate-700 text-slate-300 hover:text-cyan-400 hover:border-cyan-500/50 transition-all">
-                <svg class="w-4 h-4 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
+              <a href="mailto:Liao.Howard@gmail.com" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-800/80 border border-slate-700 text-slate-300 hover:text-amber-400 hover:border-amber-500/50 transition-all">
+                <svg class="w-4 h-4 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
                 Liao.Howard@gmail.com
               </a>
-              <a href="https://linkedin.com/in/howardliao78" target="_blank" rel="noopener" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-blue-900/40 border border-blue-700/60 text-blue-300 hover:bg-blue-800/60 transition-all">
+              <a href="https://linkedin.com/in/howardliao78" target="_blank" rel="noopener" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-amber-950/40 border border-amber-700/60 text-amber-300 hover:bg-amber-900/60 transition-all">
                 <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
                 LinkedIn Profile ↗
               </a>
-              <a href="https://howardliao.github.io/Howard_CISO/" target="_blank" rel="noopener" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-indigo-900/40 border border-indigo-700/60 text-indigo-300 hover:bg-indigo-800/60 transition-all">
+              <a href="https://howardliao.github.io/Howard_CISO/" target="_blank" rel="noopener" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-orange-950/40 border border-orange-700/60 text-orange-300 hover:bg-orange-900/60 transition-all">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"></path></svg>
                 Portfolio ↗
               </a>
@@ -404,17 +507,17 @@
               CISO-level technology executive with 27+ years of enterprise IT leadership, 15+ years of cybersecurity experience, and 10+ years leading cybersecurity strategy, cloud governance, digital resilience, and enterprise transformation across publicly listed, multinational, and regulated business environments.
             </p>
 
-            <!-- Quick Action Buttons -->
+            <!-- Quick Action Buttons with Dynamic Shimmer -->
             <div class="flex flex-wrap items-center justify-center lg:justify-start gap-3 pt-3">
-              <a href="#experience" class="px-5 py-2.5 rounded-xl bg-cyan-600 hover:bg-cyan-500 text-white text-sm font-semibold shadow-lg shadow-cyan-900/30 transition-all hover:scale-105 active:scale-95 flex items-center gap-2" data-i18n="hero.btnExperience">
+              <a href="#experience" class="btn-shimmer px-5 py-2.5 rounded-xl bg-gradient-to-r from-amber-600 to-orange-600 hover:from-amber-500 hover:to-orange-500 text-white text-sm font-semibold shadow-lg shadow-orange-950/40 transition-all hover:scale-105 active:scale-95 flex items-center gap-2" data-i18n="hero.btnExperience">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path></svg>
                 Explore Career Milestones
               </a>
               <button onclick="openCoverLetter()" class="px-5 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 text-sm font-semibold border border-slate-700 transition-all flex items-center gap-2" data-i18n="hero.btnLetter">
-                <svg class="w-4 h-4 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
+                <svg class="w-4 h-4 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
                 View C-Level Cover Letter
               </button>
-              <a id="hero-download-btn" href="Howard_Liao_CISO_Resume_ZH.docx" download="Howard_Liao_CISO_Resume_ZH.docx" class="px-5 py-2.5 rounded-xl bg-gradient-to-r from-amber-600/20 to-orange-600/20 hover:from-amber-600/30 hover:to-orange-600/30 text-amber-300 border border-amber-500/40 text-sm font-semibold transition-all flex items-center gap-2 shadow-sm">
+              <a id="hero-download-btn" href="Howard_Liao_CISO_Resume_ZH.docx" download="Howard_Liao_CISO_Resume_ZH.docx" class="btn-shimmer px-5 py-2.5 rounded-xl bg-gradient-to-r from-amber-600/25 to-orange-600/25 hover:from-amber-600/40 hover:to-orange-600/40 text-amber-300 border border-amber-500/50 text-sm font-semibold transition-all flex items-center gap-2 shadow-sm hover:scale-105 active:scale-95">
                 <svg class="w-4 h-4 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
                 <span id="hero-download-text">📥 下載繁中高階履歷 (.docx)</span>
               </a>
@@ -495,13 +598,41 @@
         </div>
 
       </div>
+
+      <!-- Real-Time Executive SOC & Governance Telemetry Stream Console -->
+      <div class="glass-card rounded-2xl p-4 sm:p-5 border border-amber-500/25 bg-obsidian-900/80 shadow-2xl relative overflow-hidden mt-4">
+        <div class="flex flex-wrap items-center justify-between gap-3 border-b border-amber-500/20 pb-3">
+          <div class="flex items-center gap-2.5">
+            <span class="relative flex h-3 w-3">
+              <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+              <span class="relative inline-flex rounded-full h-3 w-3 bg-emerald-500"></span>
+            </span>
+            <span class="text-xs font-bold tracking-wider uppercase text-amber-400 font-mono flex items-center gap-1.5">
+              <span>●</span> CISO Global Live Telemetry Stream
+            </span>
+            <span class="text-[11px] px-2 py-0.5 rounded bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 font-mono hidden sm:inline">
+              LIVE POSTURE: 100% OPERATIONAL
+            </span>
+          </div>
+          <div class="flex items-center gap-3 text-xs font-mono text-slate-400">
+            <span class="text-amber-400/80 hidden sm:inline">SYNC CYCLE: 2.5s</span>
+            <span class="text-amber-500/40">|</span>
+            <span id="telemetry-clock" class="text-slate-300 font-bold">2026-09-05 08:00:00 CST</span>
+          </div>
+        </div>
+        
+        <!-- Live Stream Rows -->
+        <div class="pt-3 space-y-2 font-mono text-xs overflow-hidden min-h-[105px]" id="telemetry-stream-container">
+          <!-- Dynamic stream rows injected by JS -->
+        </div>
+      </div>
     </section>
 
     <!-- INTERACTIVE SECTION: SECURITY GOVERNANCE RADAR -->
     <section id="radar" class="space-y-6">
       <div class="flex flex-col sm:flex-row sm:items-center justify-between border-b border-slate-800 pb-3 gap-2">
         <h2 class="text-2xl font-bold text-white flex items-center gap-2.5">
-          <div class="w-8 h-8 rounded-lg bg-indigo-500/10 flex items-center justify-center text-indigo-400">
+          <div class="w-8 h-8 rounded-lg bg-amber-500/10 flex items-center justify-center text-amber-400">
             <svg class="w-5 h-5 animate-spin-slow" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
           </div>
           <span class="flex items-center gap-2"><span>📡</span><span data-i18n="radar.heading">Security Maturity & Strategic Governance Radar</span></span>
@@ -511,14 +642,15 @@
 
       <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
         
-        <!-- Radar Chart Container -->
+        <!-- Radar Chart Container with Military-Grade Sweep Beam -->
         <div class="lg:col-span-5 glass-card rounded-3xl p-6 flex flex-col items-center justify-center relative overflow-hidden">
-          <div class="w-full max-w-sm h-72 sm:h-80 relative">
-            <canvas id="securityRadarCanvas"></canvas>
+          <div class="w-full max-w-sm h-72 sm:h-80 relative flex items-center justify-center">
+            <div class="radar-beam"></div>
+            <canvas id="securityRadarCanvas" class="relative z-10"></canvas>
           </div>
-          <div class="text-[11px] text-slate-400 mt-2 font-mono flex items-center gap-2">
-            <span class="w-2 h-2 rounded-full bg-cyan-400"></span>
-            <span>Howard Liao Strategic Competency Benchmark</span>
+          <div class="text-[11px] text-amber-400/80 mt-2 font-mono flex items-center gap-2 relative z-10">
+            <span class="w-2 h-2 rounded-full bg-amber-400 animate-ping"></span>
+            <span>Howard Liao 6-Dimensional Strategic Benchmark</span>
           </div>
         </div>
 
@@ -883,25 +1015,62 @@
       let h = canvas.height = window.innerHeight;
 
       const particles = [];
-      const count = Math.floor((w * h) / 18000);
+      const count = Math.floor((w * h) / 14000);
+      let mouse = { x: -1000, y: -1000, radius: 140 };
+
+      window.addEventListener('mousemove', (e) => {
+        mouse.x = e.clientX;
+        mouse.y = e.clientY;
+      });
+      window.addEventListener('mouseleave', () => {
+        mouse.x = -1000;
+        mouse.y = -1000;
+      });
+
+      const pulses = [];
 
       for (let i = 0; i < count; i++) {
         particles.push({
           x: Math.random() * w,
           y: Math.random() * h,
-          vx: (Math.random() - 0.5) * 0.4,
-          vy: (Math.random() - 0.5) * 0.4,
-          radius: Math.random() * 1.5 + 0.8
+          vx: (Math.random() - 0.5) * 0.45,
+          vy: (Math.random() - 0.5) * 0.45,
+          baseRadius: Math.random() * 1.8 + 0.9,
+          pulseSpeed: Math.random() * 0.04 + 0.02,
+          pulseVal: Math.random() * Math.PI
         });
       }
 
+      window.addEventListener('click', (e) => {
+        for (let k = 0; k < 7; k++) {
+          const angle = (Math.PI * 2 / 7) * k;
+          particles.push({
+            x: e.clientX,
+            y: e.clientY,
+            vx: Math.cos(angle) * (Math.random() * 2 + 1.2),
+            vy: Math.sin(angle) * (Math.random() * 2 + 1.2),
+            baseRadius: 2.2,
+            life: 50,
+            pulseSpeed: 0.1,
+            pulseVal: 0
+          });
+        }
+      });
+
       function draw() {
         ctx.clearRect(0, 0, w, h);
-        ctx.fillStyle = 'rgba(217, 119, 6, 0.65)';
-        ctx.strokeStyle = 'rgba(234, 88, 12, 0.12)';
 
-        for (let i = 0; i < particles.length; i++) {
+        for (let i = particles.length - 1; i >= 0; i--) {
           const p = particles[i];
+          
+          if (p.life !== undefined) {
+            p.life--;
+            if (p.life <= 0) {
+              particles.splice(i, 1);
+              continue;
+            }
+          }
+
           p.x += p.vx;
           p.y += p.vy;
 
@@ -910,21 +1079,57 @@
           if (p.y < 0) p.y = h;
           if (p.y > h) p.y = 0;
 
+          const dxMouse = p.x - mouse.x;
+          const dyMouse = p.y - mouse.y;
+          const distMouse = Math.hypot(dxMouse, dyMouse);
+          if (distMouse < mouse.radius && distMouse > 0) {
+            const force = (mouse.radius - distMouse) / mouse.radius;
+            p.x += (dxMouse / distMouse) * force * 2.8;
+            p.y += (dyMouse / distMouse) * force * 2.8;
+          }
+
+          p.pulseVal += p.pulseSpeed;
+          const currentRadius = p.baseRadius + Math.sin(p.pulseVal) * 0.7;
+
           ctx.beginPath();
-          ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+          ctx.arc(p.x, p.y, Math.max(0.7, currentRadius), 0, Math.PI * 2);
+          ctx.fillStyle = distMouse < mouse.radius ? 'rgba(245, 158, 11, 0.95)' : 'rgba(217, 119, 6, 0.65)';
           ctx.fill();
 
           for (let j = i + 1; j < particles.length; j++) {
             const p2 = particles[j];
             const dist = Math.hypot(p.x - p2.x, p.y - p2.y);
-            if (dist < 110) {
+            if (dist < 120) {
+              const alpha = (1 - dist / 120) * 0.22;
               ctx.beginPath();
               ctx.moveTo(p.x, p.y);
               ctx.lineTo(p2.x, p2.y);
+              ctx.strokeStyle = `rgba(234, 88, 12, ${alpha})`;
+              ctx.lineWidth = 0.8;
               ctx.stroke();
+
+              if (Math.random() < 0.0008 && pulses.length < 12) {
+                pulses.push({ x1: p.x, y1: p.y, x2: p2.x, y2: p2.y, progress: 0, speed: 0.035 });
+              }
             }
           }
         }
+
+        for (let k = pulses.length - 1; k >= 0; k--) {
+          const pulse = pulses[k];
+          pulse.progress += pulse.speed;
+          if (pulse.progress >= 1) {
+            pulses.splice(k, 1);
+            continue;
+          }
+          const px = pulse.x1 + (pulse.x2 - pulse.x1) * pulse.progress;
+          const py = pulse.y1 + (pulse.y2 - pulse.y1) * pulse.progress;
+          ctx.beginPath();
+          ctx.arc(px, py, 2.2, 0, Math.PI * 2);
+          ctx.fillStyle = '#f59e0b';
+          ctx.fill();
+        }
+
         requestAnimationFrame(draw);
       }
 
@@ -2749,6 +2954,127 @@ Mobile: +886-975-323161 | Email: Liao.Howard@gmail.com`
       `).join('');
     }
 
+    // Dynamic Rotating Focus Ticker in Hero
+    const focusTickerItems = {
+      zh: [
+        "GKE 多雲高可用架構 100% Zero Outage 零停機卓越紀錄",
+        "落地 ISO/IEC 42001 企業級 AI Agent 安全治理與風控",
+        "推動 FinOps 跨雲成本治理，壓降年度雲端支出 30%",
+        "建立全集團零信任 (Zero Trust) 身分與端點安全防線",
+        "集中化 SOC/SIEM/EDR 資安監控，重大資安事件減少 30%",
+        "統籌 $14M+ 全球 IT 與資安預算，直接向董事會與 CEO 匯報"
+      ],
+      en: [
+        "100% Zero Outage on GKE Multi-Cloud HA Architecture",
+        "ISO/IEC 42001 Enterprise AI Agent Governance & Guardrails",
+        "FinOps Cloud Cost Optimization Delivering -30% Annual TCO",
+        "Group-Wide Zero Trust Identity, IAM & Endpoint Resilience",
+        "Centralized SOC/SIEM/EDR Reducing Major Incidents by 30%",
+        "Managing $14M+ Annual Budget Reporting to Board & CEO"
+      ],
+      ja: [
+        "GKEマルチクラウド高可用構成 100% Zero Outage 達成記録",
+        "ISO/IEC 42001準拠 企業向けAIエージェント安全統治の確立",
+        "FinOpsクラウドコスト最適化により年間TCO 30%削減達成",
+        "グループ全域ゼロトラスト (Zero Trust) & IAM強靭化",
+        "集中SOC/SIEM/EDR監視により重大インシデント30%削減",
+        "年間1,400万ドル規模の予算統括、取締役会・CEO直属報告"
+      ]
+    };
+
+    let tickerIndex = 0;
+    function startFocusTicker() {
+      const tickerEl = document.getElementById('dynamic-focus-ticker');
+      if (!tickerEl) return;
+      setInterval(() => {
+        tickerEl.style.opacity = '0';
+        setTimeout(() => {
+          const list = focusTickerItems[currentLang] || focusTickerItems.zh;
+          tickerIndex = (tickerIndex + 1) % list.length;
+          tickerEl.textContent = list[tickerIndex];
+          tickerEl.style.opacity = '1';
+        }, 300);
+      }, 3800);
+    }
+
+    // Live SOC Telemetry Stream Engine
+    const telemetryEvents = [
+      { type: 'ZERO TRUST', tag: 'VERIFIED', color: 'emerald', msg: 'Zero Trust continuous device & identity posture verified across 1,850+ enterprise nodes.' },
+      { type: 'MULTI-CLOUD', tag: '100% UP', color: 'amber', msg: 'GKE multi-zone cluster telemetry confirmed: Zero Outage active across APAC & Global regions.' },
+      { type: 'AI GOV', tag: 'GUARDED', color: 'orange', msg: 'ISO 42001 Guardrails operational: Shadow AI & GenAI data leakage policy enforced.' },
+      { type: 'FINOPS', tag: 'OPTIMIZED', color: 'blue', msg: 'FinOps automated resource scheduling active: Run-rate variance at -30.4% baseline.' },
+      { type: 'SOC / SIEM', tag: 'SECURE', color: 'emerald', msg: 'Centralized telemetry ingestion: 450M events/day correlated, MTTR baseline < 15 mins.' },
+      { type: 'DATA TRUST', tag: 'AUDITED', color: 'purple', msg: 'Immutable backup verification completed: RPO < 5m, RTO < 30m across Tier-1 databases.' }
+    ];
+
+    let telemetryIndex = 0;
+    function startTelemetryStream() {
+      const container = document.getElementById('telemetry-stream-container');
+      const clockEl = document.getElementById('telemetry-clock');
+      if (!container) return;
+
+      function addRow() {
+        const now = new Date();
+        const timeStr = now.toISOString().replace('T', ' ').substring(0, 19) + ' CST';
+        if (clockEl) clockEl.textContent = timeStr;
+
+        const item = telemetryEvents[telemetryIndex % telemetryEvents.length];
+        telemetryIndex++;
+
+        const row = document.createElement('div');
+        row.className = 'telemetry-row flex flex-wrap items-center justify-between gap-2 p-2 rounded-lg bg-obsidian-950/70 border border-slate-800/80 text-slate-300';
+        row.innerHTML = `
+          <div class="flex items-center gap-2">
+            <span class="px-1.5 py-0.5 rounded text-[10px] font-bold uppercase bg-${item.color}-500/20 text-${item.color}-400 border border-${item.color}-500/30">${item.type}</span>
+            <span class="text-slate-200">${item.msg}</span>
+          </div>
+          <div class="flex items-center gap-2 text-slate-500 text-[10px] flex-shrink-0">
+            <span class="text-emerald-400 font-bold">[${item.tag}]</span>
+            <span>${now.toTimeString().split(' ')[0]}</span>
+          </div>
+        `;
+
+        container.insertBefore(row, container.firstChild);
+        while (container.children.length > 3) {
+          container.removeChild(container.lastChild);
+        }
+      }
+
+      addRow();
+      addRow();
+      addRow();
+      setInterval(addRow, 2800);
+    }
+
+    // Interactive Mouse Spotlight on Cards
+    function initCardSpotlight() {
+      document.addEventListener('mousemove', (e) => {
+        document.querySelectorAll('.glass-card').forEach(card => {
+          const rect = card.getBoundingClientRect();
+          const x = e.clientX - rect.left;
+          const y = e.clientY - rect.top;
+          card.style.setProperty('--mouse-x', `${x}px`);
+          card.style.setProperty('--mouse-y', `${y}px`);
+        });
+      });
+    }
+
+    // Scroll-Driven Reveal Animation
+    function initScrollReveal() {
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('active');
+          }
+        });
+      }, { threshold: 0.08 });
+
+      document.querySelectorAll('section, .glass-card').forEach(el => {
+        el.classList.add('reveal');
+        observer.observe(el);
+      });
+    }
+
     window.addEventListener('DOMContentLoaded', () => {
       initCyberCanvas();
       const savedTheme = localStorage.getItem('theme') || 'dark';
@@ -2758,6 +3084,10 @@ Mobile: +886-975-323161 | Email: Liao.Howard@gmail.com`
       setLang('zh');
       initRadarChart();
       animateCounters();
+      startFocusTicker();
+      startTelemetryStream();
+      initCardSpotlight();
+      initScrollReveal();
     });
   </script>
 
