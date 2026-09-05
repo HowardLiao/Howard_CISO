@@ -305,7 +305,7 @@ def build_en_docx():
         title_text="Group Chief Information Security Officer (CISO)",
         subtitle_text="Global Cybersecurity, Digital Trust & Resilience",
         contact_text1="Taiwan (Open to Global Sites)  |  Mobile: +886-975-323161  |  Email: Liao.Howard@gmail.com",
-        contact_text2="LinkedIn: linkedin.com/in/howardliao78  |  Portfolio: https://howardliao.github.io/portfolio/"
+        contact_text2="LinkedIn: linkedin.com/in/howardliao78  |  Portfolio: https://howardliao.github.io/Howard_CISO/"
     )
     
     add_heading_1(doc, "Executive Profile")
@@ -598,7 +598,7 @@ def build_zh_docx():
         title_text="集團資安長 暨 科技副總 (Group CISO)",
         subtitle_text="全球資安治理、數位信任與架構韌性 (對 董事會、董事長、總經理、CEO 專用履歷)",
         contact_text1="台灣 (支援全球跨國據點)  |  行動電話：+886-975-323161  |  電子郵件：Liao.Howard@gmail.com",
-        contact_text2="LinkedIn 領英：linkedin.com/in/howardliao78  |  作品集網站：https://howardliao.github.io/portfolio/",
+        contact_text2="LinkedIn 領英：linkedin.com/in/howardliao78  |  作品集網站：https://howardliao.github.io/Howard_CISO/",
         east_asia="Microsoft JhengHei"
     )
     
@@ -900,7 +900,7 @@ def build_ja_docx():
         title_text="グループ最高情報セキュリティ責任者 (Group CISO)",
         subtitle_text="グローバルサイバーセキュリティ・デジタルトラスト・レジリエンス統括 (取締役会・CEO向け 職務経歴書)",
         contact_text1="台湾 (グローバル拠点対応可能)  |  電話番号：+886-975-323161  |  Eメール：Liao.Howard@gmail.com",
-        contact_text2="LinkedIn：linkedin.com/in/howardliao78  |  ポートフォリオ：https://howardliao.github.io/portfolio/",
+        contact_text2="LinkedIn：linkedin.com/in/howardliao78  |  ポートフォリオ：https://howardliao.github.io/Howard_CISO/",
         east_asia="Meiryo"
     )
     

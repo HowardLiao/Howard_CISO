@@ -244,7 +244,7 @@ html_template = """<!DOCTYPE html>
               <a href="https://linkedin.com/in/howardliao78" target="_blank" rel="noopener" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-blue-900/40 border border-blue-700/60 text-blue-300 hover:bg-blue-800/60 transition-all">
                 <span>🔗</span> LinkedIn Profile ↗
               </a>
-              <a href="https://howardliao.github.io/portfolio/" target="_blank" rel="noopener" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-indigo-900/40 border border-indigo-700/60 text-indigo-300 hover:bg-indigo-800/60 transition-all">
+              <a href="https://howardliao.github.io/Howard_CISO/" target="_blank" rel="noopener" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-indigo-900/40 border border-indigo-700/60 text-indigo-300 hover:bg-indigo-800/60 transition-all">
                 <span>🌐</span> Portfolio Website ↗
               </a>
             </div>
@@ -446,7 +446,7 @@ html_template = """<!DOCTYPE html>
   <!-- FOOTER -->
   <footer class="border-t border-slate-800 bg-obsidian-950 py-10 mt-20 text-center text-xs text-slate-500 space-y-3">
     <div class="flex justify-center items-center gap-4 text-slate-400">
-      <a href="https://howardliao.github.io/portfolio/" target="_blank" class="hover:text-cyan-400 transition-colors">Howard Portfolio ↗</a>
+      <a href="https://howardliao.github.io/Howard_CISO/" target="_blank" class="hover:text-cyan-400 transition-colors">Howard Portfolio ↗</a>
       <span>•</span>
       <a href="https://linkedin.com/in/howardliao78" target="_blank" class="hover:text-cyan-400 transition-colors">LinkedIn ↗</a>
       <span>•</span>

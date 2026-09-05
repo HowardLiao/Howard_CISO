@@ -488,7 +488,7 @@ p3.text = "「科技引領創新，資安捍衛信任，策略創造價值。」
 p3.font.name = FONT_BODY; p3.font.size = Pt(14); p3.font.italic = True; p3.font.color.rgb = COLOR_CYAN; p3.alignment = PP_ALIGN.CENTER; p3.space_before = Pt(16)
 
 p4 = tf_end.add_paragraph()
-p4.text = "廖倫豪 博士 (Howard Liao, Ph.D.)\n集團資安長 暨 科技副總 (Group CISO)\n📱 +886-975-323161  |  ✉️ Liao.Howard@gmail.com\n🌐 https://howardliao.github.io/portfolio/  |  🔗 https://howardliao.github.io/Howard_CISO/"
+p4.text = "廖倫豪 博士 (Howard Liao, Ph.D.)\n集團資安長 暨 科技副總 (Group CISO)\n📱 +886-975-323161  |  ✉️ Liao.Howard@gmail.com\n🌐 https://howardliao.github.io/Howard_CISO/  |  🔗 https://howardliao.github.io/Howard_CISO/"
 p4.font.name = FONT_BODY; p4.font.size = Pt(11); p4.font.color.rgb = TEXT_LIGHT; p4.alignment = PP_ALIGN.CENTER; p4.space_before = Pt(20)
 
 out_pptx_ciso = os.path.join(target_dir, "Howard_Liao_CISO_10Min_Executive_Presentation.pptx")

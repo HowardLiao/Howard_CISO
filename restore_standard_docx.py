@@ -303,7 +303,7 @@ def generate_zh():
         title_text="集團資安長 暨 科技副總 (Group CISO)",
         subtitle_text="全球資安治理、數位信任與架構韌性 (呈報 董事會、董事長、總經理、CEO 專用履歷)",
         contact_text1="台灣 (支援全球跨國據點)  |  行動電話：+886-975-323161  |  電子郵件：Liao.Howard@gmail.com",
-        contact_text2="LinkedIn 領英：linkedin.com/in/howardliao78  |  作品集網站：https://howardliao.github.io/portfolio/",
+        contact_text2="LinkedIn 領英：linkedin.com/in/howardliao78  |  作品集網站：https://howardliao.github.io/Howard_CISO/",
         east_asia="Microsoft JhengHei"
     )
     
