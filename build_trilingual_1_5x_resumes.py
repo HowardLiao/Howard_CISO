@@ -198,6 +198,57 @@ def add_header(doc, name_text, title_text, subtitle_text, contact_text1, contact
     p_sep.paragraph_format.space_before = Pt(6)
     p_sep.paragraph_format.space_after = Pt(0)
 
+def add_kpi_bento_grid(doc, kpi_list, east_asia="Microsoft JhengHei"):
+    """Creates a 1x4 executive Bento impact metrics banner table."""
+    table = doc.add_table(rows=1, cols=len(kpi_list))
+    table.alignment = WD_TABLE_ALIGNMENT.CENTER
+    table.autofit = False
+    
+    col_w = Inches(7.0 / len(kpi_list))
+    for i, item in enumerate(kpi_list):
+        cell = table.cell(0, i)
+        cell.width = col_w
+        cell.vertical_alignment = WD_ALIGN_VERTICAL.CENTER
+        
+        tcPr = cell._tc.get_or_add_tcPr()
+        shd = parse_xml('<w:shd xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main" w:val="clear" w:color="auto" w:fill="FFFBEB"/>')
+        tcPr.append(shd)
+        
+        tcBorders = parse_xml(
+            '<w:tcBorders xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main">'
+            '<w:top w:val="single" w:sz="12" w:space="0" w:color="C2410C"/>'
+            '<w:left w:val="single" w:sz="4" w:space="0" w:color="E5E7EB"/>'
+            '<w:bottom w:val="single" w:sz="4" w:space="0" w:color="E5E7EB"/>'
+            '<w:right w:val="single" w:sz="4" w:space="0" w:color="E5E7EB"/>'
+            '</w:tcBorders>'
+        )
+        tcPr.append(tcBorders)
+        
+        p = cell.paragraphs[0]
+        p.alignment = WD_ALIGN_PARAGRAPH.CENTER
+        p.paragraph_format.space_before = Pt(3)
+        p.paragraph_format.space_after = Pt(1)
+        r_num = p.add_run(item['num'])
+        set_run_font(r_num, size=Pt(16), bold=True, color=COLOR_PRIMARY, east_asia=east_asia)
+        
+        p_t = cell.add_paragraph()
+        p_t.alignment = WD_ALIGN_PARAGRAPH.CENTER
+        p_t.paragraph_format.space_before = Pt(0)
+        p_t.paragraph_format.space_after = Pt(1)
+        r_t = p_t.add_run(item['title'])
+        set_run_font(r_t, size=Pt(9.5), bold=True, color=COLOR_SECONDARY, east_asia=east_asia)
+        
+        p_s = cell.add_paragraph()
+        p_s.alignment = WD_ALIGN_PARAGRAPH.CENTER
+        p_s.paragraph_format.space_before = Pt(0)
+        p_s.paragraph_format.space_after = Pt(3)
+        r_s = p_s.add_run(item['sub'])
+        set_run_font(r_s, size=Pt(8.5), color=COLOR_MUTED, east_asia=east_asia)
+    
+    p_after = doc.add_paragraph()
+    p_after.paragraph_format.space_before = Pt(6)
+    p_after.paragraph_format.space_after = Pt(2)
+
 def add_exp_item(doc, role, group_note, company_line, period, desc, scopes, achs, leaving=None, add_ctx=None, east_asia="Microsoft JhengHei", labels=None):
     if labels is None:
         labels = {"scope": "Leadership Scope", "ach": "Selected Achievements & Impact", "ctx": "Additional Context", "leaving": "Reason for Leaving"}
@@ -333,6 +384,12 @@ def generate_zh():
         east_asia="Microsoft JhengHei"
     )
     add_footer(doc, footer_text="Howard Liao Ph.D. (廖倫豪 博士) | Group CISO 專業履歷戰略檔案", east_asia="Microsoft JhengHei")
+    add_kpi_bento_grid(doc, [
+        {"num": "$14M+", "title": "IT & 資安資本治理", "sub": "統籌全球跨國預算"},
+        {"num": "100%", "title": "Zero Outage 零停機", "sub": "GKE 多雲高可用架構"},
+        {"num": "-30%", "title": "雲端年度 TCO", "sub": "FinOps 跨雲成本治理"},
+        {"num": "-30%", "title": "重大資安事件 / MTTR", "sub": "SOC/SIEM 集中化防禦"}
+    ], east_asia="Microsoft JhengHei")
     
     # Opening Preface per user requirement (Objective narrative without '我')
     add_heading_1(doc, "前言與高階主管職涯定位 (Executive Summary)", east_asia="Microsoft JhengHei")
@@ -410,9 +467,9 @@ def generate_zh():
     # 1. 關聯集團 (無 "我" 字)
     add_exp_item(
         doc,
-        role="集團副總 暨 資安與數位轉型負責人 (Vice President)",
-        group_note="(高雄、上海、台北 / 盛欣、盛碁網絡/中國 波克/台北 芬格國際有限公司) 上市櫃公司 關聯集團",
-        company_line="跨國集團 | 台灣 | 多據點運營",
+        role="集團副總 兼 集團資安長 (VP of Group Security & Digital Transformation / Group CISO)",
+        group_note="跨國數位科技與娛樂平台集團（旗下涵蓋盛欣網絡、盛碁網絡及跨國關聯企業）",
+        company_line="跨國數位娛樂與高科技平台集團 | 台灣・海外多據點",
         period="2025.05 – 至今",
         desc="以 CISO 級別角色主導全集團資訊安全戰略、多雲與基礎架構治理、企業營運韌性及 AI 治理，橫跨多個事業群與跨國營運據點。",
         scopes=[
@@ -431,7 +488,6 @@ def generate_zh():
             "透過 ROI/TCO、RTO/RPO、SLA、風險降減幅度與稽核整備度分析，成功爭取零信任、SOC/SIEM、災難復原與雲端資安等重大投資贊助。",
             "有效協調 IT、財務、法務、人資、研發、業務營運與外部服務供應商，推進資安與數位轉型專案。"
         ],
-        leaving="尋求位於台灣北部、能與長期家庭生活規劃、職涯發展及集團級資安長治理目標高度契合的高階主管機會。",
         labels=zh_labels
     )
 
@@ -439,7 +495,7 @@ def generate_zh():
     add_exp_item(
         doc,
         role="資訊處長 / IT Director",
-        group_note="隆中網絡股份有限公司 / GameSparcs (總部在台中，並在台北、洛杉磯、雪梨、馬爾他、杭州與成都設有據點 / 向上國際XSGames、隆中網絡、萬國遊戲、海淯遊戲、VIVIDGAMING、銀河網絡、浩天遊戲、晶綺科技) 上市櫃公司",
+        group_note="隆中網絡股份有限公司 / GameSparcs (股票代號 6542.TWO / 向上國際集團) 上市櫃公司",
         company_line="上市櫃全球線上娛樂與遊戲平台營運商 | 台中, 台灣",
         period="2022.09 – 2025.04",
         desc="主導全球雲端架構、資安治理、數位平台韌性、DevOps 效能與高可用性維運，支撐服務全球數百萬玩家之上市櫃線上平台。",
@@ -459,7 +515,6 @@ def generate_zh():
             "推動多雲 FinOps 雲端財務營運實踐，在業務流量劇增期間維持極致效能與穩定性的同時，達成約 30% 雲端成本優化。",
             "憑藉兼具超高可用性、營運韌性與成本最佳化之 GKE 多雲架構，榮獲「雲端架構卓越獎 (Cloud Architecture Excellence Award)」。"
         ],
-        leaving="尋求具備更廣泛全集團治理權責、能與長期職涯目標更緊密契合的資深資安長領導職位。",
         labels=zh_labels
     )
 
@@ -486,7 +541,6 @@ def generate_zh():
             "於集團被中國大型製造業集團收購期間，主導組織 IT 整合與數據資產之盡職調查。"
         ],
         add_ctx="深厚的 IT/OT 融合經驗，為複雜基礎架構、供應鏈整合、夥伴生態系與跨國製造運營提供堅實支撐。",
-        leaving="隨公司順利併入大型製造集團後，為追求具備更廣闊戰略發展之資訊安全與科技高階領導機會而離任。",
         labels=zh_labels
     )
 
@@ -642,6 +696,12 @@ def generate_en():
         east_asia="Microsoft JhengHei"
     )
     add_footer(doc, footer_text="Howard Liao, Ph.D. | Group CISO Executive Resume Dossier", east_asia="Microsoft JhengHei")
+    add_kpi_bento_grid(doc, [
+        {"num": "$14M+", "title": "IT & Security Capital", "sub": "Global Budget Governance"},
+        {"num": "100%", "title": "Zero Outage SLA", "sub": "Multi-Cloud GKE Resilience"},
+        {"num": "-30%", "title": "Cloud Annual TCO", "sub": "FinOps Cross-Cloud Optimization"},
+        {"num": "-30%", "title": "Major Incidents / MTTR", "sub": "Centralized SOC/SIEM Defense"}
+    ], east_asia="Microsoft JhengHei")
     
     add_heading_1(doc, "Executive Summary")
     add_body_p(doc, "Dr. Howard Liao (Howard Liao, Ph.D.) is Group Chief Information Security Officer (CISO) and Vice President of Technology across multinational internet technology and digital platforms. A CISO-level technology executive with 27+ years of enterprise IT leadership, 15+ years of cybersecurity experience, and 10+ years leading cybersecurity strategy, cloud governance, digital resilience, and enterprise transformation across publicly listed, multinational, and regulated business environments.")
@@ -717,9 +777,9 @@ def generate_en():
     # 1. Confidential Group
     add_exp_item(
         doc,
-        role="Vice President / Group Cybersecurity & Digital Transformation Lead",
-        group_note="(Kaohsiung, Shanghai, Taipei / Shengxin, Shengji Network / China Poker City / Taipei Finger International Co., Ltd.) Listed Affiliate Group",
-        company_line="Confidential Group | Taiwan | Multi-site Operations",
+        role="Group Vice President & Group CISO (Information Security & Digital Transformation)",
+        group_note="Multinational Digital Tech & Entertainment Platform Group (Encompassing Shengxin, Shengji & Global Affiliates)",
+        company_line="Multinational Digital Platform Conglomerate | Taiwan & Global Operations",
         period="May 2025 – Present",
         desc="Acting in a CISO-level capacity, leading group cybersecurity strategy, cloud and infrastructure governance, enterprise resilience, and AI governance across multiple business units.",
         scopes=[
@@ -738,14 +798,13 @@ def generate_en():
             "Secured executive sponsorship and investment for Zero Trust, SOC/SIEM, disaster recovery, and cloud-security initiatives through ROI/TCO, RTO/RPO, SLA, risk-reduction, and audit-readiness analysis.",
             "Coordinated security and digital-transformation initiatives among IT, finance, legal, HR, engineering, business operations, and external service partners."
         ],
-        leaving="Seeking a northern Taiwan-based executive opportunity aligned with long-term family, career, and group-level cybersecurity leadership objectives."
     )
 
     # 2. GameSparcs
     add_exp_item(
         doc,
         role="IT Director",
-        group_note="Longzhong Network Co., Ltd. / GameSparcs (Headquartered in Taichung with offices in Taipei, Los Angeles, Sydney, Malta, Hangzhou, Chengdu / XSGames, Longzhong, Wanguo, Haiyu, VIVIDGAMING, Galaxy, Haotian, Jingqi) Publicly Listed Company",
+        group_note="GameSparcs Co., Ltd. (TPEx: 6542.TWO / XSGames Group) Publicly Listed Company",
         company_line="Publicly Listed Global Gaming Platform Operator | Taichung, Taiwan",
         period="September 2022 – April 2025",
         desc="Led global cloud architecture, cybersecurity governance, digital-platform resilience, DevOps productivity, and high-availability operations for a publicly listed online platform serving millions of users.",
@@ -765,7 +824,6 @@ def generate_en():
             "Built FinOps practices across multi-cloud environments, achieving approximately 30% cloud-cost optimization while maintaining performance, resilience, and customer experience during traffic spikes.",
             "Received a Cloud Architecture Excellence Award for a GKE-based multi-cloud platform combining high availability, operational resilience, and cost optimization."
         ],
-        leaving="Seeking a senior cybersecurity leadership role with broader group-level governance responsibility and improved alignment with long-term career and lifestyle objectives."
     )
 
     # 3. Hongen
@@ -791,7 +849,6 @@ def generate_en():
             "Supported organizational integration and data-asset due diligence during acquisition by a major Chinese manufacturing group."
         ],
         add_ctx="Prior IT/OT convergence experience provides practical capability for complex infrastructure, supply-chain, partner, and operational integration needs.",
-        leaving="Following acquisition by a major Chinese conglomerate, pursued opportunities aligned with broader technology and cybersecurity leadership goals."
     )
 
     # 4. HyWeb
@@ -939,6 +996,12 @@ def generate_ja():
         east_asia="Meiryo"
     )
     add_footer(doc, footer_text="廖倫豪 博士 (Howard Liao, Ph.D.) | グループCISO エグゼクティブ職務経歴書", east_asia="Meiryo")
+    add_kpi_bento_grid(doc, [
+        {"num": "$14M+", "title": "IT・セキュリティ予算統括", "sub": "グローバル資本ガバナンス"},
+        {"num": "100%", "title": "ゼロダウンタイム (Zero Outage)", "sub": "マルチクラウド高可用性"},
+        {"num": "-30%", "title": "年間クラウド TCO 削減", "sub": "FinOps コスト最適化"},
+        {"num": "-30%", "title": "重大インシデント / MTTR", "sub": "集中型 SOC/SIEM 迅速対応"}
+    ], east_asia="Meiryo")
     
     add_heading_1(doc, "エグゼクティブサマリー (Executive Summary)", east_asia="Meiryo")
     add_body_p(doc, "廖倫豪 博士 (Howard Liao, Ph.D.) と申します。グローバルインターネット技術・デジタルプラットフォームグループにおいて、副社長 兼 グループ最高情報セキュリティ責任者 (Group CISO) を務めております。27年以上の企業ITリーダーシップ、15年以上のサイバーセキュリティ実務、そして上場企業・多国籍企業において10年以上にわたりセキュリティ戦略、クラウドガバナンス、デジタルレジリエンス、DXを主導してきたCISOレベルのエグゼクティブです。", east_asia="Meiryo")
@@ -1015,9 +1078,9 @@ def generate_ja():
     # 1. 副社長
     add_exp_item(
         doc,
-        role="副社長 兼 グループセキュリティ・DX統括 (Vice President)",
-        group_note="(高雄・上海・台北 / 盛欣・盛碁ネットワーク / 中国Poker City / 台北Finger International) 上場関連グループ",
-        company_line="多国籍インターネット・デジタルプラットフォームグループ | 台湾・海外拠点",
+        role="グループ副社長 兼 最高情報セキュリティ責任者 (Group VP & Group CISO)",
+        group_note="多国籍デジタルテクノロジー＆エンターテインメントプラットフォームグループ（盛欣網絡・盛碁網絡および海外関連企業）",
+        company_line="多国籍デジタルエンターテインメントグループ | 台湾・海外複数拠点",
         period="2025年5月 – 現在",
         desc="CISOレベルの役割として、複数事業部門および海外拠点におけるグループ全体のサイバーセキュリティ戦略、マルチクラウド統治、レジリエンス、AIガバナンスを統括。",
         scopes=[
@@ -1036,7 +1099,6 @@ def generate_ja():
             "ROI/TCO、RTO/RPO、SLA、リスク低減効果の精緻な分析により、ゼロトラスト、SIEM、DR、クラウドセキュリティへの役員投資承認を獲得。",
             "IT、財務、法務、人事、開発、事業部門、外部パートナー間の緊密な連携を推進し、全社DXプロジェクトを完遂。"
         ],
-        leaving="長期的なキャリア形成、家族との生活設計、およびグループ全体を見据えた最高セキュリティ責任者(CISO)職への就任を見据え、台湾北部拠点のポジションを希望。",
         east_asia="Meiryo",
         labels=ja_labels
     )
@@ -1045,7 +1107,7 @@ def generate_ja():
     add_exp_item(
         doc,
         role="IT Director (情報技術統括部長)",
-        group_note="Longzhong Network Co., Ltd. / GameSparcs (台中本社、台北・ロサンゼルス・シドニー・マルタ・杭州・成都拠点 / 台湾上場企業)",
+        group_note="隆中網絡 (GameSparcs Co., Ltd. / 証券コード: 6542.TWO / XSGames グループ) 上場企業",
         company_line="グローバルオンラインゲーム・エンターテインメントプラットフォーム上場企業 | 台中, 台湾",
         period="2022年9月 – 2025年4月",
         desc="世界数百万のユーザーを支える上場プラットフォームにおいて、グローバルクラウドアーキテクチャ、セキュリティ統治、プラットフォーム復原力、DevOps生産性、高可用性運用を主導。",
@@ -1065,7 +1127,6 @@ def generate_ja():
             "マルチクラウドFinOpsを推進し、トラフィック急増時にも高パフォーマンスを維持しつつ、クラウドコストの約30%最適化を達成。",
             "可用性・復原力・コスト最適化を高度に融合したGKEマルチクラウド基盤が高く評価され、「クラウドアーキテクチャ卓越賞」を受賞。"
         ],
-        leaving="グループ全体へのより広範なガバナンス責任を担うシニアセキュリティリーダーシップポジションへの挑戦のため。",
         east_asia="Meiryo",
         labels=ja_labels
     )
@@ -1093,7 +1154,6 @@ def generate_ja():
             "中国大手製造グループによる買収時において、IT組織統合とデータ資産デューデリジェンスを主導。"
         ],
         add_ctx="豊富なIT/OT融合経験により、複雑な産業インフラ、サプライチェーン、パートナー統合にも即応可能。",
-        leaving="大手製造グループへの統合完了後、更なる広範なセキュリティおよびテクノロジーリーダーシップ機会を追求するため。",
         east_asia="Meiryo",
         labels=ja_labels
     )
