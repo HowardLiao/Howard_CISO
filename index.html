@@ -113,14 +113,109 @@
       width: 100%;
     }
 
-    /* iOS Safe Area Padding for Bottom Dock */
-    .safe-bottom {
-      padding-bottom: max(0.5rem, env(safe-area-inset-bottom, 0.5rem));
-    }
-
     /* Mobile Ergonomics & Fast Tap */
     button, a {
       touch-action: manipulation;
+    }
+
+    /* Mobile Bottom Dock Strict Sizing & Alignment */
+    .mobile-dock {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      z-index: 50;
+      background: rgba(12, 10, 9, 0.94);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-top: 1px solid rgba(245, 158, 11, 0.25);
+      box-shadow: 0 -4px 25px rgba(0, 0, 0, 0.65);
+      padding: 6px 8px;
+      padding-bottom: max(8px, env(safe-area-inset-bottom, 8px));
+      display: flex;
+      align-items: center;
+      justify-content: space-around;
+    }
+
+    .light .mobile-dock {
+      background: rgba(253, 251, 247, 0.96);
+      border-top: 1px solid rgba(180, 83, 9, 0.22);
+      box-shadow: 0 -4px 20px rgba(180, 83, 9, 0.12);
+    }
+
+    .mobile-dock-item {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 3px 2px;
+      color: #94a3b8;
+      text-decoration: none;
+      transition: all 0.2s ease;
+      touch-action: manipulation;
+      min-width: 0;
+    }
+
+    .mobile-dock-item:active {
+      transform: scale(0.92);
+    }
+
+    .mobile-dock-item:hover,
+    .mobile-dock-item.active {
+      color: #f59e0b;
+    }
+
+    .mobile-dock-icon {
+      width: 20px;
+      height: 20px;
+      max-width: 20px;
+      max-height: 20px;
+      margin-bottom: 2px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .mobile-dock-icon svg {
+      width: 20px !important;
+      height: 20px !important;
+      max-width: 20px !important;
+      max-height: 20px !important;
+      display: block;
+      flex-shrink: 0;
+    }
+
+    .mobile-dock-badge {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #d97706, #ea580c);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #ffffff;
+      box-shadow: 0 2px 6px rgba(234, 88, 12, 0.4);
+      margin-bottom: 2px;
+      flex-shrink: 0;
+    }
+
+    .mobile-dock-badge svg {
+      width: 12px !important;
+      height: 12px !important;
+      max-width: 12px !important;
+      max-height: 12px !important;
+      display: block;
+      flex-shrink: 0;
+    }
+
+    .mobile-dock-label {
+      font-size: 10px;
+      line-height: 1.2;
+      font-weight: 600;
+      white-space: nowrap;
+      letter-spacing: 0.02em;
     }
 
     .glass-card {
@@ -504,28 +599,36 @@
   </div>
 
   <!-- MOBILE BOTTOM NAVIGATION DOCK (Native iOS / Android Ergonomics) -->
-  <nav class="fixed bottom-0 inset-x-0 z-40 lg:hidden glass-nav border-t border-amber-500/25 px-1.5 py-1 flex items-center justify-around text-center shadow-2xl safe-bottom">
-    <a href="#hero" class="flex-1 py-1 px-0.5 flex flex-col items-center justify-center text-slate-400 hover:text-amber-400 active:text-amber-400 transition-colors active:scale-95">
-      <svg class="w-4.5 h-4.5 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>
-      <span class="text-[10px] font-semibold mt-0.5" data-i18n="nav.dockProfile">簡介</span>
-    </a>
-    <a href="#radar" class="flex-1 py-1 px-0.5 flex flex-col items-center justify-center text-slate-400 hover:text-amber-400 active:text-amber-400 transition-colors active:scale-95">
-      <svg class="w-4.5 h-4.5 text-orange-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path></svg>
-      <span class="text-[10px] font-semibold mt-0.5" data-i18n="nav.dockRadar">雷達</span>
-    </a>
-    <a href="#competencies" class="flex-1 py-1 px-0.5 flex flex-col items-center justify-center text-slate-400 hover:text-amber-400 active:text-amber-400 transition-colors active:scale-95">
-      <svg class="w-4.5 h-4.5 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path></svg>
-      <span class="text-[10px] font-semibold mt-0.5" data-i18n="nav.dockSkills">職能</span>
-    </a>
-    <a href="#experience" class="flex-1 py-1 px-0.5 flex flex-col items-center justify-center text-slate-400 hover:text-amber-400 active:text-amber-400 transition-colors active:scale-95">
-      <svg class="w-4.5 h-4.5 text-orange-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
-      <span class="text-[10px] font-semibold mt-0.5" data-i18n="nav.dockExp">經歷</span>
-    </a>
-    <a id="dock-download-btn" href="Howard_Liao_CISO_Resume_ZH.docx" download="Howard_Liao_CISO_Resume_ZH.docx" class="flex-1 py-1 px-0.5 flex flex-col items-center justify-center text-amber-400 hover:text-white transition-colors active:scale-95">
-      <div class="w-5 h-5 rounded-full bg-gradient-to-r from-amber-600 to-orange-600 flex items-center justify-center text-white shadow-sm">
-        <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
+  <nav class="mobile-dock lg:hidden">
+    <a href="#hero" class="mobile-dock-item">
+      <div class="mobile-dock-icon text-amber-400">
+        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>
       </div>
-      <span class="text-[10px] font-bold text-amber-400 mt-0.5" data-i18n="nav.dockDownload">履歷</span>
+      <span class="mobile-dock-label" data-i18n="nav.dockProfile">簡介</span>
+    </a>
+    <a href="#radar" class="mobile-dock-item">
+      <div class="mobile-dock-icon text-orange-400">
+        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path></svg>
+      </div>
+      <span class="mobile-dock-label" data-i18n="nav.dockRadar">雷達</span>
+    </a>
+    <a href="#competencies" class="mobile-dock-item">
+      <div class="mobile-dock-icon text-amber-400">
+        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path></svg>
+      </div>
+      <span class="mobile-dock-label" data-i18n="nav.dockSkills">職能</span>
+    </a>
+    <a href="#experience" class="mobile-dock-item">
+      <div class="mobile-dock-icon text-orange-400">
+        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
+      </div>
+      <span class="mobile-dock-label" data-i18n="nav.dockExp">經歷</span>
+    </a>
+    <a id="dock-download-btn" href="Howard_Liao_CISO_Resume_ZH.docx" download="Howard_Liao_CISO_Resume_ZH.docx" class="mobile-dock-item text-amber-400">
+      <div class="mobile-dock-badge">
+        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
+      </div>
+      <span class="mobile-dock-label text-amber-400 font-bold" data-i18n="nav.dockDownload">履歷</span>
     </a>
   </nav>
 
