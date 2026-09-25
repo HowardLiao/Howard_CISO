@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Howard Liao, Ph.D. - Group CISO Executive Resume Preview</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Noto+Sans+TC:wght@300;400;500;600;700&family=Noto+Sans+JP:wght@400;500;700&display=swap');
+    
+    :root {
+      --primary: #c2410c;
+      --primary-hover: #9a3412;
+      --secondary: #b45309;
+      --gold: #f59e0b;
+      --pharaoh-bg: #fffbf5;
+      --border-c: #e5e7eb;
+    }
+    
+    body {
+      font-family: 'Plus Jakarta Sans', 'Noto Sans TC', sans-serif;
+      background: #0f172a;
+      color: #1e293b;
+      padding: 16px;
+      margin: 0;
+    }
+
+    .doc-page {
+      background: #ffffff;
+      max-width: 860px;
+      margin: 0 auto;
+      border-radius: 12px;
+      box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.4);
+      padding: 36px 40px;
+      border: 1px solid #cbd5e1;
+    }
+
+    @media (max-width: 640px) {
+      .doc-page {
+        padding: 20px 16px;
+      }
+    }
+
+    .bento-card {
+      background: #fffbeb;
+      border: 1px solid #fed7aa;
+      border-top: 3px solid #c2410c;
+      border-radius: 8px;
+      padding: 12px 10px;
+      text-align: center;
+      transition: transform 0.2s ease;
+    }
+    .bento-card:hover {
+      transform: translateY(-2px);
+    }
+
+    .section-h1 {
+      color: #c2410c;
+      font-size: 1.15rem;
+      font-weight: 700;
+      border-bottom: 2px solid #ea580c;
+      padding-bottom: 4px;
+      margin-top: 24px;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .section-h2 {
+      color: #b45309;
+      font-size: 1rem;
+      font-weight: 700;
+      margin-top: 14px;
+      margin-bottom: 4px;
+    }
+
+    .tab-btn.active {
+      background: linear-gradient(135deg, #c2410c, #ea580c);
+      color: #ffffff;
+      font-weight: 700;
+      box-shadow: 0 4px 12px rgba(194, 65, 12, 0.3);
+    }
+  </style>
+</head>
+<body class="bg-slate-950 text-slate-100 min-h-screen">
+  
+  <!-- Control Header Bar -->
+  <div class="max-w-[860px] mx-auto mb-4 flex flex-wrap items-center justify-between gap-3 bg-slate-900/90 border border-slate-800 rounded-xl p-3 backdrop-blur-md">
+    <div class="flex items-center gap-2">
+      <span class="inline-flex h-3 w-3 rounded-full bg-emerald-500 animate-pulse"></span>
+      <span class="text-xs font-semibold text-slate-300">Word .docx 專業版面實時預覽 (Unified Executive Spec)</span>
+    </div>
+    <div class="flex items-center gap-2">
+      <div class="flex bg-slate-800 rounded-lg p-1 border border-slate-700">
+        <button onclick="switchLang('zh')" id="tab-zh" class="tab-btn active px-3 py-1 text-xs rounded-md font-semibold transition">繁體中文</button>
+        <button onclick="switchLang('en')" id="tab-en" class="tab-btn px-3 py-1 text-xs text-slate-300 rounded-md font-semibold transition">English</button>
+        <button onclick="switchLang('ja')" id="tab-ja" class="tab-btn px-3 py-1 text-xs text-slate-300 rounded-md font-semibold transition">日本語</button>
+      </div>
+      <a id="btn-download" href="Howard_Liao_CISO_Resume_ZH.docx" download="Howard_Liao_CISO_Resume_ZH.docx" class="px-3 py-1.5 rounded-lg bg-gradient-to-r from-amber-600 to-orange-600 text-white text-xs font-bold hover:shadow-lg transition flex items-center gap-1.5 active:scale-95">
+        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
+        <span id="dl-text">下載 Word 原檔</span>
+      </a>
+    </div>
+  </div>
+
+  <!-- Document Page Mockup -->
+  <div class="doc-page text-slate-800 shadow-2xl relative">
+    
+    <!-- Top Header with Portrait -->
+    <div class="flex flex-col sm:flex-row items-center sm:items-start gap-6 border-b border-amber-200/80 pb-6">
+      <img src="assets/howard_portrait.jpg" alt="Howard Liao Ph.D." class="w-28 h-36 object-cover rounded-lg border-2 border-amber-500 shadow-md flex-shrink-0">
+      <div class="flex-1 text-center sm:text-left">
+        <div class="text-[11px] font-bold text-amber-600 tracking-wider mb-1" id="hdr-presenter">報告人：Howard Liao Ph.D. (廖倫豪 博士)</div>
+        <h1 class="text-2xl sm:text-3xl font-black text-orange-700 tracking-tight" id="hdr-name">廖倫豪 博士 (Howard Liao, Ph.D.)</h1>
+        <div class="text-base sm:text-lg font-bold text-amber-800 mt-1" id="hdr-title">集團資安長 暨 科技副總 (Group CISO)</div>
+        <div class="text-xs sm:text-sm font-semibold text-slate-600 mt-0.5" id="hdr-sub">全球資安治理、數位信任與架構韌性 (呈報 董事會、董事長、總經理、CEO 專用履歷)</div>
+        <div class="text-xs text-slate-500 mt-2 space-y-0.5">
+          <div id="hdr-contact1">台灣 (支援全球跨國據點)  |  行動電話：+886-975-323161  |  電子郵件：Liao.Howard@gmail.com</div>
+          <div id="hdr-contact2">LinkedIn：<a href="https://linkedin.com/in/howardliao78" target="_blank" class="text-orange-700 underline">linkedin.com/in/howardliao78</a>  |  作品集：<a href="https://howardliao.github.io/Howard_CISO/" target="_blank" class="text-orange-700 underline font-semibold">https://howardliao.github.io/Howard_CISO/</a></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 4 C-Level Board Impact Bento Cards -->
+    <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 my-6">
+      <div class="bento-card">
+        <div class="text-xl sm:text-2xl font-black text-orange-700 tracking-tight">$14M+</div>
+        <div class="text-[11px] font-bold text-amber-900 mt-1" id="bento-1-title">IT & 資安資本治理</div>
+        <div class="text-[10px] text-slate-500 mt-0.5" id="bento-1-sub">統籌全球跨國預算</div>
+      </div>
+      <div class="bento-card">
+        <div class="text-xl sm:text-2xl font-black text-orange-700 tracking-tight">100%</div>
+        <div class="text-[11px] font-bold text-amber-900 mt-1" id="bento-2-title">Zero Outage 零停機</div>
+        <div class="text-[10px] text-slate-500 mt-0.5" id="bento-2-sub">GKE 多雲高可用架構</div>
+      </div>
+      <div class="bento-card">
+        <div class="text-xl sm:text-2xl font-black text-orange-700 tracking-tight">-30%</div>
+        <div class="text-[11px] font-bold text-amber-900 mt-1" id="bento-3-title">雲端年度 TCO</div>
+        <div class="text-[10px] text-slate-500 mt-0.5" id="bento-3-sub">FinOps 跨雲成本治理</div>
+      </div>
+      <div class="bento-card">
+        <div class="text-xl sm:text-2xl font-black text-orange-700 tracking-tight">-30%</div>
+        <div class="text-[11px] font-bold text-amber-900 mt-1" id="bento-4-title">重大資安事件 / MTTR</div>
+        <div class="text-[10px] text-slate-500 mt-0.5" id="bento-4-sub">SOC/SIEM 集中化防禦</div>
+      </div>
+    </div>
+
+    <!-- Dynamic Content Sections -->
+    <div id="content-body"></div>
+
+    <!-- Footer of Doc -->
+    <div class="border-t border-amber-300 pt-3 mt-10 flex flex-wrap justify-between items-center text-[10px] text-slate-400">
+      <div>Howard Liao Ph.D. (廖倫豪 博士) | Group CISO 專業履歷戰略檔案</div>
+      <div class="font-medium">CONFIDENTIAL — STRICTLY FOR BOARD & EXECUTIVE NOMINATION</div>
+    </div>
+
+  </div>
+
+  <script>
+    const RESUME_DATA = {
+      zh: {
+        presenter: "報告人：Howard Liao Ph.D. (廖倫豪 博士)",
+        name: "廖倫豪 博士 (Howard Liao, Ph.D.)",
+        title: "集團資安長 暨 科技副總 (Group CISO)",
+        subtitle: "全球資安治理、數位信任與架構韌性 (呈報 董事會、董事長、總經理、CEO 專用履歷)",
+        contact1: "台灣 (支援全球跨國據點)  |  行動電話：+886-975-323161  |  電子郵件：Liao.Howard@gmail.com",
+        contact2: "LinkedIn 領英：linkedin.com/in/howardliao78  |  作品集網站：https://howardliao.github.io/Howard_CISO/",
+        bento: [
+          { num: "$14M+", title: "IT & 資安資本治理", sub: "統籌全球跨國預算" },
+          { num: "100%", title: "Zero Outage 零停機", sub: "GKE 多雲高可用架構" },
+          { num: "-30%", title: "雲端年度 TCO", sub: "FinOps 跨雲成本治理" },
+          { num: "-30%", title: "重大資安事件 / MTTR", sub: "SOC/SIEM 集中化防禦" }
+        ],
+        sections: [
+          {
+            h1: "前言與高階主管職涯定位 (Executive Summary)",
+            paragraphs: [
+              "廖倫豪 博士 (Howard Liao, Ph.D.)，為跨國網絡科技與數位娛樂平台集團副總 暨 IT Director / 集團資安長 (Group CISO)。具備 27+ 年企業資訊科技領導力、15+ 年資訊安全治理經驗，以及 10+ 年於上市櫃、跨國與受法規監管企業擔任資安長與科技副總之高階歷練。",
+              "兼具董事會層級之資安治理高度，以及零信任 (Zero Trust)、身分存取管理 (IAM)、多雲資安 (Multi-Cloud Security)、SOC/SIEM/EDR、資安事件應變 (Incident Response)、DevSecOps、資料保護、第三方風險管理與 AI 治理 (ISO 42001) 的實戰技術深度。",
+              "精通保護關鍵業務系統、敏感機密紀錄、核心智慧財產權、企業級應用程式、雲端/SaaS 平台與跨境資料流。以務實、風險驅動的方法持續提升資安成熟度、營運韌性、稽核整備度、災難復原力與數位信任。",
+              "擁有卓越的成果紀錄，能將資安風險與技術優先級轉化為董事會與高階主管重視的商業價值、財務效益、營運指標與法規遵循結果。建構具備高擴展性的資安營運模型，在保護關鍵資產與強化業務連續性的同時，全力支援集團之跨國擴張。"
+            ]
+          },
+          {
+            h1: "董事會與高階領導價值主張 (Leadership Value Proposition)",
+            bullets: [
+              "<strong>CISO 董事會戰略治理：</strong>透過風險矩陣、RTO/RPO、SLA、ROI/TCO 與成熟度藍圖，將資安態勢、風險暴露、事件與控制落差精準轉化為具體商業衝擊與決策依據。",
+              "<strong>集團級資安營運架構：</strong>跨越企業總部、國際據點、多公有雲環境、SaaS 平台、託管服務商 (MSP) 與商業夥伴，建立全集團標準化資安營運體系。",
+              "<strong>數位信任與架構韌性：</strong>透過身分治理、安全監控、加密、完整稽核軌跡、備份、復原與即時應變機制，全方位守護關鍵系統、機密紀錄與智慧財產權。",
+              "<strong>雲原生技術深度：</strong>結合高階策略與 AWS、Azure、GCP、Kubernetes/GKE、Zero Trust、API 安全、WAF/WAAP、SIEM/SOC、EDR/XDR 與 IaC 自動化之深厚實作經驗。",
+              "<strong>AI 治理 (ISO/IEC 42001)：</strong>落地 ISO/IEC 42001 AI 管理系統標準，在推動企業負責任採用 GenAI 的同時，嚴密控管 Shadow AI、資料外洩、IP 侵權與第三方模型風險。",
+              "<strong>業務賦能與成長思維：</strong>與業務、財務、法務、人資、研發、營運、產品與 IT 團隊緊密協同，將資訊安全無縫嵌入業務增長、數位轉型與客戶信任之中。"
+            ]
+          },
+          {
+            h1: "專業歷練與職涯成就里程碑 (Professional Experience)",
+            experiences: [
+              {
+                role: "集團副總 兼 集團資安長 (VP of Group Security & Digital Transformation / Group CISO)",
+                group: "跨國數位科技與娛樂平台集團（旗下涵蓋盛欣網絡、盛碁網絡及跨國關聯企業）",
+                period: "2025.05 – 至今 | 台灣・海外多據點",
+                desc: "以 CISO 級別角色主導全集團資訊安全戰略、多雲與基礎架構治理、企業營運韌性及 AI 治理，橫跨多個事業群與跨國營運據點。",
+                scopes: [
+                  "全集團跨事業部、跨營運據點之 IT 與資安最高治理架構。",
+                  "帶領約 35–40 位專業人員，涵蓋資訊安全、基礎架構、應用系統、維運與外部託管服務夥伴。",
+                  "管控每年約 1,000–1,200 萬美元之全集團 IT 與資安總預算。"
+                ],
+                achievements: [
+                  "建立基於 ISO 27001 與 NIST CSF 之集團資安治理框架，將風險管理提升至董事會層級監管。",
+                  "導入集中式 SOC/SIEM、EDR、日誌聚合與應變流程，降低重大資安事件約 30%，大幅提升處置效能。",
+                  "推動導入 ISO/IEC 42001 AI 管理系統，訂定 AI 使用規範、風險評估與第三方 AI 服務治理。"
+                ]
+              },
+              {
+                role: "資訊處長 / IT Director",
+                group: "隆中網絡股份有限公司 / GameSparcs (股票代號 6542.TWO / 向上國際集團) 上市櫃公司",
+                period: "2022.09 – 2025.04 | 台中, 台灣",
+                desc: "主導全球雲端架構、資安治理、數位平台韌性、DevOps 效能與高可用性維運，支撐服務全球數百萬玩家之上市櫃線上平台。",
+                scopes: [
+                  "帶領約 30–35 位專業技術人員，涵蓋雲端維運、DevOps、SRE、資訊安全與基礎架構。",
+                  "負責每年約 1,200–1,400 萬美元之多雲基礎架構與資安預算。"
+                ],
+                achievements: [
+                  "設計並交付以 GKE 為核心之多可用區架構，創下關鍵服務 100% 零停機 (Zero Outage) 紀錄。",
+                  "建立集中式可觀測性與 SIEM 監控，縮短 MTTR 約 30%。",
+                  "獲邀擔任 Google Cloud 官方專訪代表，並獲頒雲端卓越與科技創新榮譽。"
+                ]
+              },
+              {
+                role: "資訊處長 / IT Director",
+                group: "泓晏科技 (Headquartered in Shenzhen with operations in Taiwan & Greater Bay Area)",
+                period: "2018.03 – 2022.08 | 台灣 與 中國大陸",
+                desc: "主導製造營運技術 (OT) 與企業資訊系統 (IT) 之全面資安治理、ERP/MES 架構與多廠區數位化轉型。",
+                scopes: [
+                  "帶領 28–36 位橫跨兩岸之 IT/OT 專業工程團隊。",
+                  "管控每年約 500–700 萬美元之 IT 與資訊安全年度預算。"
+                ],
+                achievements: [
+                  "主導 ERP、MES、PLM、APS 與 BI 分析平台之安全整合與傳輸加密防護。",
+                  "於集團被大型工業製造集團溢價收購期間，主導組織 IT 整合與數據資產盡職調查，確保資產交割零風險後圓滿完成階段性戰略使命。"
+                ]
+              }
+            ]
+          },
+          {
+            h1: "最高學歷、國際專業證照與榮譽背書 (Education & Credentials)",
+            bullets: [
+              "<strong>朝陽科技大學</strong> 資訊科技管理 博士 (Ph.D. in Information Technology Management)",
+              "<strong>國立中興大學</strong> 應用數學研究所 (資訊科學組) 碩士 / 學士 (M.S. & B.S. in Computer Science)",
+              "<strong>ISO/IEC 27001</strong> 主任稽核員 (Lead Auditor - ISMS)",
+              "<strong>ISO/IEC 42001</strong> 主任稽核員 (Lead Auditor - AIMS 人工智慧治理體系)",
+              "<strong>Springer SCI 頂級期刊論文：</strong>Reversible secret-image sharing with high visual quality (DOI: 10.1007/s11042-012-1190-1)",
+              "<strong>Google Cloud 官方專訪：</strong>台灣遊戲出海全球雲端技術實踐",
+              "<strong>MongoDB.local Taipei：</strong>大會官方 Keynote 講者",
+              "<strong>CIO Taiwan 封面報導：</strong>AI 時代企業高管資安戰略觀點"
+            ]
+          }
+        ]
+      },
+      en: {
+        presenter: "Presenter: Howard Liao, Ph.D.",
+        name: "Howard Liao, Ph.D.",
+        title: "Group Chief Information Security Officer (CISO)",
+        subtitle: "Global Cybersecurity, Digital Trust & Resilience (For Board, President & CEO)",
+        contact1: "Taiwan (Open to Global Sites)  |  Mobile: +886-975-323161  |  Email: Liao.Howard@gmail.com",
+        contact2: "LinkedIn: linkedin.com/in/howardliao78  |  Portfolio: https://howardliao.github.io/Howard_CISO/",
+        bento: [
+          { num: "$14M+", title: "IT & Security Capital", sub: "Global Budget Governance" },
+          { num: "100%", title: "Zero Outage SLA", sub: "Multi-Cloud GKE Resilience" },
+          { num: "-30%", title: "Cloud Annual TCO", sub: "FinOps Cross-Cloud Optimization" },
+          { num: "-30%", title: "Major Incidents / MTTR", sub: "Centralized SOC/SIEM Defense" }
+        ],
+        sections: [
+          {
+            h1: "Executive Summary",
+            paragraphs: [
+              "Dr. Howard Liao (Howard Liao, Ph.D.) is Group Chief Information Security Officer (CISO) and Vice President of Technology across multinational internet technology and digital platforms. A CISO-level technology executive with 27+ years of enterprise IT leadership, 15+ years of cybersecurity experience, and 10+ years leading cybersecurity strategy across publicly listed, multinational, and regulated business environments.",
+              "Combines board-level cybersecurity leadership with hands-on technical depth in Zero Trust, IAM, multi-cloud security, SOC/SIEM/EDR, incident response, DevSecOps, data protection, and AI governance (ISO 42001).",
+              "Proven record of translating cybersecurity risks into measurable business, financial, operational, and compliance outcomes for boards and executive leadership."
+            ]
+          },
+          {
+            h1: "Leadership Value Proposition",
+            bullets: [
+              "<strong>CISO and Board Leadership:</strong> Translates security posture, risk exposure, and incidents into quantifiable business impact via risk matrices, ROI/TCO, and maturity roadmaps.",
+              "<strong>Group Security Governance:</strong> Establishes group-wide security operating models across headquarters, international sites, multi-cloud environments, and SaaS platforms.",
+              "<strong>Digital Trust & Resilience:</strong> Protects critical systems, confidential records, and intellectual property through identity governance, encryption, and zero-loss recoverability.",
+              "<strong>AI Governance (ISO 42001):</strong> Operationalizes responsible AI adoption while safeguarding against data leakage, shadow AI, IP exposure, and model vulnerabilities."
+            ]
+          },
+          {
+            h1: "Professional Experience",
+            experiences: [
+              {
+                role: "Group Vice President & Group CISO (Information Security & Digital Transformation)",
+                group: "Multinational Digital Tech & Entertainment Platform Group (Encompassing Shengxin, Shengji & Global Affiliates)",
+                period: "May 2025 – Present | Taiwan & Global Operations",
+                desc: "Directs group-wide cybersecurity strategy, cloud infrastructure governance, operational resilience, and AI governance across multiple business units.",
+                scopes: [
+                  "Oversees highest IT & cybersecurity governance architecture across cross-border subsidiaries.",
+                  "Leads ~35-40 specialized professionals across security, infrastructure, and DevOps.",
+                  "Manages annual IT & security budget of USD 10–12 million."
+                ],
+                achievements: [
+                  "Established ISO 27001/NIST CSF governance framework reporting directly to Board oversight.",
+                  "Deployed centralized SOC/SIEM, EDR, and IR workflows, lowering critical security events by ~30%.",
+                  "Pioneered ISO/IEC 42001 AI Management System across enterprise workflows."
+                ]
+              },
+              {
+                role: "IT Director",
+                group: "GameSparcs Co., Ltd. (TPEx: 6542.TWO / XSGames Group) Publicly Listed Company",
+                period: "September 2022 – April 2025 | Taichung, Taiwan",
+                desc: "Orchestrated global cloud architecture, cyber governance, platform resilience, and 24/7 high-availability operations serving millions of concurrent global users.",
+                scopes: [
+                  "Led 30–35 cloud engineers, SREs, security analysts, and system administrators.",
+                  "Managed annual multi-cloud infrastructure and security budget of USD 12–14 million."
+                ],
+                achievements: [
+                  "Architected multi-zone GKE deployment, securing a flawless 100% Zero Outage SLA.",
+                  "Implemented centralized observability & SIEM, decreasing MTTR by ~30%.",
+                  "Featured in Google Cloud Official Customer Success Story and keynote speaker at MongoDB.local."
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      ja: {
+        presenter: "報告者：廖倫豪 博士 (Howard Liao, Ph.D.)",
+        name: "廖倫豪 博士 (Howard Liao, Ph.D.)",
+        title: "グループ最高情報セキュリティ責任者 (Group CISO)",
+        subtitle: "グローバルサイバーセキュリティ・デジタルトラスト統括 (取締役会・CEO向け 職務経歴書)",
+        contact1: "台湾 (グローバル拠点対応可能)  |  電話番号：+886-975-323161  |  Eメール：Liao.Howard@gmail.com",
+        contact2: "LinkedIn：linkedin.com/in/howardliao78  |  ポートフォリオ：https://howardliao.github.io/Howard_CISO/",
+        bento: [
+          { num: "$14M+", title: "IT・セキュリティ予算統括", sub: "グローバル資本ガバナンス" },
+          { num: "100%", title: "ゼロダウンタイム (Zero Outage)", sub: "マルチクラウド高可用性" },
+          { num: "-30%", title: "年間クラウド TCO 削減", sub: "FinOps コスト最適化" },
+          { num: "-30%", title: "重大インシデント / MTTR", sub: "集中型 SOC/SIEM 迅速対応" }
+        ],
+        sections: [
+          {
+            h1: "エグゼクティブサマリー (Executive Summary)",
+            paragraphs: [
+              "廖倫豪 博士 (Howard Liao, Ph.D.) と申します。グローバルインターネット技術・デジタルプラットフォームグループにおいて、副社長 兼 グループ最高情報セキュリティ責任者 (Group CISO) を務めております。27年以上の企業ITリーダーシップ、15年以上のサイバーセキュリティ実務、そして上場企業・多国籍企業において10年以上にわたりセキュリティ戦略、クラウドガバナンス、DXを主導してきたCISOレベルのエグゼクティブです。",
+              "取締役会レベルのセキュリティ統治力と、ゼロトラスト、IAM、マルチクラウドセキュリティ、SOC/SIEM/EDR、インシデント対応、AIガバナンス(ISO 42001)における高度な技術力を兼備。",
+              "セキュリティリスクを、取締役会が重視する事業利益、財務成果、コンプライアンス指標へと翻訳する卓越した実績を誇ります。"
+            ]
+          },
+          {
+            h1: "取締役会・経営陣向けリーダーシップ価値提案 (Leadership Value Proposition)",
+            bullets: [
+              "<strong>CISO & 取締役会統括：</strong>リスクマトリクス、RTO/RPO、SLA、ROI/TCO、成熟度ロードマップを用いて、セキュリティ態勢とリスクを明確な事業価値へ変換。",
+              "<strong>グループ統合ガバナンス：</strong>本社、海外拠点、マルチクラウド、SaaSを網羅するグループ標準セキュリティ運用モデルを確立。",
+              "<strong>デジタルトラスト & レジリエンス：</strong>ID統治、暗号化、ゼロロス復旧体制により、基幹システムと知的財産を全方位で防護。",
+              "<strong>AIガバナンス (ISO 42001)：</strong>生成AIの安全な業務適用を推進し、シャドウAIや情報漏洩を厳格に統制。"
+            ]
+          },
+          {
+            h1: "職務経歴 & 主要実績 (Professional Experience)",
+            experiences: [
+              {
+                role: "グループ副社長 兼 最高情報セキュリティ責任者 (Group VP & Group CISO)",
+                group: "多国籍デジタルテクノロジー＆エンターテインメントプラットフォームグループ（盛欣網絡・盛碁網絡および海外関連企業）",
+                period: "2025年5月 – 現在 | 台湾・海外複数拠点",
+                desc: "CISOレベルの役割として、複数事業部門および海外拠点におけるグループ全体のサイバーセキュリティ戦略、マルチクラウド統治、レジリエンス、AIガバナンスを統括。",
+                scopes: [
+                  "複数事業部門および国内外拠点にまたがるグループ全体のIT・セキュリティガバナンス。",
+                  "セキュリティ、インフラ、アプリケーション等からなる約35〜40名の専門組織を統括。",
+                  "年間約1,000万〜1,200万米ドルのIT・セキュリティ予算の統括管理。"
+                ],
+                achievements: [
+                  "ISO 27001およびNIST CSFに基づくグループ共通のセキュリティ統治体制を確立。",
+                  "集中SOC/SIEM、EDR、監視SOPを導入し、重大セキュリティインシデントを約30%削減。",
+                  "ISO/IEC 42001に基づくAIガバナンスを導入し、モデル管理および外部AIサービス統制を確立。"
+                ]
+              },
+              {
+                role: "IT Director (情報技術統括部長)",
+                group: "隆中網絡 (GameSparcs Co., Ltd. / 証券コード: 6542.TWO / XSGames グループ) 上場企業",
+                period: "2022年9月 – 2025年4月 | 台中, 台湾",
+                desc: "グローバルクラウド設計、セキュリティ統治、プラットフォーム耐障害性、高可用性運用を主導し、数百万人のユーザーを抱える上場プラットフォームを支援。",
+                scopes: [
+                  "クラウド運用、DevOps、SRE、情報セキュリティ部門のエンジニア約30〜35名を統括。",
+                  "年間約1,200万〜1,400万米ドルのマルチクラウドインフラ・セキュリティ予算を管理。"
+                ],
+                achievements: [
+                  "GKEマルチゾーン構成を設計・運用し、基幹サービスの100% ゼロダウンタイム (Zero Outage) を達成。",
+                  "集中型オブザーバビリティおよびSIEMを導入し、MTTRを約30%短縮。",
+                  "Google Cloud 公式導入事例およびMongoDB.local台北 Keynoteスピーカーとして登壇。"
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    };
+
+    function renderDoc(lang) {
+      const data = RESUME_DATA[lang] || RESUME_DATA.zh;
+      
+      // Update Headers
+      document.getElementById('hdr-presenter').textContent = data.presenter;
+      document.getElementById('hdr-name').textContent = data.name;
+      document.getElementById('hdr-title').textContent = data.title;
+      document.getElementById('hdr-sub').textContent = data.subtitle;
+      document.getElementById('hdr-contact1').textContent = data.contact1;
+      
+      // Update Bento
+      for (let i = 0; i < 4; i++) {
+        document.getElementById(`bento-${i+1}-title`).textContent = data.bento[i].title;
+        document.getElementById(`bento-${i+1}-sub`).textContent = data.bento[i].sub;
+      }
+
+      // Update Download link
+      const dlBtn = document.getElementById('btn-download');
+      const filename = `Howard_Liao_CISO_Resume_${lang.toUpperCase()}.docx`;
+      dlBtn.href = filename;
+      dlBtn.setAttribute('download', filename);
+
+      // Render Sections
+      let html = '';
+      data.sections.forEach(sec => {
+        html += `<div class="section-h1">${sec.h1}</div>`;
+        
+        if (sec.paragraphs) {
+          sec.paragraphs.forEach(p => {
+            html += `<p class="text-xs sm:text-[13px] leading-relaxed text-slate-700 mb-2.5">${p}</p>`;
+          });
+        }
+
+        if (sec.bullets) {
+          html += `<ul class="space-y-1.5 text-xs sm:text-[13px] text-slate-700 mb-4 pl-1">`;
+          sec.bullets.forEach(b => {
+            html += `<li class="flex items-start gap-2"><span class="text-orange-600 font-bold mt-0.5">•</span><span>${b}</span></li>`;
+          });
+          html += `</ul>`;
+        }
+
+        if (sec.experiences) {
+          sec.experiences.forEach(exp => {
+            html += `
+              <div class="mb-5 pb-4 border-b border-dashed border-slate-200 last:border-none">
+                <div class="flex flex-wrap items-baseline justify-between gap-1">
+                  <div class="text-sm font-bold text-orange-700">${exp.role}</div>
+                  <div class="text-[11px] font-semibold text-amber-700">${exp.period}</div>
+                </div>
+                <div class="text-xs font-bold text-slate-600 mb-1">${exp.group}</div>
+                <div class="text-xs italic text-slate-500 mb-2">${exp.desc}</div>
+                
+                <div class="text-[11px] font-bold text-amber-800 uppercase tracking-wider mt-2 mb-1">Leadership Scope</div>
+                <ul class="text-xs text-slate-600 space-y-0.5 mb-2 pl-2">
+                  ${exp.scopes.map(s => `<li class="flex items-start gap-1.5"><span class="text-amber-500 font-bold">-</span><span>${s}</span></li>`).join('')}
+                </ul>
+
+                <div class="text-[11px] font-bold text-orange-800 uppercase tracking-wider mt-2 mb-1">Selected Impact & Achievements</div>
+                <ul class="text-xs text-slate-700 space-y-1 pl-2">
+                  ${exp.achievements.map(a => `<li class="flex items-start gap-1.5"><span class="text-orange-600 font-bold">✓</span><span>${a}</span></li>`).join('')}
+                </ul>
+              </div>
+            `;
+          });
+        }
+      });
+
+      document.getElementById('content-body').innerHTML = html;
+    }
+
+    function switchLang(lang) {
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      const activeBtn = document.getElementById(`tab-${lang}`);
+      if (activeBtn) activeBtn.classList.add('active');
+      renderDoc(lang);
+    }
+
+    // Initialize with Traditional Chinese
+    renderDoc('zh');
+  </script>
+</body>
+</html>
