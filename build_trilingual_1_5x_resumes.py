@@ -393,7 +393,7 @@ def generate_zh():
     
     # Opening Preface per user requirement (Objective narrative without '我')
     add_heading_1(doc, "前言與高階主管職涯定位 (Executive Summary)", east_asia="Microsoft JhengHei")
-    add_body_p(doc, "廖倫豪 博士 (Howard Liao, Ph.D.)，為跨國網絡科技與數位娛樂平台集團副總 暨 IT Director / 集團資安長 (Group CISO)。具備 27+ 年企業資訊科技領導力、15+ 年資訊安全治理經驗，以及 10+ 年於上市櫃、跨國與受法規監管企業擔任資安長與科技副總之高階歷練。")
+    add_body_p(doc, "廖倫豪 博士 (Howard Liao, Ph.D.)，為跨國網絡科技與數位娛樂平台集團副總 暨 IT Director / 集團資安長 (Group CISO)。具備 24 年企業資訊科技領導力（職涯始於 2002 年），涵蓋 8+ 年於上市櫃與跨國企業擔任 IT Director 級科技領導實績，並自 2025 年起擔任集團資安長 (Group CISO)。")
     add_body_p(doc, "兼具董事會層級之資安治理高度，以及零信任 (Zero Trust)、身分存取管理 (IAM)、多雲資安 (Multi-Cloud Security)、SOC/SIEM/EDR、資安事件應變 (Incident Response)、DevSecOps、資料保護、第三方風險管理與 AI 治理 (ISO 42001) 的實戰技術深度。")
     add_body_p(doc, "精通保護關鍵業務系統、敏感機密紀錄、核心智慧財產權、企業級應用程式、雲端/SaaS 平台與跨境資料流。以務實、風險驅動的方法持續提升資安成熟度、營運韌性、稽核整備度、災難復原力與數位信任。")
     add_body_p(doc, "擁有卓越的成果紀錄，能將資安風險與技術優先級轉化為董事會與高階主管重視的商業價值、財務效益、營運指標與法規遵循結果。建構具備高擴展性的資安營運模型，在保護關鍵資產與強化業務連續性的同時，全力支援集團之跨國擴張。")
@@ -659,9 +659,9 @@ def generate_zh():
     add_media_entry(doc, "Google Cloud 官方全球客戶成功案例影音專訪 (GameSparcs APAC Customer Success Story)", "Google Cloud APAC 官方專訪 (YouTube) | 2024.03", "接受 Google Cloud 官方採訪，深入解析如何運用 GKE 多雲架構與自動擴縮容技術，支撐全球百萬級高併發手遊連線營運，創下 100% Zero Outage 零停機紀錄。", url="https://youtu.be/_kTZSZ_0lNE?si=CT2lo8c4IF0zI1Ki", east_asia="Microsoft JhengHei", url_label="🔗 官方影片連結：")
 
     add_subheading(doc, "2. 國際期刊論文與國家學術典藏", size=SZ_H2, east_asia="Microsoft JhengHei")
-    add_media_entry(doc, "Springer SCI 國際頂級期刊論文：Reversible secret-image sharing with high visual quality", "Multimedia Tools and Applications (Springer Nature, Vol. 74, Pages 10603–10626) | 2014.06", "共同作者：Ching-Chiuan Lin, Lun-Hao Liao (廖倫豪), Kuo-Feng Hwang, Shih-Chieh Chen。本論文提出基於高視覺品質陰影圖像之可逆秘密影像共享技術，在密碼學與資安影像傳輸領域具高度學術影響力。", url="https://link.springer.com/article/10.1007/s11042-012-1190-1", east_asia="Microsoft JhengHei", url_label="🔗 DOI 永久出版品連結：")
+    add_media_entry(doc, "Springer SCI 國際學術期刊論文：Reversible secret-image sharing with high visual quality", "Multimedia Tools and Applications (Springer Nature, Vol. 74, Pages 10603–10626) | 2014.06", "共同作者：Ching-Chiuan Lin, Lun-Hao Liao (廖倫豪), Kuo-Feng Hwang, Shih-Chieh Chen。本論文提出基於高視覺品質陰影圖像之可逆秘密影像共享技術，在密碼學與資訊隱藏領域提出可逆影像共享模型。", url="https://link.springer.com/article/10.1007/s11042-012-1190-1", east_asia="Microsoft JhengHei", url_label="🔗 DOI 永久出版品連結：")
     add_media_entry(doc, "國際學術期刊論文：Utilizing GIS and GPS in Designing a Trilingual Tourist APP", "Applied Science and Management Research (Vol. 2) | 2015.05", "探討結合地理資訊系統 (GIS) 與全球定位系統 (GPS) 開發三語觀光導覽系統之行動應用架構設計與實作。", east_asia="Microsoft JhengHei")
-    add_media_entry(doc, "國家圖書館博碩士學位論文法定典藏《整合系統的商業自助式入口網站植基於調適性服務導向架構資訊科技治理之研究》", "國家圖書館臺灣博碩士論文知識加值系統 (典藏代碼: 106IKTC0183002) | 2014.10", "博士論文研究：結合 ITIL V3 與 SOA 服務導向架構建立企業級自助式入口網站 IT 治理模型，並於國家圖書館永久法定典藏，擔任學術研究指導學者典藏代碼 106IKTC0183002。", url="https://ndltd.ncl.edu.tw/", east_asia="Microsoft JhengHei", url_label="🔗 國圖學術系統：")
+    add_media_entry(doc, "國家圖書館博碩士學位論文法定典藏《整合系統的商業自助式入口網站植基於調適性服務導向架構資訊科技治理之研究》", "國家圖書館臺灣博碩士論文知識加值系統 (典藏代碼: 106IKTC0183002) | 2014.10", "博士論文研究：結合 ITIL V3 與 SOA 服務導向架構建立企業級自助式入口網站 IT 治理模型，並於國家圖書館永久法定典藏，典藏代碼 106IKTC0183002。", url="https://ndltd.ncl.edu.tw/", east_asia="Microsoft JhengHei", url_label="🔗 國圖學術系統：")
 
     add_subheading(doc, "3. 主流科技媒體實名專訪與專題報導", size=SZ_H2, east_asia="Microsoft JhengHei")
     add_media_entry(doc, "CIO Taiwan 官方專訪《【專訪】隆中網絡 GameSparcs IT Director Howard Liao | 善用公有雲服務 搶攻全球遊戲商機》", "CIO Taiwan 雜誌 (採訪／施鑫澤‧文／林裕洋‧刊期／2024.05) | 2024.05", "CIO Taiwan 總編輯專題專訪，實名刊登 Howard Liao, PhD 廖博士之多雲架構佈局，深入剖析採用多雲網路 (MCN) 與 Kubernetes 原生架構橫跨公有雲與邊緣運算，強化全球發行競爭力與 FinOps 降本 30%。", url="https://www.cio.com.tw/interview-howard-liao-online-gamesparcs-it-director/", image_filename="2024_CIO報導.png", img_width=Inches(3.0), east_asia="Microsoft JhengHei", url_label="🔗 媒體報導連結：")
@@ -704,7 +704,7 @@ def generate_en():
     ], east_asia="Microsoft JhengHei")
     
     add_heading_1(doc, "Executive Summary")
-    add_body_p(doc, "Dr. Howard Liao (Howard Liao, Ph.D.) is Group Chief Information Security Officer (CISO) and Vice President of Technology across multinational internet technology and digital platforms. A CISO-level technology executive with 27+ years of enterprise IT leadership, 15+ years of cybersecurity experience, and 10+ years leading cybersecurity strategy, cloud governance, digital resilience, and enterprise transformation across publicly listed, multinational, and regulated business environments.")
+    add_body_p(doc, "Dr. Howard Liao (Howard Liao, Ph.D.) is Group Chief Information Security Officer (CISO) and Vice President of Technology across multinational internet technology and digital platforms. Executive technology leader with 24 years of enterprise IT leadership (career initiated in 2002), including 8+ years at the IT Director level across publicly listed and multinational platforms, serving as Group CISO since 2025.")
     add_body_p(doc, "Combines board-level cybersecurity leadership with hands-on technical depth in Zero Trust, identity and access management, multi-cloud security, SOC/SIEM/EDR, incident response, DevSecOps, data protection, third-party risk management, and AI governance.")
     add_body_p(doc, "Experienced in securing business-critical systems, sensitive records, intellectual property, enterprise applications, cloud/SaaS platforms, and cross-border data flows. Applies a pragmatic, risk-based approach to improving security maturity, operational resilience, audit readiness, recoverability, and digital trust.")
     add_body_p(doc, "Proven record of translating cybersecurity risks and technical priorities into measurable business, financial, operational, and compliance outcomes for boards and executive leadership. Builds scalable security operating models that enable international growth while protecting critical assets and improving business continuity.")
@@ -963,7 +963,7 @@ def generate_en():
     add_subheading(doc, "2. Academic Publications & Research", size=SZ_H2)
     add_media_entry(doc, "Springer SCI Journal Paper Publication: Reversible secret-image sharing with high visual quality", "Multimedia Tools and Applications (Springer Nature, Vol. 74) | June 2014", "Authors: Ching-Chiuan Lin, Lun-Hao Liao (Howard Liao), Kuo-Feng Hwang, Shih-Chieh Chen. Proposes a high visual quality reversible secret-image sharing scheme in cryptographic image security.", url="https://link.springer.com/article/10.1007/s11042-012-1190-1")
     add_media_entry(doc, "International Journal Publication: Utilizing GIS and GPS in Designing a Trilingual Tourist APP", "Applied Science and Management Research (Vol. 2) | May 2015", "Research on location-based mobile systems integrating GIS and GPS technologies for multilingual travel platforms.")
-    add_media_entry(doc, "National Central Library Legal Archive & Academic Advising", "National Central Library (Advising Archive ID: 106IKTC0183002) | October 2014", "Ph.D. dissertation on ITIL V3 and SOA framework governance. Registered research advisor in National Central Library under ID 106IKTC0183002.", url="https://ndltd.ncl.edu.tw/")
+    add_media_entry(doc, "National Central Library Legal Archive & Academic Advising", "National Central Library (Advising Archive ID: 106IKTC0183002) | October 2014", "Ph.D. dissertation on ITIL V3 and SOA framework governance. Archived in National Central Library under ID 106IKTC0183002.", url="https://ndltd.ncl.edu.tw/")
 
     add_subheading(doc, "3. Media Coverage & Technical Features", size=SZ_H2)
     add_media_entry(doc, "CIO Taiwan Magazine Cover Feature Interview", "CIO Taiwan Magazine (Issue 2024.05) | May 2024", "In-depth interview by Editor-in-Chief on Multi-Cloud Networking (MCN), Kubernetes native architecture, and FinOps cost optimization.", url="https://www.cio.com.tw/interview-howard-liao-online-gamesparcs-it-director/", image_filename="2024_CIO報導.png", img_width=Inches(3.0))
@@ -1004,7 +1004,7 @@ def generate_ja():
     ], east_asia="Meiryo")
     
     add_heading_1(doc, "エグゼクティブサマリー (Executive Summary)", east_asia="Meiryo")
-    add_body_p(doc, "廖倫豪 博士 (Howard Liao, Ph.D.) と申します。グローバルインターネット技術・デジタルプラットフォームグループにおいて、副社長 兼 グループ最高情報セキュリティ責任者 (Group CISO) を務めております。27年以上の企業ITリーダーシップ、15年以上のサイバーセキュリティ実務、そして上場企業・多国籍企業において10年以上にわたりセキュリティ戦略、クラウドガバナンス、デジタルレジリエンス、DXを主導してきたCISOレベルのエグゼクティブです。", east_asia="Meiryo")
+    add_body_p(doc, "廖倫豪 博士 (Howard Liao, Ph.D.) と申します。グローバルインターネット技術・デジタルプラットフォームグループにおいて、副社長 兼 グループ最高情報セキュリティ責任者 (Group CISO) を務めております。24年にわたる企業ITリーダーシップ（2002年キャリア開始）、上場企業および多国籍プラットフォームにおける8年以上のITディレクター級リーダーシップを有し、2025年よりグループ最高情報セキュリティ責任者 (Group CISO) を歴任。", east_asia="Meiryo")
     add_body_p(doc, "取締役会レベルのセキュリティガバナンス力と、ゼロトラスト、IAM、マルチクラウドセキュリティ、SOC/SIEM/EDR、インシデント対応、DevSecOps、データ保護、サードパーティリスク管理、AIガバナンス(ISO 42001)における高度な技術力を兼備。", east_asia="Meiryo")
     add_body_p(doc, "基幹業務システム、機密情報、知的財産、ERP/SaaSプラットフォーム、越境データフローの保護に精通。リスクベースのアプローチにより、セキュリティ成熟度、事業継続性、監査即応性、デジタルトラストを継続的に向上。", east_asia="Meiryo")
     add_body_p(doc, "セキュリティリスクや技術課題を、取締役会が重視する事業利益、財務成果、コンプライアンス指標へと翻訳する卓越した実績。重要資産を保護しながらグローバル事業拡大を強力に後押しするスケーラブルな運用モデルを構築。", east_asia="Meiryo")
@@ -1276,9 +1276,9 @@ def generate_ja():
     add_media_entry(doc, "Google Cloud 公式グローバル導入事例 (ビデオ取材)", "Google Cloud APAC 公式ビデオ取材 | 2024年3月", "Google Cloud公式取材において、GKE自動スケーリングと高可用構成により、ピーク時にも障害ゼロ(100% Zero Outage)を達成したアーキテクチャを解説。", url="https://youtu.be/_kTZSZ_0lNE?si=CT2lo8c4IF0zI1Ki", east_asia="Meiryo", url_label="🔗 公式動画URL：")
 
     add_subheading(doc, "2. 国際学術論文 & 国家学術アーカイブ", size=SZ_H2, east_asia="Meiryo")
-    add_media_entry(doc, "Springer SCI 国際トップ学術ジャーナル論文掲載: Reversible secret-image sharing with high visual quality", "Multimedia Tools and Applications (Springer Nature, Vol. 74) | 2014年6月", "著者：Ching-Chiuan Lin, Lun-Hao Liao (廖倫豪), Kuo-Feng Hwang, Shih-Chieh Chen。高品質なシャドウ画像を用いた可逆秘密画像共有技術を提案し、暗号セキュリティ分野で高インパクトを記録。", url="https://link.springer.com/article/10.1007/s11042-012-1190-1", east_asia="Meiryo", url_label="🔗 DOI 永久論文リンク：")
+    add_media_entry(doc, "Springer SCI 国際学術ジャーナル論文掲載: Reversible secret-image sharing with high visual quality", "Multimedia Tools and Applications (Springer Nature, Vol. 74) | 2014年6月", "著者：Ching-Chiuan Lin, Lun-Hao Liao (廖倫豪), Kuo-Feng Hwang, Shih-Chieh Chen。高品質なシャドウ画像を用いた可逆秘密画像共有技術を提案し、暗号セキュリティおよび画像隠蔽分野で可逆画像共有モデルを提案。", url="https://link.springer.com/article/10.1007/s11042-012-1190-1", east_asia="Meiryo", url_label="🔗 DOI 永久論文リンク：")
     add_media_entry(doc, "国際学術論文発表 (Trilingual Tourist APP)", "Applied Science and Management Research (Vol. 2) | 2015年5月", "GISとGPSを融合させた多言語観光プラットフォームのモバイルシステムアーキテクチャ設計と実装に関する研究。", east_asia="Meiryo")
-    add_media_entry(doc, "国家図書館 博士学位論文 法定所蔵 & 指導教授アーカイブ", "国家図書館 台湾博修士論文アーカイブ (所蔵コード: 106IKTC0183002) | 2014年10月", "ITIL V3とSOAを融合したエンタープライズポータルITガバナンスモデルを確立。国家図書館にて永久所蔵、学術指導学者コード 106IKTC0183002 として登録。", url="https://ndltd.ncl.edu.tw/", east_asia="Meiryo", url_label="🔗 国家図書館公式URL：")
+    add_media_entry(doc, "国家図書館 博士学位論文 法定所蔵 & 指導教授アーカイブ", "国家図書館 台湾博修士論文アーカイブ (所蔵コード: 106IKTC0183002) | 2014年10月", "ITIL V3とSOAを融合したエンタープライズポータルITガバナンスモデルを確立。国家図書館にて永久所蔵、所蔵コード 106IKTC0183002 として登録。", url="https://ndltd.ncl.edu.tw/", east_asia="Meiryo", url_label="🔗 国家図書館公式URL：")
 
     add_subheading(doc, "3. メディア取材・報道実績", size=SZ_H2, east_asia="Meiryo")
     add_media_entry(doc, "CIO Taiwan 誌 カバー特集 実名独占インタビュー", "CIO Taiwan 誌 (編集長インタビュー / 2024.05刊期) | 2024年5月", "編集長による特別インタビュー。マルチクラウドネットワーキング(MCN)、Kubernetesネイティブ設計、FinOpsによる30%コスト削減戦略を実名公開。", url="https://www.cio.com.tw/interview-howard-liao-online-gamesparcs-it-director/", image_filename="2024_CIO報導.png", img_width=Inches(3.0), east_asia="Meiryo", url_label="🔗 取材記事URL：")
