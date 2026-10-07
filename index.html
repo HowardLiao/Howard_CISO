@@ -1,6 +1,21 @@
 <!DOCTYPE html>
 <html lang="en" class="dark">
 <head>
+  <!-- Force Cache Invalidation & Service Worker Purge (Phase 4 Cleanup) -->
+  <script>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.getRegistrations().then(function(regs) {
+        for (var i = 0; i < regs.length; i++) {
+          regs[i].unregister();
+        }
+      });
+      if (window.caches) {
+        caches.keys().then(function(keys) {
+          keys.forEach(function(k) { caches.delete(k); });
+        });
+      }
+    }
+  </script>
   <!-- Anti-Scraping & Privacy Protection (Strictly Protected for Executive Search Review) -->
   <meta name="robots" content="noindex, nofollow, noarchive, nosnippet, noimageindex">
   <meta name="googlebot" content="noindex, nofollow, noarchive">
@@ -1207,7 +1222,7 @@
           "orgDate": "Google Cloud Official Portal | June 2024",
           "desc": "Featured interview documenting how GameSparcs leveraged Google Cloud GKE and multi-cloud resilience architecture to achieve a verified Zero Outage record and cut infrastructure costs by 30%.",
           "url": "https://cloud.google.com/customers/gamesparcs",
-          "image": "assets/2024_GoogleCloud.png"
+          "image": "assets/企業上雲.png"
         },
         {
           "category": "keynote",
@@ -1217,7 +1232,7 @@
           "orgDate": "MongoDB Official Event (Taipei Marriott Hotel) | June 2024",
           "desc": "Delivered keynote presentation to 1,000+ technology leaders and architects on distributed database clustering, cross-region resilience, and Zero Trust data protection.",
           "url": "https://www.mongodb.com/events/mongodb-local",
-          "image": "assets/2024_MongoDB_Howard.jpg"
+          "image": "assets/2024_MongoDB02.jpg"
         },
         {
           "category": "keynote",
@@ -1743,7 +1758,7 @@
           "orgDate": "Google Cloud 官方網站 (官方案例庫) | 2024.06",
           "desc": "受訪代表集團分享如何透過 Google Cloud GKE 與多雲高可用架構達成關鍵服務 100% 零停機紀錄，並有效優化 30% 基礎設施維運成本。",
           "url": "https://cloud.google.com/customers/gamesparcs",
-          "image": "assets/2024_GoogleCloud.png"
+          "image": "assets/企業上雲.png"
         },
         {
           "category": "keynote",
@@ -1753,7 +1768,7 @@
           "orgDate": "MongoDB 官方活動 (台北萬豪酒店) | 2024.06",
           "desc": "受邀擔任大會 Keynote 講者，面向千名架構師與技術主管分享跨國巨量資料平台之高可用分片架構與安全治理實務。",
           "url": "https://www.mongodb.com/events/mongodb-local",
-          "image": "assets/2024_MongoDB_Howard.jpg"
+          "image": "assets/2024_MongoDB02.jpg"
         },
         {
           "category": "keynote",
@@ -2279,7 +2294,7 @@
           "orgDate": "Google Cloud 公式ポータル | 2024年6月",
           "desc": "Google Cloud GKEとマルチクラウド構成を活用し、基幹サービスのゼロダウンタイムSLAを達成、インフラ運用コストを30%削減した実務事例が特集される。",
           "url": "https://cloud.google.com/customers/gamesparcs",
-          "image": "assets/2024_GoogleCloud.png"
+          "image": "assets/企業上雲.png"
         },
         {
           "category": "keynote",
@@ -2289,7 +2304,7 @@
           "orgDate": "MongoDB公式イベント (台北マリオットホテル) | 2024年6月",
           "desc": "1,000名以上の技術リーダーに向け、MongoDB Atlasによる分散シャーディング、高可用性リカバリ、ゼロトラストデータ保護の実践を講演。",
           "url": "https://www.mongodb.com/events/mongodb-local",
-          "image": "assets/2024_MongoDB_Howard.jpg"
+          "image": "assets/2024_MongoDB02.jpg"
         },
         {
           "category": "keynote",
