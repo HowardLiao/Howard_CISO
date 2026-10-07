@@ -637,8 +637,7 @@ def generate_zh():
     add_heading_1(doc, "正規學術學位 (Academic Education)", east_asia="Microsoft JhengHei")
     edu_list_zh = [
         ("資訊科技管理 博士 (Ph.D. in IT Management)", "朝陽科技大學 資訊科技管理研究所 (College of Informatics)\n2009.09 – 2013.06", "研究領域：資訊安全治理、雲端安全、AI 治理、數據治理、軟體工程、DevSecOps 與企業數位轉型戰略。"),
-        ("資訊科學 碩士 (Master of Science in Information Science)", "國立中興大學 資訊科學與工程研究所\n2004.09 – 2006.06", "專注領域：現代密碼學 (Modern Cryptography)、資料探勘、數據治理、軟體工程、系統分析與企業資訊系統架構。"),
-        ("資訊科學與工程 學士 (Bachelor of Computer Science)", "國立中興大學 資訊科學與工程學系\n2000.09 – 2004.06", "專注領域：軟體開發生命週期 (SDLC)、軟體工程、系統分析、企業架構與應用程式開發。")
+        ("資訊科學 碩士 (Master of Science in Information Science)", "國立中興大學 資訊科學與工程研究所\n2004.09 – 2006.06", "專注領域：現代密碼學 (Modern Cryptography)、資料探勘、數據治理、軟體工程、系統分析與企業資訊系統架構。")
     ]
     for d, s, desc in edu_list_zh:
         add_subheading(doc, d, size=SZ_H3, east_asia="Microsoft JhengHei")
@@ -941,7 +940,6 @@ def generate_en():
     edu_list = [
         ("Ph.D. in Information Technology Management", "Chaoyang University of Technology, College of Informatics\nSeptember 2009 – June 2013", "Research interests: Cybersecurity governance, cloud security, AI governance, data governance, software engineering, DevSecOps, and digital transformation strategy."),
         ("Master of Science in Information Science", "National Chung Hsing University, Institute of Computer Science\nSeptember 2004 – June 2006", "Focus areas: Modern cryptography, data mining, data governance, software engineering, systems analysis, and enterprise information systems."),
-        ("Bachelor of Computer Science", "National Chung Hsing University, Department of Computer Science\nSeptember 2000 – June 2004", "Focus areas: Software development lifecycle, software engineering, systems analysis, enterprise architecture, and application development.")
     ]
     for d, s, desc in edu_list:
         add_subheading(doc, d, size=SZ_H3)
@@ -1255,8 +1253,7 @@ def generate_ja():
     add_heading_1(doc, "学歴・学位 (Academic Education)", east_asia="Meiryo")
     edu_list_ja = [
         ("情報技術管理 博士 (Ph.D. in IT Management)", "朝陽科技大学 情報技術管理研究所 (College of Informatics)\n2009年9月 – 2013年6月", "研究分野：サイバーセキュリティ統治、クラウドセキュリティ、AIガバナンス、データガバナンス、ソフトウェア工学、DevSecOps、DX戦略。"),
-        ("情報科学 修士 (Master of Science in Information Science)", "国立中興大学 情報科学工学研究所\n2004年9月 – 2006年6月", "研究分野：現代暗号学 (Modern Cryptography)、データマイニング、データ統治、ソフトウェア工学、システム分析、企業システム設計。"),
-        ("情報科学工学 学士 (Bachelor of Computer Science)", "国立中興大学 情報科学工学科\n2000年9月 – 2004年6月", "専攻分野：ソフトウェア開発ライフサイクル(SDLC)、ソフトウェア工学、システム分析、エンタープライズアーキテクチャ。")
+        ("情報科学 修士 (Master of Science in Information Science)", "国立中興大学 情報科学工学研究所\n2004年9月 – 2006年6月", "研究分野：現代暗号学 (Modern Cryptography)、データマイニング、データ統治、ソフトウェア工学、システム分析、企業システム設計。")
     ]
     for d, s, desc in edu_list_ja:
         add_subheading(doc, d, size=SZ_H3, east_asia="Meiryo")
